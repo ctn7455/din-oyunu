@@ -1,0 +1,44 @@
+{
+  "name": "inanc-pusulasi",
+  "version": "1.0.0",
+  "description": "İnanç Pusulası - MEB 6. Sınıf Din Kültürü Eğitici Oyunları ve Akıllı Tahta Portalı",
+  "main": "electron_main.js",
+  "scripts": {
+    "start": "electron .",
+    "build:win": "electron-builder --win",
+    "build:linux": "electron-builder --linux AppImage deb",
+    "build:all": "electron-builder -wl",
+    "cap:sync": "cap sync",
+    "cap:open:android": "cap open android"
+  },
+  "keywords": [
+    "din-kulturu",
+    "meb",
+    "egitici-oyun",
+    "akilli-tahta",
+    "pardus",
+    "etap",
+    "apk"
+  ],
+  "author": "İnanç Pusulası Ekibi",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^28.0.0",
+    "electron-builder": "^24.9.1"
+  },
+  "build": {
+    "appId": "com.inancpusulasi.app",
+    "productName": "İnanç Pusulası",
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": ["nsis", "portable"],
+      "icon": "icon.ico"
+    },
+    "linux": {
+      "target": ["AppImage", "deb"],
+      "category": "Education"
+    }
+  }
+}

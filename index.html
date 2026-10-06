@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>İnanç Pusulası - MEB 6. Sınıf Din Kültürü Portalı</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .gradient-hero {
+      background: radial-gradient(circle at 50% 15%, rgba(16, 185, 129, 0.18) 0%, rgba(9, 9, 11, 1) 75%);
+    }
+  </style>
+</head>
+<body class="bg-zinc-950 text-white font-sans antialiased min-h-screen flex flex-col selection:bg-emerald-500 selection:text-black">
+
+  <!-- ========================================================= -->
+  <!-- 1. ÜST GEZİNME MENÜSÜ                                     -->
+  <!-- ========================================================= -->
+  <nav class="h-20 border-b border-zinc-800 bg-zinc-900/80 backdrop-blur-md px-6 md:px-12 flex items-center justify-between sticky top-0 z-50">
+    <div class="flex items-center gap-3">
+      <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center text-2xl shadow-lg shadow-emerald-500/20">
+        🧭
+      </div>
+      <div>
+        <div class="flex items-center gap-2">
+          <span class="text-xl font-black tracking-tight text-white">İNANÇ PUSULASI</span>
+          <span class="text-[10px] bg-emerald-500/20 text-emerald-400 px-2.5 py-0.5 rounded-full font-bold border border-emerald-500/30">MEB 6. Sınıf</span>
+        </div>
+        <p class="text-xs text-zinc-400">Eğitici Din Kültürü Oyunları & Akıllı Tahta Portalı</p>
+      </div>
+    </div>
+
+    <!-- Hızlı Erişim Butonları -->
+    <div class="flex items-center gap-3">
+      <a href="mobile.html" class="px-4 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-200 font-bold text-xs border border-zinc-700 transition flex items-center gap-1.5">
+        <span>📱</span>
+        <span>Tekli Oyun</span>
+      </a>
+      <a href="akilli_tahta.html" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs shadow-lg shadow-emerald-600/30 transition flex items-center gap-1.5 active:scale-95">
+        <span>🏫</span>
+        <span>Akıllı Tahta (2P Düello)</span>
+      </a>
+      <a href="#kunye" class="px-3.5 py-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-white font-bold text-xs border border-zinc-800 transition">
+        👥 Yapımcılar
+      </a>
+    </div>
+  </nav>
+
+  <!-- ========================================================= -->
+  <!-- 2. HERO / GİRİŞ BÖLÜMÜ                                    -->
+  <!-- ========================================================= -->
+  <section class="gradient-hero py-20 px-6 md:px-12 flex flex-col items-center justify-center text-center">
+    <div class="max-w-3xl">
+      <span class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-black mb-4">
+        ✨ MEB 6. Sınıf Din Kültürü ve Ahlak Bilgisi
+      </span>
+      <h1 class="text-4xl md:text-6xl font-black tracking-tight text-white leading-tight">
+        Din Dersini Oyunla Öğren, <br>
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-amber-300">
+          Pusulanı Doğruya Çevir!
+        </span>
+      </h1>
+      <p class="text-base text-zinc-400 mt-5 leading-relaxed max-w-2xl mx-auto">
+        MEB müfredatına birebir uygun 5 ana ünite, 9 eğitici oyun türü, 10 özel rozet ve okullardaki etkileşimli tahtalara özel 2 kişilik sınıf içi düello modu!
+      </p>
+
+      <!-- Ana Butonlar -->
+      <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
+        <a href="akilli_tahta.html" class="px-8 py-4 rounded-2xl bg-emerald-500 hover:bg-emerald-400 text-black font-black text-sm shadow-xl shadow-emerald-500/30 flex items-center gap-2.5 active:scale-95 transition">
+          <span class="text-xl">🎮</span>
+          <span>Akıllı Tahtada 2 Kişilik Başlat</span>
+        </a>
+        <a href="mobile.html" class="px-8 py-4 rounded-2xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-white font-black text-sm active:scale-95 transition flex items-center gap-2">
+          <span>📱</span>
+          <span>Tek Kişilik Mobil Oyunu Aç</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================= -->
+  <!-- 3. İNDİRME BÖLÜMÜ (BUTONLAR & "ŞİMDİLİK KULLANILAMIYOR")    -->
+  <!-- ========================================================= -->
+  <section id="indir" class="py-16 px-6 md:px-12 max-w-5xl mx-auto w-full">
+    <div class="text-center mb-8">
+      <span class="text-xs font-black text-amber-400 uppercase tracking-widest block mb-1">CİHAZINA YÜKLE</span>
+      <h2 class="text-3xl font-black text-white">İndirme Seçenekleri</h2>
+      <p class="text-sm text-zinc-400 mt-2">
+        İnanç Pusulası'nı telefonunuza, akıllı tahtanıza veya bilgisayarınıza doğrudan kurun.
+      </p>
+
+      <!-- ŞİMDİLİK KULLANILAMIYOR UYARISI -->
+      <div class="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-bold">
+        <span>⚠️</span>
+        <span>İndirme bağlantıları şimdilik kullanılamıyor (Yakında aktif edilecektir).</span>
+      </div>
+    </div>
+
+    <!-- İndirme Kartları ve Butonları -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+      <!-- 1. Android APK Butonu -->
+      <div class="bg-zinc-900 border border-zinc-800 hover:border-zinc-700 rounded-3xl p-6 flex flex-col justify-between transition">
+        <div>
+          <div class="w-12 h-12 rounded-2xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 flex items-center justify-center text-2xl mb-4">
+            🤖
+          </div>
+          <h3 class="text-lg font-black text-white">Android APK</h3>
+          <p class="text-xs text-zinc-400 mt-1 leading-relaxed">
+            Telefon ve tabletlerde internetsiz tam ekran oynayın.
+          </p>
+        </div>
+        
+        <div class="mt-6">
+          <!-- İNDİRME BUTONU (LİNKİ DEĞİŞTİRMEK İÇİN href="..." KISMINA YAZIN) -->
+          <a href="https://example.com/indir/android-apk" onclick="handleDownloadClick(event, 'Android APK')" class="download-btn w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow transition active:scale-95">
+            <span>📥</span>
+            <span>Android APK İndir</span>
+          </a>
+          <span class="text-[10px] text-zinc-500 block text-center mt-2 font-medium">Sürüm: v3.2 &bull; Boyut: ~18 MB</span>
+        </div>
+      </div>
+
+      <!-- 2. Pardus Linux AppImage Butonu -->
+      <div class="bg-zinc-900 border border-zinc-800 hover:border-zinc-700 rounded-3xl p-6 flex flex-col justify-between transition">
+        <div>
+          <div class="w-12 h-12 rounded-2xl bg-blue-500/10 text-blue-400 border border-blue-500/30 flex items-center justify-center text-2xl mb-4">
+            🐧
+          </div>
+          <h3 class="text-lg font-black text-white">Pardus Linux & ETAP</h3>
+          <p class="text-xs text-zinc-400 mt-1 leading-relaxed">
+            Okullardaki Fatih Projesi akıllı tahtaları için tek tıkla çalışan paket.
+          </p>
+        </div>
+
+        <div class="mt-6">
+          <!-- İNDİRME BUTONU (LİNKİ DEĞİŞTİRMEK İÇİN href="..." KISMINA YAZIN) -->
+          <a href="https://example.com/indir/pardus-appimage" onclick="handleDownloadClick(event, 'Pardus Linux')" class="download-btn w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow transition active:scale-95">
+            <span>📥</span>
+            <span>Pardus Paketi İndir (.AppImage)</span>
+          </a>
+          <span class="text-[10px] text-zinc-500 block text-center mt-2 font-medium">Pardus 21 / 23 & ETAP Uyumlu</span>
+        </div>
+      </div>
+
+      <!-- 3. Windows Exe Butonu -->
+      <div class="bg-zinc-900 border border-zinc-800 hover:border-zinc-700 rounded-3xl p-6 flex flex-col justify-between transition">
+        <div>
+          <div class="w-12 h-12 rounded-2xl bg-purple-500/10 text-purple-400 border border-purple-500/30 flex items-center justify-center text-2xl mb-4">
+            💻
+          </div>
+          <h3 class="text-lg font-black text-white">Windows Masaüstü (.EXE)</h3>
+          <p class="text-xs text-zinc-400 mt-1 leading-relaxed">
+            Windows 10 ve 11 bilgisayarlar ve tahtalar için kurulumsuz masaüstü sürümü.
+          </p>
+        </div>
+
+        <div class="mt-6">
+          <!-- İNDİRME BUTONU (LİNKİ DEĞİŞTİRMEK İÇİN href="..." KISMINA YAZIN) -->
+          <a href="https://example.com/indir/windows-exe" onclick="handleDownloadClick(event, 'Windows Masaüstü')" class="download-btn w-full py-3 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow transition active:scale-95">
+            <span>📥</span>
+            <span>Windows EXE İndir</span>
+          </a>
+          <span class="text-[10px] text-zinc-500 block text-center mt-2 font-medium">Windows 10 / 11 64-bit</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================= -->
+  <!-- 4. YAPIMCILAR / PROJE KÜNYESİ & RESMİ SPONSOR             -->
+  <!-- ========================================================= -->
+  <section id="kunye" class="py-16 px-6 md:px-12 bg-zinc-900/60 border-t border-zinc-800 w-full">
+    <div class="max-w-4xl mx-auto text-center">
+      <span class="text-xs font-black text-emerald-400 uppercase tracking-widest block mb-1">PROJE KÜNYESİ</span>
+      <h2 class="text-3xl font-black text-white">Emeği Geçenler & Yapımcılar</h2>
+      <p class="text-xs text-zinc-400 mt-1">İnanç Pusulası eğitim projesinin hazırlanmasında rol alan ekip:</p>
+
+      <!-- Künye Kartları -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8">
+        
+        <!-- 1. Yazar -->
+        <div class="bg-zinc-950 border border-zinc-800 rounded-2xl p-5 flex flex-col items-center text-center shadow-lg hover:border-emerald-500/50 transition">
+          <div class="w-12 h-12 rounded-2xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 flex items-center justify-center text-2xl mb-3">
+            ✍️
+          </div>
+          <span class="text-[11px] text-zinc-500 font-extrabold uppercase tracking-wider">YAZAR / GELİŞTİRİCİ</span>
+          <h3 class="text-lg font-black text-white mt-1">Antigravity</h3>
+          <p class="text-xs text-emerald-400 font-semibold mt-0.5">Yapay Zeka Mimarı</p>
+        </div>
+
+        <!-- 2. Fikir -->
+        <div class="bg-zinc-950 border border-zinc-800 rounded-2xl p-5 flex flex-col items-center text-center shadow-lg hover:border-amber-500/50 transition">
+          <div class="w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-400 border border-amber-500/30 flex items-center justify-center text-2xl mb-3">
+            💡
+          </div>
+          <span class="text-[11px] text-zinc-500 font-extrabold uppercase tracking-wider">PROJE FİKRİ</span>
+          <h3 class="text-lg font-black text-white mt-1">Yasin Demirtaş</h3>
+          <p class="text-xs text-amber-400 font-semibold mt-0.5">Fikir & Konsept Tasarımı</p>
+        </div>
+
+        <!-- 3. Görev Veren -->
+        <div class="bg-zinc-950 border border-zinc-800 rounded-2xl p-5 flex flex-col items-center text-center shadow-lg hover:border-purple-500/50 transition">
+          <div class="w-12 h-12 rounded-2xl bg-purple-500/10 text-purple-400 border border-purple-500/30 flex items-center justify-center text-2xl mb-3">
+            📋
+          </div>
+          <span class="text-[11px] text-zinc-500 font-extrabold uppercase tracking-wider">GÖREV VEREN</span>
+          <h3 class="text-lg font-black text-white mt-1">Büşra Ertek</h3>
+          <p class="text-xs text-purple-400 font-semibold mt-0.5">Eğitim & Görev Koordinasyonu</p>
+        </div>
+
+      </div>
+
+      <!-- RESMİ SPONSORLUK BİLGİ ROZETİ -->
+      <div class="mt-8 p-4 rounded-2xl bg-gradient-to-r from-emerald-950/40 via-zinc-900 to-teal-950/40 border border-emerald-500/30 flex flex-col sm:flex-row items-center justify-between gap-3 text-left">
+        <div class="flex items-center gap-3">
+          <span class="text-3xl">🤝</span>
+          <div>
+            <h4 class="text-xs font-black text-emerald-400 uppercase tracking-wide">RESMİ DİJİTAL SPONSOR</h4>
+            <p class="text-xs text-zinc-300 font-medium">Bu proje, sınıf içi sunumlar için <strong>Antigravity</strong> tarafından ücretsiz ve tam destekle desteklenmektedir.</p>
+          </div>
+        </div>
+        <span class="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 text-[10px] font-black uppercase shrink-0">
+          Onaylı Sponsorluk ✔️
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================= -->
+  <!-- 5. ALT BİLGİ (FOOTER)                                     -->
+  <!-- ========================================================= -->
+  <footer class="border-t border-zinc-800 bg-zinc-950 py-8 px-6 text-center text-xs text-zinc-500">
+    <div class="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2">
+        <span class="text-base">🧭</span>
+        <span class="font-bold text-zinc-400">İnanç Pusulası Projesi</span>
+        <span>&bull;</span>
+        <span>MEB Talim Terbiye Müfredatına Uygun</span>
+      </div>
+      <div>
+        Hazırlayanlar: Antigravity &bull; Yasin Demirtaş &bull; Büşra Ertek
+      </div>
+    </div>
+  </footer>
+
+  <!-- İNDİRME UYARI POPUP / BİLDİRİMİ -->
+  <script>
+    function handleDownloadClick(event, platformName) {
+      // Şimdilik indirme butonuna basıldığında dostça bir bilgilendirme penceresi açar
+      // Eğer kendi web sitenize yönlendirmek isterseniz bu fonksiyonu kaldırıp
+      // butonlardaki href="..." kısmına doğrudan gitmek istediğiniz linki yazabilirsiniz!
+      event.preventDefault();
+      alert(`⚠️ ${platformName} indirme bağlantısı şimdilik kullanılamıyor.\n\nİstediğiniz zaman index.html dosyasında ilgili butonun href="..." kısmına kendi indirme linkinizi ekleyebilirsiniz!`);
+    }
+  </script>
+
+</body>
+</html>

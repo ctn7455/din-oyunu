@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>İnanç Pusulası - Akıllı Tahta 2 Kişilik Sürüm (Pardus / ETAP / Windows)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @keyframes pulse-ring {
+      0% { transform: scale(0.95); opacity: 0.8; }
+      50% { transform: scale(1.05); opacity: 1; }
+      100% { transform: scale(0.95); opacity: 0.8; }
+    }
+    .animate-pulse-ring { animation: pulse-ring 2s infinite ease-in-out; }
+
+    @keyframes confetti-fall {
+      0% { transform: translateY(-50px) rotate(0); opacity: 1; }
+      100% { transform: translateY(800px) rotate(720deg); opacity: 0; }
+    }
+    .confetti-piece { animation: confetti-fall 2.5s ease-in forwards; }
+
+    .no-select { user-select: none; -webkit-user-select: none; }
+  </style>
+</head>
+<body class="bg-zinc-950 text-white font-sans overflow-hidden h-screen w-screen flex flex-col no-select">
+
+  <!-- ========================================================= -->
+  <!-- AKILLI TAHTA ÜST KONTROL BAR (PARDUS / ETAP UYUMLU)       -->
+  <!-- ========================================================= -->
+  <header class="h-16 bg-zinc-900 border-b-2 border-zinc-800 px-6 flex items-center justify-between shrink-0 z-40">
+    <!-- Sol: Başlık ve Logo -->
+    <div class="flex items-center gap-3">
+      <span class="text-3xl">🧭</span>
+      <div>
+        <h1 class="text-lg font-black tracking-wide text-emerald-400">İNANÇ PUSULASI &bull; AKILLI TAHTA MODU</h1>
+        <p class="text-[11px] text-zinc-400">Pardus Linux & Fatih Etkileşimli Tahta &bull; 2 Kişilik Sınıf Düellosu</p>
+      </div>
+    </div>
+
+    <!-- Orta: Sayaç ve Ünite Bilgisi -->
+    <div class="flex items-center gap-6">
+      <div class="flex items-center gap-2 bg-zinc-800 px-4 py-1.5 rounded-2xl border border-zinc-700">
+        <span class="text-xl">⏱️</span>
+        <span id="centerTimerDisplay" class="text-2xl font-black text-amber-400">45</span>
+        <span class="text-xs text-zinc-400 font-bold">sn</span>
+      </div>
+
+      <div class="text-center">
+        <span id="activeUnitPill" class="text-xs px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 font-bold">
+          1. Ünite: Allah İnancı
+        </span>
+      </div>
+    </div>
+
+    <!-- Sağ: Ses, Tam Ekran ve Çıkış -->
+    <div class="flex items-center gap-3">
+      <button onclick="toggleAudio()" class="px-3 py-1.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-xs font-bold flex items-center gap-1.5 transition">
+        <span id="audioIcon">🔊</span> <span id="audioLabel">Ses Açık</span>
+      </button>
+      <button onclick="toggleFullscreen()" class="px-3 py-1.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-xs font-bold flex items-center gap-1.5 transition">
+        <span>⛶</span> <span>Tam Ekran</span>
+      </button>
+      <button onclick="showMainMenu()" class="px-3.5 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-xs font-black shadow transition">
+        ✕ Menü
+      </button>
+    </div>
+  </header>
+
+  <!-- ========================================================= -->
+  <!-- 1. GÖRÜNÜM: OYUN & ÜNİTE SEÇİM MENÜSÜ                     -->
+  <!-- ========================================================= -->
+  <main id="view-menu" class="flex-1 p-8 flex flex-col justify-between overflow-y-auto z-30">
+    <div class="text-center max-w-2xl mx-auto">
+      <span class="px-4 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-black">
+        🎓 MEB 6. Sınıf Din Kültürü &bull; 2 Kişilik Yarışma
+      </span>
+      <h2 class="text-3xl font-black mt-3">Tahtaya 2 Öğrenci Çağırın ve Başlayın!</h2>
+      <p class="text-sm text-zinc-400 mt-1">
+        Sol taraf 1. Oyuncu, sağ taraf 2. Oyuncudur. İki öğrenciye de <strong>birbirinden farklı</strong> sorular gelir.
+      </p>
+    </div>
+
+    <!-- Ünite Seçimi -->
+    <div class="max-w-4xl mx-auto w-full my-4">
+      <h3 class="text-xs font-bold text-zinc-400 uppercase tracking-wider mb-2">1. Adım: Üniteyi Seçin</h3>
+      <div class="grid grid-cols-5 gap-3">
+        <button onclick="selectUnit(1)" id="unitBtn-1" class="unit-selector p-3 rounded-2xl bg-zinc-900 border-2 border-emerald-500 text-center transition">
+          <span class="text-2xl block mb-1">✨</span>
+          <span class="text-xs font-bold block text-white">1. Allah İnancı</span>
+        </button>
+        <button onclick="selectUnit(2)" id="unitBtn-2" class="unit-selector p-3 rounded-2xl bg-zinc-900 border-2 border-zinc-800 hover:border-zinc-700 text-center transition">
+          <span class="text-2xl block mb-1">🌙</span>
+          <span class="text-xs font-bold block text-zinc-300">2. Ramazan & Oruç</span>
+        </button>
+        <button onclick="selectUnit(3)" id="unitBtn-3" class="unit-selector p-3 rounded-2xl bg-zinc-900 border-2 border-zinc-800 hover:border-zinc-700 text-center transition">
+          <span class="text-2xl block mb-1">🤝</span>
+          <span class="text-xs font-bold block text-zinc-300">3. Adap & Nezaket</span>
+        </button>
+        <button onclick="selectUnit(4)" id="unitBtn-4" class="unit-selector p-3 rounded-2xl bg-zinc-900 border-2 border-zinc-800 hover:border-zinc-700 text-center transition">
+          <span class="text-2xl block mb-1">🕊️</span>
+          <span class="text-xs font-bold block text-zinc-300">4. Hz. Muhammed</span>
+        </button>
+        <button onclick="selectUnit(5)" id="unitBtn-5" class="unit-selector p-3 rounded-2xl bg-zinc-900 border-2 border-zinc-800 hover:border-zinc-700 text-center transition">
+          <span class="text-2xl block mb-1">🕌</span>
+          <span class="text-xs font-bold block text-zinc-300">5. Çevremizde Din</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Oyun Modları -->
+    <div class="max-w-4xl mx-auto w-full my-2">
+      <h3 class="text-xs font-bold text-zinc-400 uppercase tracking-wider mb-2">2. Adım: Oyun Modunu Seçin</h3>
+      <div class="grid grid-cols-4 gap-4">
+        <!-- Oyun 1: Doğru mu Yanlış mı -->
+        <div onclick="startDualGame('swipe')" class="cursor-pointer bg-zinc-900 border-2 border-zinc-800 hover:border-emerald-500 rounded-3xl p-5 flex flex-col justify-between active:scale-95 transition shadow-lg">
+          <div>
+            <span class="text-4xl mb-2 block">⚡</span>
+            <h4 class="text-base font-black text-white">Doğru / Yanlış</h4>
+            <p class="text-xs text-zinc-400 mt-1">İki oyuncuya ayrı sorular gelir. Hızlıca karar verip butona dokun!</p>
+          </div>
+          <span class="mt-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-center text-xs font-black">Düelloyu Başlat ➔</span>
+        </div>
+
+        <!-- Oyun 2: Boşluk Doldurma (5 Kelime - 1 Doğru 4 Yanlış) -->
+        <div onclick="startDualGame('cloze')" class="cursor-pointer bg-zinc-900 border-2 border-zinc-800 hover:border-blue-500 rounded-3xl p-5 flex flex-col justify-between active:scale-95 transition shadow-lg">
+          <div>
+            <span class="text-4xl mb-2 block">📝</span>
+            <h4 class="text-base font-black text-white">Boşluk Doldurma</h4>
+            <p class="text-xs text-zinc-400 mt-1">Metindeki boşluğa 5 kelimeden doğru olanını ilk yerleştiren puanı kapar!</p>
+          </div>
+          <span class="mt-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-center text-xs font-black">Düelloyu Başlat ➔</span>
+        </div>
+
+        <!-- Oyun 3: Nokta Seçme (Rastgele Konumlarda Dağılmış Kelimeler) -->
+        <div onclick="startDualGame('floating')" class="cursor-pointer bg-zinc-900 border-2 border-zinc-800 hover:border-purple-500 rounded-3xl p-5 flex flex-col justify-between active:scale-95 transition shadow-lg">
+          <div>
+            <span class="text-4xl mb-2 block">🎯</span>
+            <h4 class="text-base font-black text-white">Nokta Seçme</h4>
+            <p class="text-xs text-zinc-400 mt-1">Soru sorulur, sahada dağılmış kelimelerden doğru cevaba ilk sen bas!</p>
+          </div>
+          <span class="mt-4 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-xl text-center text-xs font-black">Düelloyu Başlat ➔</span>
+        </div>
+
+        <!-- Oyun 4: Ayet & Dua Tamamlama -->
+        <div onclick="startDualGame('wordrace')" class="cursor-pointer bg-zinc-900 border-2 border-zinc-800 hover:border-amber-500 rounded-3xl p-5 flex flex-col justify-between active:scale-95 transition shadow-lg">
+          <div>
+            <span class="text-4xl mb-2 block">✍️</span>
+            <h4 class="text-base font-black text-white">Ayet Tamamlama</h4>
+            <p class="text-xs text-zinc-400 mt-1">Karışık kelimeleri sırayla dizerek kutsal metni ilk tamamlayan kazanır!</p>
+          </div>
+          <span class="mt-4 py-2 bg-amber-600 hover:bg-amber-500 text-white rounded-xl text-center text-xs font-black">Düelloyu Başlat ➔</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Alt Süre Seçimi -->
+    <div class="max-w-md mx-auto text-center flex items-center justify-center gap-4 bg-zinc-900 px-6 py-2 rounded-2xl border border-zinc-800 text-xs">
+      <span class="text-zinc-400 font-bold">Tur Süresi:</span>
+      <button onclick="setDuration(30)" id="dur-30" class="px-3 py-1 rounded-lg font-black bg-zinc-800 text-zinc-300">30s</button>
+      <button onclick="setDuration(45)" id="dur-45" class="px-3 py-1 rounded-lg font-black bg-emerald-600 text-white">45s</button>
+      <button onclick="setDuration(60)" id="dur-60" class="px-3 py-1 rounded-lg font-black bg-zinc-800 text-zinc-300">60s</button>
+      <button onclick="setDuration(90)" id="dur-90" class="px-3 py-1 rounded-lg font-black bg-zinc-800 text-zinc-300">90s</button>
+    </div>
+  </main>
+
+  <!-- ========================================================= -->
+  <!-- 2. GÖRÜNÜM: 2 KİŞİLİK BÖLÜNMÜŞ SAHNE (SPLIT SCREEN)      -->
+  <!-- ========================================================= -->
+  <main id="view-arena" class="hidden flex-1 flex flex-row overflow-hidden relative">
+    
+    <!-- ORTA AYIRICI ÇİZGİ & SKOR GRAFİĞİ -->
+    <div class="absolute inset-y-0 left-1/2 -translate-x-1/2 w-1.5 bg-zinc-800 flex flex-col items-center justify-center z-20 pointer-events-none">
+      <div class="w-10 h-10 rounded-full bg-zinc-900 border-2 border-zinc-700 flex items-center justify-center font-black text-xs text-amber-400 shadow-xl">
+        VS
+      </div>
+    </div>
+
+    <!-- ======================================================= -->
+    <!-- SOL TARAFI: 1. OYUNCU (YEŞİL / MAVİ ALAN)               -->
+    <!-- ======================================================= -->
+    <section class="flex-1 bg-gradient-to-br from-teal-950/20 via-zinc-950 to-zinc-950 p-6 flex flex-col justify-between border-r border-zinc-800/80 relative">
+      <!-- 1. Oyuncu Başlık ve Skor -->
+      <div class="flex items-center justify-between border-b border-teal-500/30 pb-3">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 rounded-2xl bg-teal-500/20 text-teal-400 border-2 border-teal-500/50 flex items-center justify-center text-2xl font-black">
+            1
+          </div>
+          <div>
+            <h3 class="text-lg font-black text-teal-400">1. OYUNCU</h3>
+            <span class="text-xs text-zinc-400 font-semibold">Sol Masaüstü</span>
+          </div>
+        </div>
+        <div class="bg-teal-500/10 border border-teal-500/40 px-4 py-2 rounded-2xl text-right">
+          <span class="text-[10px] text-teal-300 block font-bold uppercase tracking-wider">SKOR</span>
+          <span id="p1Score" class="text-3xl font-black text-teal-400">0</span>
+        </div>
+      </div>
+
+      <!-- 1. Oyuncu Dinamik Oyun Alanı -->
+      <div id="p1PlayArea" class="flex-1 my-4 flex flex-col justify-center">
+        <!-- JS ile modül yüklenir -->
+      </div>
+
+      <!-- 1. Oyuncu Bildirim / Durum Kutusu -->
+      <div id="p1Feedback" class="h-10 rounded-xl bg-zinc-900/60 border border-zinc-800 flex items-center justify-center text-xs font-bold text-zinc-400">
+        Hazırlan...
+      </div>
+    </section>
+
+    <!-- ======================================================= -->
+    <!-- SAĞ TARAFI: 2. OYUNCU (TURUNCU / KIRMIZI ALAN)           -->
+    <!-- ======================================================= -->
+    <section class="flex-1 bg-gradient-to-bl from-amber-950/20 via-zinc-950 to-zinc-950 p-6 flex flex-col justify-between border-l border-zinc-800/80 relative">
+      <!-- 2. Oyuncu Başlık ve Skor -->
+      <div class="flex items-center justify-between border-b border-amber-500/30 pb-3">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 rounded-2xl bg-amber-500/20 text-amber-400 border-2 border-amber-500/50 flex items-center justify-center text-2xl font-black">
+            2
+          </div>
+          <div>
+            <h3 class="text-lg font-black text-amber-400">2. OYUNCU</h3>
+            <span class="text-xs text-zinc-400 font-semibold">Sağ Masaüstü</span>
+          </div>
+        </div>
+        <div class="bg-amber-500/10 border border-amber-500/40 px-4 py-2 rounded-2xl text-right">
+          <span class="text-[10px] text-amber-300 block font-bold uppercase tracking-wider">SKOR</span>
+          <span id="p2Score" class="text-3xl font-black text-amber-400">0</span>
+        </div>
+      </div>
+
+      <!-- 2. Oyuncu Dinamik Oyun Alanı -->
+      <div id="p2PlayArea" class="flex-1 my-4 flex flex-col justify-center">
+        <!-- JS ile modül yüklenir -->
+      </div>
+
+      <!-- 2. Oyuncu Bildirim / Durum Kutusu -->
+      <div id="p2Feedback" class="h-10 rounded-xl bg-zinc-900/60 border border-zinc-800 flex items-center justify-center text-xs font-bold text-zinc-400">
+        Hazırlan...
+      </div>
+    </section>
+  </main>
+
+  <!-- ========================================================= -->
+  <!-- KAZANAN / SONUÇ KUTLAMA MODALİ                            -->
+  <!-- ========================================================= -->
+  <div id="winnerModal" class="hidden absolute inset-0 bg-black/90 backdrop-blur-md flex items-center justify-center p-6 z-50">
+    <div class="relative bg-zinc-900 border-2 border-amber-500/60 rounded-3xl p-8 max-w-xl w-full shadow-2xl text-center overflow-hidden">
+      <div id="confettiBoxArena" class="absolute inset-0 pointer-events-none overflow-hidden"></div>
+
+      <div class="text-6xl mb-3 animate-bounce">🏆</div>
+      <span class="text-xs font-black text-amber-400 uppercase tracking-widest block">DÜELLO TAMAMLANDI!</span>
+      <h3 id="winnerTitleText" class="text-3xl font-black text-white mt-1">1. OYUNCU KAZANDI!</h3>
+      <p id="winnerSubText" class="text-sm text-zinc-400 mt-2">Mükemmel bir Din Kültürü bilgisi gösterisi sergilendi.</p>
+
+      <!-- Skor Kıyaslama Kartı -->
+      <div class="grid grid-cols-2 gap-4 my-6 bg-zinc-950 border border-zinc-800 p-4 rounded-2xl">
+        <div class="p-3 rounded-xl bg-teal-500/10 border border-teal-500/30">
+          <span class="text-xs text-teal-400 font-bold block">1. Oyuncu</span>
+          <span id="finalP1Score" class="text-3xl font-black text-white">120 Puan</span>
+        </div>
+        <div class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30">
+          <span class="text-xs text-amber-400 font-bold block">2. Oyuncu</span>
+          <span id="finalP2Score" class="text-3xl font-black text-white">90 Puan</span>
+        </div>
+      </div>
+
+      <div class="flex gap-4">
+        <button onclick="rematchGame()" class="flex-1 py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-sm active:scale-95 transition shadow-lg">
+          🔄 Yeniden Oyna
+        </button>
+        <button onclick="showMainMenu()" class="flex-1 py-3.5 rounded-2xl bg-zinc-800 hover:bg-zinc-700 text-white font-bold text-sm active:scale-95 transition border border-zinc-700">
+          🏠 Menüye Dön
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- JAVASCRIPT: 2 KİŞİLİK MANTIKSAL ÇALIŞMA MOTORU            -->
+  <!-- ========================================================= -->
+  <script>
+    // SES MOTORU
+    let soundEnabled = true;
+    let audioCtx = null;
+    function initAudio() { if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
+    function playSfx(type) {
+      if (!soundEnabled) return;
+      try {
+        initAudio();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        const now = audioCtx.currentTime;
+
+        if (type === 'correct') {
+          osc.frequency.setValueAtTime(523.25, now);
+          osc.frequency.setValueAtTime(659.25, now + 0.08);
+          osc.frequency.setValueAtTime(783.99, now + 0.16);
+          gain.gain.setValueAtTime(0.2, now);
+          gain.gain.linearRampToValueAtTime(0.01, now + 0.3);
+          osc.start(now); osc.stop(now + 0.3);
+        } else if (type === 'wrong') {
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(220, now);
+          osc.frequency.linearRampToValueAtTime(130, now + 0.2);
+          gain.gain.setValueAtTime(0.2, now);
+          gain.gain.linearRampToValueAtTime(0.01, now + 0.2);
+          osc.start(now); osc.stop(now + 0.2);
+        } else if (type === 'victory') {
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(440, now);
+          osc.frequency.setValueAtTime(554, now + 0.1);
+          osc.frequency.setValueAtTime(659, now + 0.2);
+          osc.frequency.setValueAtTime(880, now + 0.35);
+          gain.gain.setValueAtTime(0.25, now);
+          gain.gain.linearRampToValueAtTime(0.01, now + 0.7);
+          osc.start(now); osc.stop(now + 0.7);
+        }
+      } catch (e) {}
+    }
+
+    function toggleAudio() {
+      soundEnabled = !soundEnabled;
+      document.getElementById('audioLabel').textContent = soundEnabled ? 'Ses Açık' : 'Ses Kapalı';
+      document.getElementById('audioIcon').textContent = soundEnabled ? '🔊' : '🔇';
+    }
+
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      } else {
+        document.exitFullscreen().catch(() => {});
+      }
+    }
+
+    // =========================================================
+    // MÜFREDAT VE VERİ HAVUZLARI
+    // =========================================================
+    let selectedUnitId = 1;
+    let selectedDuration = 45;
+    let activeGameMode = 'swipe';
+
+    const UNIT_NAMES = {
+      1: "1. Ünite: Allah İnancı",
+      2: "2. Ünite: Ramazan ve Oruç",
+      3: "3. Ünite: Adap ve Nezaket",
+      4: "4. Ünite: Hz. Muhammed ve Aile Hayatı",
+      5: "5. Ünite: Çevremizde Dinin İzleri"
+    };
+
+    function selectUnit(id) {
+      selectedUnitId = id;
+      document.querySelectorAll('.unit-selector').forEach(b => {
+        b.classList.remove('border-emerald-500', 'bg-emerald-500/10');
+        b.classList.add('border-zinc-800');
+      });
+      const activeBtn = document.getElementById('unitBtn-' + id);
+      activeBtn.classList.remove('border-zinc-800');
+      activeBtn.classList.add('border-emerald-500', 'bg-emerald-500/10');
+      document.getElementById('activeUnitPill').textContent = UNIT_NAMES[id];
+    }
+
+    function setDuration(dur) {
+      selectedDuration = dur;
+      [30, 45, 60, 90].forEach(d => {
+        const btn = document.getElementById('dur-' + d);
+        if (d === dur) {
+          btn.classList.add('bg-emerald-600', 'text-white');
+          btn.classList.remove('bg-zinc-800', 'text-zinc-300');
+        } else {
+          btn.classList.remove('bg-emerald-600', 'text-white');
+          btn.classList.add('bg-zinc-800', 'text-zinc-300');
+        }
+      });
+    }
+
+    // =========================================================
+    // 2 KİŞİLİK AYRI VE TEKRARSIZ SORU MOTORU
+    // =========================================================
+    // DOĞRU / YANLIŞ HAVUZU (En az 30 adet soru)
+    const SWIPE_POOL = [
+      { q: "İhlas suresi Allah'ın bir ve tek olduğunu (Tevhid) bildirir.", a: true },
+      { q: "Ramazan ayında oruca başlama vaktine İftar denir.", a: false },
+      { q: "Nezaket kurallarında selamı ilk veren olmak daha hayırlıdır.", a: true },
+      { q: "Hz. Muhammed'e (s.a.v.) gençliğinde güvenilirliğinden ötürü Muhammedü'l-Emin denmiştir.", a: true },
+      { q: "Camilerde cuma günleri hutbe okunan basamaklı yüksek yere Minber denir.", a: true },
+      { q: "Allah'ın her şeye gücünün yetmesine Kudret sıfatı denir.", a: true },
+      { q: "Teravih namazı yalnızca Kurban Bayramı'nda kılınır.", a: false },
+      { q: "Başkalarının odasına kapı çalmadan izinsiz girmek sofra adabıdır.", a: false },
+      { q: "Kevser Suresi Peygamber Efendimize verilen tükenmez hayır ve bereketi müjdeler.", a: true },
+      { q: "Cami avlusunda abdest alınan kubbeli su havuzuna Şadırvan denir.", a: true },
+      { q: "Allah her şeyi görür; bu sıfatına Basar denir.", a: true },
+      { q: "Fitre sadakası zengin veya fakir herkese farzdır.", a: false },
+      { q: "Hz. Lokman oğluna kibirlenmemeyi ve alçakgönüllü olmayı öğütlemiştir.", a: true },
+      { q: "Peygamberimiz 571 yılında Medine'de doğmuştur.", a: false },
+      { q: "Mescid-i Nebevî Peygamberimizin Medine'de inşa ettirdiği mescittir.", a: true },
+      { q: "Allah'ın Rahman ismi dünyada inanan-inanmayan herkese merhamet etmesidir.", a: true },
+      { q: "İmsak vakti girdiğinde oruç tutanlar akşam yemeği yer.", a: false },
+      { q: "Yemek yerken önünden ve sağ elle yemek Peygamberimizin sünnetidir.", a: true },
+      { q: "Peygamber Efendimiz çocukları çok sever, onlara selam verirdi.", a: true },
+      { q: "Edebiyatımızdaki naatlar Peygamber sevgisini dile getirir.", a: true },
+      { q: "Allah hiçbir şeye muhtaç değildir; bu sıfata Samed denir.", a: true },
+      { q: "Hz. Davud demiri eritip şekil verme mucizesiyle bilinir.", a: true },
+      { q: "Gıybet etmek ve yalan söylemek ahlaki erdemlerdendir.", a: false },
+      { q: "Peygamberimiz ilk evliliğini Hz. Hatice validemiz ile yapmıştır.", a: true },
+      { q: "Ezan günde 3 vakit okunur.", a: false },
+      { q: "Tevhit inancı birden çok ilaha inanmak demektir.", a: false },
+      { q: "Oruç insana sabır ve irade kazandırır.", a: true },
+      { q: "Tahiyyat duası Miraç gecesi hediye edilen kutlu diyalogdur.", a: true },
+      { q: "Hz. Muhammed ailesine ev işlerinde daima yardım ederdi.", a: true },
+      { q: "Mihrap imamın namaz kıldırdığı ve kıble yönünü gösteren girintidir.", a: true }
+    ];
+
+    // BOŞLUK DOLDURMA HAVUZU (1 Doğru, 4 Yanlış - 5 Seçenekli)
+    const CLOZE_POOL = [
+      {
+        text: "Allah'ın var ve bir olmasına, hiçbir ortağının bulunmamasına _______ inancı denir.",
+        ans: "Tevhid",
+        options: ["Tevhid", "Nifak", "Kaza", "Tevekkül", "Gıybet"]
+      },
+      {
+        text: "Ramazan ayında tan yerinin ağarmasıyla başlayan oruca başlama anına _______ denir.",
+        ans: "İmsak",
+        options: ["İmsak", "İftar", "Sahur", "Teravih", "Mukabele"]
+      },
+      {
+        text: "Müslümanların karşılaştıklarında birbirlerine sağlık ve esenlik dilemelerine _______ denir.",
+        ans: "Selam",
+        options: ["Selam", "Gıybet", "İftira", "Kibir", "İsraf"]
+      },
+      {
+        text: "Peygamber Efendimiz dürüstlüğü nedeniyle Mekkelilerce _______ lakabıyla anılmıştır.",
+        ans: "El-Emin",
+        options: ["El-Emin", "Halilullah", "Zebur", "Ensar", "Muhacir"]
+      },
+      {
+        text: "Camilerde cuma günleri imamın hutbe irad ettiği basamaklı yüksek yere _______ denir.",
+        ans: "Minber",
+        options: ["Minber", "Şadırvan", "Kubbe", "Kandil", "Mihrap"]
+      },
+      {
+        text: "Allah'ın her şeyi hakkıyla bilmesi sıfatına İslam düşüncesinde _______ denir.",
+        ans: "İlim",
+        options: ["İlim", "Kudret", "Basar", "Semi", "Tekvin"]
+      },
+      {
+        text: "Ramazan ayında yatsı namazından sonra kılınan 20 rekatlık sünnet namaza _______ denir.",
+        ans: "Teravih",
+        options: ["Teravih", "Cenaze", "Kaza", "Vitir", "Bayram"]
+      },
+      {
+        text: "Yüce Allah'ın Kur'an'da hikmetli öğütleriyle övdüğü bilge şahsiyet Hz. _______ (a.s.)'dır.",
+        ans: "Lokman",
+        options: ["Lokman", "Nemrut", "Karun", "Firavun", "Ebu Leheb"]
+      },
+      {
+        text: "Peygamber Efendimize verilen sonsuz hayır ve cennetteki havuzun adı _______ Suresi'nde geçer.",
+        ans: "Kevser",
+        options: ["Kevser", "Fil", "Nasr", "Tebbet", "İhlas"]
+      },
+      {
+        text: "Cami avlularında cemaatin temizlenip abdest alması için yapılan kubbeli çeşmeye _______ denir.",
+        ans: "Şadırvan",
+        options: ["Şadırvan", "Minare", "Minber", "Kaside", "Türbe"]
+      }
+    ];
+
+    // NOKTA SEÇME HAVUZU (Soru + Dağılmış Kelimeler)
+    const FLOATING_POOL = [
+      {
+        q: "Hangisi Allah'ın güzel isimlerinden (Esma-ül Hüsna) biridir?",
+        correct: "Er-Rahman",
+        words: ["Er-Rahman", "Felah", "Sahur", "Kıyam", "Rükû", "Secde", "Mukabele", "Mina"]
+      },
+      {
+        q: "Ramazan ayında akşam ezanıyla birlikte orucun açıldığı vakit?",
+        correct: "İftar",
+        words: ["İftar", "İmsak", "Öğle", "Kuşluk", "Teravih", "İkindi", "Yatsı", "Sahur"]
+      },
+      {
+        q: "Yemekten önce ve sonra mutlaka yıkanması gereken organımız?",
+        correct: "Eller",
+        words: ["Eller", "Ayaklar", "Yüz", "Kollar", "Kulaklar", "Dizler", "Saçlar", "Gözler"]
+      },
+      {
+        q: "Peygamberimizin doğduğu ve Kâbe'nin bulunduğu kutsal şehir?",
+        correct: "Mekke",
+        words: ["Mekke", "Medine", "Kudüs", "Şam", "Bağdat", "Kahire", "Taif", "Yemen"]
+      },
+      {
+        q: "Camilerin minarelerinden günde beş vakit okunan kutsal çağrı?",
+        correct: "Ezan",
+        words: ["Ezan", "Kaside", "İlahi", "Mevlit", "Tekbir", "Hutbe", "Vaaz", "Salavat"]
+      }
+    ];
+
+    // AYET TAMAMLAMA HAVUZU
+    const WORD_RACE_POOL = [
+      ["Bismillâhir", "rahmânir", "rahîm"],
+      ["Kul", "hüvallâhü", "ehad"],
+      ["Allâhüs", "samed"],
+      ["İnna", "a'taynâkel", "kevser"],
+      ["Temizlik", "imanın", "yarısıdır"],
+      ["Güzel", "söz", "sadakadır"],
+      ["Selamı", "aranızda", "yayınız"]
+    ];
+
+    // =========================================================
+    // OYUN DURUM YÖNETİMİ
+    // =========================================================
+    let p1ScoreVal = 0;
+    let p2ScoreVal = 0;
+    let arenaTimer = null;
+    let arenaTimeLeft = 45;
+
+    // Oyuncu bazlı soru indexi veya kuyrukları
+    let p1Queue = [];
+    let p2Queue = [];
+    let p1CurrentQ = null;
+    let p2CurrentQ = null;
+
+    function showMainMenu() {
+      clearInterval(arenaTimer);
+      document.getElementById('view-arena').classList.add('hidden');
+      document.getElementById('view-menu').classList.remove('hidden');
+      document.getElementById('winnerModal').classList.add('hidden');
+    }
+
+    function startDualGame(mode) {
+      activeGameMode = mode;
+      p1ScoreVal = 0;
+      p2ScoreVal = 0;
+      updateScores();
+
+      document.getElementById('view-menu').classList.add('hidden');
+      document.getElementById('view-arena').classList.remove('hidden');
+      document.getElementById('winnerModal').classList.add('hidden');
+
+      // Soruları karıştırıp 1. ve 2. oyuncuya FARKLI soruları paylaştır
+      initQueuesForMode(mode);
+
+      // Sayacı başlat
+      startArenaTimer();
+
+      // İki oyuncunun ekranını render et
+      loadPlayerQuestion(1);
+      loadPlayerQuestion(2);
+    }
+
+    function rematchGame() {
+      startDualGame(activeGameMode);
+    }
+
+    function updateScores() {
+      document.getElementById('p1Score').textContent = p1ScoreVal;
+      document.getElementById('p2Score').textContent = p2ScoreVal;
+    }
+
+    function startArenaTimer() {
+      clearInterval(arenaTimer);
+      arenaTimeLeft = selectedDuration;
+      const display = document.getElementById('centerTimerDisplay');
+      display.textContent = arenaTimeLeft;
+
+      arenaTimer = setInterval(() => {
+        arenaTimeLeft--;
+        display.textContent = arenaTimeLeft;
+        if (arenaTimeLeft <= 0) {
+          clearInterval(arenaTimer);
+          finishArenaMatch();
+        }
+      }, 1000);
+    }
+
+    function initQueuesForMode(mode) {
+      if (mode === 'swipe') {
+        const shuffled = [...SWIPE_POOL].sort(() => Math.random() - 0.5);
+        // Yarısını Sol Oyuncuya, Diğer Yarısını Sağ Oyuncuya ver (BİRBİRİNDEN FARKLI SORULAR!)
+        p1Queue = shuffled.slice(0, Math.floor(shuffled.length / 2));
+        p2Queue = shuffled.slice(Math.floor(shuffled.length / 2));
+      } else if (mode === 'cloze') {
+        const shuffled = [...CLOZE_POOL].sort(() => Math.random() - 0.5);
+        p1Queue = shuffled.slice(0, Math.floor(shuffled.length / 2));
+        p2Queue = shuffled.slice(Math.floor(shuffled.length / 2));
+      } else if (mode === 'floating') {
+        const shuffled = [...FLOATING_POOL].sort(() => Math.random() - 0.5);
+        p1Queue = shuffled.slice(0, Math.floor(shuffled.length / 2));
+        p2Queue = shuffled.slice(Math.floor(shuffled.length / 2));
+      } else if (mode === 'wordrace') {
+        const shuffled = [...WORD_RACE_POOL].sort(() => Math.random() - 0.5);
+        p1Queue = shuffled.slice(0, Math.floor(shuffled.length / 2));
+        p2Queue = shuffled.slice(Math.floor(shuffled.length / 2));
+      }
+    }
+
+    // =========================================================
+    // OYUNCULARA SORU YÜKLEME VE ARAYÜZ
+    // =========================================================
+    function loadPlayerQuestion(playerNum) {
+      const queue = (playerNum === 1) ? p1Queue : p2Queue;
+      const playArea = document.getElementById(playerNum === 1 ? 'p1PlayArea' : 'p2PlayArea');
+      const feedback = document.getElementById(playerNum === 1 ? 'p1Feedback' : 'p2Feedback');
+
+      if (queue.length === 0) {
+        playArea.innerHTML = `
+          <div class="text-center p-6 bg-zinc-900 border border-zinc-800 rounded-3xl">
+            <span class="text-4xl block mb-2">🎉</span>
+            <h4 class="text-base font-black text-white">Tüm Sorular Bitti!</h4>
+            <p class="text-xs text-zinc-400 mt-1">Sürenin dolmasını veya diğer oyuncuyu bekle.</p>
+          </div>
+        `;
+        return;
+      }
+
+      const qObj = queue.pop();
+      if (playerNum === 1) p1CurrentQ = qObj; else p2CurrentQ = qObj;
+
+      // 1. MOD: DOĞRU MU YANLIŞ MI (SWIPE / BUTON)
+      if (activeGameMode === 'swipe') {
+        playArea.innerHTML = `
+          <div class="flex flex-col items-center justify-center gap-6 h-full">
+            <div class="w-full max-w-sm bg-zinc-900 border-2 border-zinc-800 rounded-3xl p-6 text-center shadow-xl">
+              <span class="text-4xl mb-3 block">📜</span>
+              <p class="text-base font-bold text-white leading-relaxed">${qObj.q}</p>
+            </div>
+
+            <!-- Akıllı Tahta Dev Dokunmatik Butonları -->
+            <div class="grid grid-cols-2 gap-4 w-full max-w-sm">
+              <button onclick="answerSwipe(${playerNum}, false)" class="py-5 rounded-2xl bg-rose-600 hover:bg-rose-500 active:scale-95 text-white font-black text-lg shadow-xl transition flex items-center justify-center gap-2">
+                <span>❌</span> <span>YANLIŞ</span>
+              </button>
+              <button onclick="answerSwipe(${playerNum}, true)" class="py-5 rounded-2xl bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-black text-lg shadow-xl transition flex items-center justify-center gap-2">
+                <span>✔️</span> <span>DOĞRU</span>
+              </button>
+            </div>
+          </div>
+        `;
+      }
+
+      // 2. MOD: BOŞLUK DOLDURMA (5 KELİME - 1 DOĞRU 4 YANLIŞ)
+      else if (activeGameMode === 'cloze') {
+        const shuffledOpts = [...qObj.options].sort(() => Math.random() - 0.5);
+        let optsHtml = '';
+        shuffledOpts.forEach(opt => {
+          optsHtml += `
+            <button onclick="answerCloze(${playerNum}, '${opt}')" class="py-3 px-4 rounded-xl bg-zinc-900 border-2 border-zinc-800 hover:border-blue-500 text-sm font-bold text-white active:scale-95 transition shadow">
+              ${opt}
+            </button>
+          `;
+        });
+
+        playArea.innerHTML = `
+          <div class="flex flex-col items-center justify-center gap-5 h-full">
+            <div class="w-full max-w-md bg-zinc-900 border-2 border-zinc-800 rounded-3xl p-6 text-center shadow-xl">
+              <span class="text-3xl mb-2 block">📝</span>
+              <p class="text-sm font-bold text-zinc-200 leading-relaxed">${qObj.text}</p>
+            </div>
+
+            <div class="w-full max-w-md">
+              <span class="text-[11px] font-bold text-zinc-400 block mb-2 text-center">Boşluğa gelmesi gereken kelimeyi seç (1 Doğru, 4 Yanlış):</span>
+              <div class="grid grid-cols-2 gap-2.5">
+                ${optsHtml}
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      // 3. MOD: NOKTA SEÇME (DAĞILMIŞ KELİMELER)
+      else if (activeGameMode === 'floating') {
+        let wordsHtml = '';
+        const shuffled = [...qObj.words].sort(() => Math.random() - 0.5);
+        shuffled.forEach((w) => {
+          wordsHtml += `
+            <button onclick="answerFloating(${playerNum}, '${w}')" class="py-2.5 px-4 rounded-2xl bg-zinc-900 border border-zinc-700 hover:border-purple-500 active:scale-95 text-xs font-black text-zinc-200 shadow transition">
+              📍 ${w}
+            </button>
+          `;
+        });
+
+        playArea.innerHTML = `
+          <div class="flex flex-col items-center justify-center gap-4 h-full">
+            <div class="w-full max-w-md bg-zinc-900 border-2 border-zinc-800 rounded-3xl p-5 text-center shadow">
+              <span class="text-2xl mb-1 block">🎯</span>
+              <p class="text-sm font-black text-purple-300">${qObj.q}</p>
+            </div>
+
+            <div class="w-full max-w-md bg-zinc-950/80 border-2 border-dashed border-zinc-800 rounded-3xl p-4 min-h-[160px] flex flex-wrap gap-2.5 items-center justify-center">
+              ${wordsHtml}
+            </div>
+          </div>
+        `;
+      }
+
+      // 4. MOD: AYET TAMAMLAMA
+      else if (activeGameMode === 'wordrace') {
+        const words = [...qObj];
+        const shuffled = [...words].sort(() => Math.random() - 0.5);
+        let buttonsHtml = '';
+        shuffled.forEach(w => {
+          buttonsHtml += `
+            <button onclick="answerWordRace(${playerNum}, '${w}', this)" class="py-2.5 px-4 rounded-xl bg-zinc-900 border border-zinc-700 text-xs font-black text-white hover:border-amber-500 active:scale-95 transition">
+              ${w}
+            </button>
+          `;
+        });
+
+        playArea.innerHTML = `
+          <div class="flex flex-col items-center justify-center gap-4 h-full" id="wrContainer-${playerNum}">
+            <div class="w-full max-w-md bg-zinc-900 border-2 border-zinc-800 rounded-3xl p-4 text-center min-h-[70px] flex flex-wrap gap-2 items-center justify-center" id="wrBuilt-${playerNum}">
+              <span class="text-xs text-zinc-500 italic">Kelimelere basarak metni diz...</span>
+            </div>
+            <div class="flex flex-wrap gap-2 justify-center max-w-md">
+              ${buttonsHtml}
+            </div>
+          </div>
+        `;
+        if (playerNum === 1) p1BuiltWords = []; else p2BuiltWords = [];
+      }
+    }
+
+    // CEVAPLARI KONTROL ETME
+    function answerSwipe(playerNum, choice) {
+      const currentQ = (playerNum === 1) ? p1CurrentQ : p2CurrentQ;
+      const feedback = document.getElementById(playerNum === 1 ? 'p1Feedback' : 'p2Feedback');
+
+      if (choice === currentQ.a) {
+        playSfx('correct');
+        if (playerNum === 1) p1ScoreVal += 20; else p2ScoreVal += 20;
+        feedback.innerHTML = "<span class='text-emerald-400 font-bold'>🎉 DOĞRU CEVAP! (+20)</span>";
+      } else {
+        playSfx('wrong');
+        feedback.innerHTML = "<span class='text-rose-400 font-bold'>❌ YANLIŞ CEVAP!</span>";
+      }
+      updateScores();
+      setTimeout(() => loadPlayerQuestion(playerNum), 400);
+    }
+
+    function answerCloze(playerNum, choice) {
+      const currentQ = (playerNum === 1) ? p1CurrentQ : p2CurrentQ;
+      const feedback = document.getElementById(playerNum === 1 ? 'p1Feedback' : 'p2Feedback');
+
+      if (choice === currentQ.ans) {
+        playSfx('correct');
+        if (playerNum === 1) p1ScoreVal += 30; else p2ScoreVal += 30;
+        feedback.innerHTML = `<span class='text-emerald-400 font-bold'>🎉 HARİKA! (${choice}) (+30)</span>`;
+      } else {
+        playSfx('wrong');
+        feedback.innerHTML = "<span class='text-rose-400 font-bold'>❌ HATALI KELİME!</span>";
+      }
+      updateScores();
+      setTimeout(() => loadPlayerQuestion(playerNum), 400);
+    }
+
+    function answerFloating(playerNum, choice) {
+      const currentQ = (playerNum === 1) ? p1CurrentQ : p2CurrentQ;
+      const feedback = document.getElementById(playerNum === 1 ? 'p1Feedback' : 'p2Feedback');
+
+      if (choice === currentQ.correct) {
+        playSfx('correct');
+        if (playerNum === 1) p1ScoreVal += 25; else p2ScoreVal += 25;
+        feedback.innerHTML = `<span class='text-emerald-400 font-bold'>🎯 TAM İSABET! (+25)</span>`;
+      } else {
+        playSfx('wrong');
+        feedback.innerHTML = "<span class='text-rose-400 font-bold'>❌ YANLIŞ NOKTA!</span>";
+      }
+      updateScores();
+      setTimeout(() => loadPlayerQuestion(playerNum), 400);
+    }
+
+    let p1BuiltWords = [];
+    let p2BuiltWords = [];
+
+    function answerWordRace(playerNum, word, btn) {
+      playSfx('click');
+      btn.classList.add('opacity-20', 'pointer-events-none');
+      const builtArr = (playerNum === 1) ? p1BuiltWords : p2BuiltWords;
+      builtArr.push(word);
+
+      const builtBox = document.getElementById(`wrBuilt-${playerNum}`);
+      builtBox.innerHTML = '';
+      builtArr.forEach(w => {
+        const badge = document.createElement('span');
+        badge.className = "px-3 py-1 bg-amber-500 text-black font-black text-xs rounded-lg";
+        badge.textContent = w;
+        builtBox.appendChild(badge);
+      });
+
+      const currentQ = (playerNum === 1) ? p1CurrentQ : p2CurrentQ;
+      if (builtArr.length === currentQ.length) {
+        const isMatch = builtArr.every((w, i) => w === currentQ[i]);
+        const feedback = document.getElementById(playerNum === 1 ? 'p1Feedback' : 'p2Feedback');
+        if (isMatch) {
+          playSfx('correct');
+          if (playerNum === 1) p1ScoreVal += 40; else p2ScoreVal += 40;
+          feedback.innerHTML = "<span class='text-emerald-400 font-bold'>🎉 KUSURSUZ METİN! (+40)</span>";
+        } else {
+          playSfx('wrong');
+          feedback.innerHTML = "<span class='text-rose-400 font-bold'>❌ SIRALAMA YANLIŞ!</span>";
+        }
+        updateScores();
+        setTimeout(() => loadPlayerQuestion(playerNum), 500);
+      }
+    }
+
+    // =========================================================
+    // MAÇ SONU VE KAZANANIN İLANI
+    // =========================================================
+    function finishArenaMatch() {
+      playSfx('victory');
+      const modal = document.getElementById('winnerModal');
+      modal.classList.remove('hidden');
+
+      document.getElementById('finalP1Score').textContent = `${p1ScoreVal} Puan`;
+      document.getElementById('finalP2Score').textContent = `${p2ScoreVal} Puan`;
+
+      const title = document.getElementById('winnerTitleText');
+      const sub = document.getElementById('winnerSubText');
+
+      if (p1ScoreVal > p2ScoreVal) {
+        title.textContent = "🏆 1. OYUNCU KAZANDI!";
+        title.className = "text-3xl font-black text-teal-400 mt-1";
+        sub.textContent = "Tebrikler Sol Masaüstü! Müthiş bir hız ve bilgi sergiledin.";
+      } else if (p2ScoreVal > p1ScoreVal) {
+        title.textContent = "🏆 2. OYUNCU KAZANDI!";
+        title.className = "text-3xl font-black text-amber-400 mt-1";
+        sub.textContent = "Tebrikler Sağ Masaüstü! Müthiş bir hız ve bilgi sergiledin.";
+      } else {
+        title.textContent = "🤝 BERABERE BİTTİ!";
+        title.className = "text-3xl font-black text-purple-400 mt-1";
+        sub.textContent = "İki oyuncu da eşit derecede mükemmel bir performans sergiledi!";
+      }
+
+      // Konfeti Yağmuru
+      const box = document.getElementById('confettiBoxArena');
+      box.innerHTML = '';
+      const colors = ['#10b981', '#f59e0b', '#3b82f6', '#ec4899', '#8b5cf6', '#14b8a6'];
+      for (let i = 0; i < 45; i++) {
+        const p = document.createElement('div');
+        p.className = 'confetti-piece absolute w-3 h-3 rounded-xs';
+        p.style.backgroundColor = colors[i % colors.length];
+        p.style.left = (Math.random() * 95) + '%';
+        p.style.top = (Math.random() * 20) + '%';
+        p.style.animationDelay = (Math.random() * 0.5) + 's';
+        p.style.animationDuration = (1.8 + Math.random() * 1.2) + 's';
+        box.appendChild(p);
+      }
+    }
+  </script>
+</body>
+</html>
