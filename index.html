@@ -9,9 +9,217 @@
     .gradient-hero {
       background: radial-gradient(circle at 50% 15%, rgba(16, 185, 129, 0.18) 0%, rgba(9, 9, 11, 1) 75%);
     }
+    body.theme-light .gradient-hero {
+      background: radial-gradient(circle at 50% 15%, rgba(16, 185, 129, 0.22) 0%, rgba(241, 245, 249, 1) 75%) !important;
+    }
+
+    /* ==================== TEMA GEÇİŞ SİSTEMİ ==================== */
+    body { transition: background-color 0.5s ease, color 0.5s ease; }
+    body.theme-transitioning *:not(.lamp-bulb):not(.lamp-glow):not(.lamp-cap) {
+      transition: background-color 0.55s ease,
+                  color 0.55s ease,
+                  border-color 0.55s ease !important;
+    }
+
+    /* ==================== LAMBA TEMA DEĞİŞTİRİCİ ==================== */
+    .lamp-container {
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 60;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      pointer-events: none;
+      user-select: none;
+    }
+    .lamp-wire {
+      width: 2px;
+      height: 34px;
+      background: linear-gradient(to bottom, #52525b, #71717a);
+      border-radius: 1px;
+      transition: background 0.5s ease;
+    }
+    body.theme-light .lamp-wire {
+      background: linear-gradient(to bottom, #cbd5e1, #94a3b8);
+    }
+    .lamp-cap {
+      width: 26px;
+      height: 14px;
+      background: linear-gradient(to bottom, #71717a 0%, #a1a1aa 45%, #52525b 100%);
+      border-radius: 4px 4px 2px 2px;
+      box-shadow:
+        inset 0 -2px 3px rgba(0,0,0,0.35),
+        inset 0 1px 1px rgba(255,255,255,0.15),
+        0 1px 3px rgba(0,0,0,0.25);
+      position: relative;
+      margin-bottom: -4px;
+      z-index: 3;
+    }
+    .lamp-cap::before {
+      content: '';
+      position: absolute;
+      inset: 3px 4px 4px 4px;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent 0px,
+        transparent 1px,
+        rgba(0,0,0,0.22) 1px,
+        rgba(0,0,0,0.22) 2px
+      );
+      border-radius: 2px;
+      pointer-events: none;
+    }
+    .lamp-cap::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 3px;
+      right: 3px;
+      height: 2px;
+      background: rgba(0,0,0,0.35);
+      border-radius: 0 0 2px 2px;
+    }
+    .lamp-toggle {
+      pointer-events: auto;
+      position: relative;
+      background: transparent;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform-origin: top center;
+      animation: lamp-swing 4.5s ease-in-out infinite;
+      transition: transform 0.25s ease, filter 0.3s ease;
+    }
+    .lamp-toggle:hover  { filter: brightness(1.12); }
+    .lamp-toggle:active { transform: scale(0.94); }
+    @keyframes lamp-swing {
+      0%, 100% { transform: rotate(-4deg); }
+      50%      { transform: rotate(4deg); }
+    }
+    .lamp-bulb {
+      font-size: 44px;
+      line-height: 1;
+      display: inline-block;
+      transform: rotate(180deg);
+      filter: grayscale(0.9) brightness(0.6)
+              drop-shadow(0 0 4px rgba(148, 163, 184, 0.4));
+      transition: filter 0.7s ease;
+      z-index: 2;
+    }
+    body.theme-light .lamp-bulb {
+      filter: grayscale(0) brightness(1.18) saturate(1.35)
+              drop-shadow(0 0 12px rgba(251, 191, 36, 0.95))
+              drop-shadow(0 0 26px rgba(251, 191, 36, 0.55))
+              drop-shadow(0 0 44px rgba(251, 191, 36, 0.25));
+    }
+    .lamp-glow {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      width: 100px;
+      height: 100px;
+      transform: translateX(-50%) scale(0.7);
+      border-radius: 50%;
+      background: radial-gradient(circle,
+        rgba(251, 191, 36, 0.55) 0%,
+        rgba(251, 191, 36, 0.18) 40%,
+        rgba(251, 191, 36, 0) 72%);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.7s ease, transform 0.7s ease;
+      z-index: 1;
+    }
+    body.theme-light .lamp-glow {
+      opacity: 1;
+      transform: translateX(-50%) scale(1);
+      animation: lamp-glow-pulse 3s ease-in-out infinite;
+    }
+    @keyframes lamp-glow-pulse {
+      0%, 100% { transform: translateX(-50%) scale(0.95); opacity: 0.85; }
+      50%      { transform: translateX(-50%) scale(1.10); opacity: 1;    }
+    }
+    @keyframes lamp-flash {
+      0%   { transform: rotate(0)      scale(1);    }
+      30%  { transform: rotate(-16deg) scale(1.18); }
+      60%  { transform: rotate(11deg)  scale(1.10); }
+      100% { transform: rotate(0)      scale(1);    }
+    }
+    .lamp-toggle.animating {
+      animation: lamp-flash 0.85s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    }
+
+    /* ==================== AYDINLIK TEMA OVERRIDE ==================== */
+    body.theme-light {
+      background-color: #f1f5f9 !important;
+      color: #0f172a !important;
+    }
+    body.theme-light nav {
+      background-color: rgba(255, 255, 255, 0.85) !important;
+      border-bottom-color: #e2e8f0 !important;
+    }
+    body.theme-light .bg-zinc-950       { background-color: #f1f5f9 !important; }
+    body.theme-light .bg-zinc-900       { background-color: #ffffff !important; }
+    body.theme-light .bg-zinc-900\/60   { background-color: rgba(255,255,255,0.75) !important; }
+    body.theme-light .bg-zinc-900\/80   { background-color: rgba(255,255,255,0.85) !important; }
+    body.theme-light .bg-zinc-800       { background-color: #e2e8f0 !important; }
+    body.theme-light .bg-zinc-800\/80   { background-color: rgba(226,232,240,0.8) !important; }
+    body.theme-light .border-zinc-800      { border-color: #cbd5e1 !important; }
+    body.theme-light .border-zinc-800\/80  { border-color: rgba(203,213,225,0.8) !important; }
+    body.theme-light .border-zinc-700      { border-color: #94a3b8 !important; }
+    body.theme-light .text-white    { color: #0f172a !important; }
+    body.theme-light .text-zinc-200 { color: #1e293b !important; }
+    body.theme-light .text-zinc-300 { color: #334155 !important; }
+    body.theme-light .text-zinc-400 { color: #475569 !important; }
+    body.theme-light .text-zinc-500 { color: #64748b !important; }
+    body.theme-light .text-emerald-400 { color: #047857 !important; }
+    body.theme-light .text-emerald-300 { color: #047857 !important; }
+    body.theme-light .text-teal-300    { color: #0f766e !important; }
+    body.theme-light .text-teal-400    { color: #0f766e !important; }
+    body.theme-light .text-amber-400   { color: #b45309 !important; }
+    body.theme-light .text-amber-300   { color: #92400e !important; }
+    body.theme-light .text-purple-400  { color: #7c3aed !important; }
+    body.theme-light .text-purple-300  { color: #6d28d9 !important; }
+    body.theme-light .text-blue-400    { color: #1d4ed8 !important; }
+    body.theme-light .bg-clip-text {
+      background-image: linear-gradient(to right, #059669, #0d9488, #b45309) !important;
+    }
+    body.theme-light .hover\:bg-zinc-800:hover { background-color: #cbd5e1 !important; }
+    body.theme-light .hover\:bg-zinc-700:hover { background-color: #cbd5e1 !important; }
+    body.theme-light .bg-zinc-900.border {
+      box-shadow: 0 2px 10px rgba(15, 23, 42, 0.06);
+    }
+    body.theme-light .bg-zinc-900.border-zinc-800 {
+      box-shadow: 0 2px 10px rgba(15, 23, 42, 0.06);
+    }
+    body.theme-light section#kunye {
+      background-color: rgba(241, 245, 249, 0.9) !important;
+    }
+    body.theme-light .bg-gradient-to-r.from-emerald-950\/40 {
+      background-image: linear-gradient(to right, rgba(209, 250, 229, 0.9), #ffffff, rgba(204, 251, 241, 0.9)) !important;
+    }
+    body.theme-light footer {
+      background-color: #f8fafc !important;
+      border-top-color: #e2e8f0 !important;
+    }
   </style>
 </head>
-<body class="bg-zinc-950 text-white font-sans antialiased min-h-screen flex flex-col selection:bg-emerald-500 selection:text-black">
+<body class="theme-light bg-zinc-950 text-white font-sans antialiased min-h-screen flex flex-col selection:bg-emerald-500 selection:text-black">
+
+  <!-- ========================================================= -->
+  <!-- LAMBA TEMA DEĞİŞTİRİCİ (Tepeden sarkan)                   -->
+  <!-- ========================================================= -->
+  <div class="lamp-container">
+    <div class="lamp-wire"></div>
+    <button class="lamp-toggle" id="themeToggle" onclick="toggleTheme()" title="Gündüz / Gece Modu" aria-label="Tema Değiştir">
+      <span class="lamp-glow"></span>
+      <span class="lamp-bulb">💡</span>
+    </button>
+  </div>
 
   <!-- ========================================================= -->
   <!-- 1. ÜST GEZİNME MENÜSÜ                                     -->
@@ -25,12 +233,12 @@
         <div class="flex items-center gap-2">
           <span class="text-xl font-black tracking-tight text-white">İNANÇ PUSULASI</span>
           <span class="text-[10px] bg-emerald-500/20 text-emerald-400 px-2.5 py-0.5 rounded-full font-bold border border-emerald-500/30">MEB 6. Sınıf</span>
+          <span class="text-[10px] bg-amber-500/20 text-amber-400 px-2.5 py-0.5 rounded-full font-bold border border-amber-500/40 animate-pulse">v1.1.1</span>
         </div>
-        <p class="text-xs text-zinc-400">Eğitici Din Kültürü Oyunları & Akıllı Tahta Portalı</p>
+        <p class="text-xs text-zinc-400">Eğitici Din Kültürü Oyunları &amp; Akıllı Tahta Portalı</p>
       </div>
     </div>
 
-    <!-- Hızlı Erişim Butonları -->
     <div class="flex items-center gap-3">
       <a href="mobile.html" class="px-4 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-200 font-bold text-xs border border-zinc-700 transition flex items-center gap-1.5">
         <span>📱</span>
@@ -54,6 +262,15 @@
       <span class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-black mb-4">
         ✨ MEB 6. Sınıf Din Kültürü ve Ahlak Bilgisi
       </span>
+
+      <!-- 🆕 v1.1.1 DUYURU BADGE'İ -->
+      <a href="#surum-notlari" class="inline-flex items-center gap-2 px-5 py-2 rounded-2xl bg-gradient-to-r from-amber-500/20 via-amber-400/15 to-amber-500/20 border-2 border-amber-500/50 text-amber-300 text-xs font-black mb-4 hover:scale-105 active:scale-95 transition shadow-lg shadow-amber-500/20 animate-pulse">
+        <span class="text-base">🆕</span>
+        <span>v1.1.1 Yayında!</span>
+        <span class="text-[10px] opacity-80">— Yeni Haberler &amp; Hata Çözüldü</span>
+        <span>➔</span>
+      </a>
+
       <h1 class="text-4xl md:text-6xl font-black tracking-tight text-white leading-tight">
         Din Dersini Oyunla Öğren, <br>
         <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-amber-300">
@@ -64,7 +281,6 @@
         MEB müfredatına birebir uygun 5 ana ünite, 9 eğitici oyun türü, 10 özel rozet ve okullardaki etkileşimli tahtalara özel 2 kişilik sınıf içi düello modu!
       </p>
 
-      <!-- Ana Butonlar -->
       <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
         <a href="akilli_tahta.html" class="px-8 py-4 rounded-2xl bg-emerald-500 hover:bg-emerald-400 text-black font-black text-sm shadow-xl shadow-emerald-500/30 flex items-center gap-2.5 active:scale-95 transition">
           <span class="text-xl">🎮</span>
@@ -79,7 +295,7 @@
   </section>
 
   <!-- ========================================================= -->
-  <!-- 3. İNDİRME BÖLÜMÜ (BUTONLAR & "ŞİMDİLİK KULLANILAMIYOR")    -->
+  <!-- 3. İNDİRME BÖLÜMÜ                                         -->
   <!-- ========================================================= -->
   <section id="indir" class="py-16 px-6 md:px-12 max-w-5xl mx-auto w-full">
     <div class="text-center mb-8">
@@ -89,17 +305,14 @@
         İnanç Pusulası'nı telefonunuza, akıllı tahtanıza veya bilgisayarınıza doğrudan kurun.
       </p>
 
-      <!-- ŞİMDİLİK KULLANILAMIYOR UYARISI -->
       <div class="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-bold">
         <span>⚠️</span>
         <span>İndirme bağlantıları şimdilik kullanılamıyor (Yakında aktif edilecektir).</span>
       </div>
     </div>
 
-    <!-- İndirme Kartları ve Butonları -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-      <!-- 1. Android APK Butonu -->
       <div class="bg-zinc-900 border border-zinc-800 hover:border-zinc-700 rounded-3xl p-6 flex flex-col justify-between transition">
         <div>
           <div class="w-12 h-12 rounded-2xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 flex items-center justify-center text-2xl mb-4">
@@ -110,40 +323,34 @@
             Telefon ve tabletlerde internetsiz tam ekran oynayın.
           </p>
         </div>
-        
         <div class="mt-6">
-          <!-- İNDİRME BUTONU (LİNKİ DEĞİŞTİRMEK İÇİN href="..." KISMINA YAZIN) -->
           <a href="https://example.com/indir/android-apk" onclick="handleDownloadClick(event, 'Android APK')" class="download-btn w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow transition active:scale-95">
             <span>📥</span>
             <span>Android APK İndir</span>
           </a>
-          <span class="text-[10px] text-zinc-500 block text-center mt-2 font-medium">Sürüm: v3.2 &bull; Boyut: ~18 MB</span>
+          <span class="text-[10px] text-zinc-500 block text-center mt-2 font-medium">Sürüm: v1.1.1 &bull; Boyut: ~18 MB</span>
         </div>
       </div>
 
-      <!-- 2. Pardus Linux AppImage Butonu -->
       <div class="bg-zinc-900 border border-zinc-800 hover:border-zinc-700 rounded-3xl p-6 flex flex-col justify-between transition">
         <div>
           <div class="w-12 h-12 rounded-2xl bg-blue-500/10 text-blue-400 border border-blue-500/30 flex items-center justify-center text-2xl mb-4">
             🐧
           </div>
-          <h3 class="text-lg font-black text-white">Pardus Linux & ETAP</h3>
+          <h3 class="text-lg font-black text-white">Pardus Linux &amp; ETAP</h3>
           <p class="text-xs text-zinc-400 mt-1 leading-relaxed">
             Okullardaki Fatih Projesi akıllı tahtaları için tek tıkla çalışan paket.
           </p>
         </div>
-
         <div class="mt-6">
-          <!-- İNDİRME BUTONU (LİNKİ DEĞİŞTİRMEK İÇİN href="..." KISMINA YAZIN) -->
           <a href="https://example.com/indir/pardus-appimage" onclick="handleDownloadClick(event, 'Pardus Linux')" class="download-btn w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow transition active:scale-95">
             <span>📥</span>
             <span>Pardus Paketi İndir (.AppImage)</span>
           </a>
-          <span class="text-[10px] text-zinc-500 block text-center mt-2 font-medium">Pardus 21 / 23 & ETAP Uyumlu</span>
+          <span class="text-[10px] text-zinc-500 block text-center mt-2 font-medium">Pardus 21 / 23 &amp; ETAP Uyumlu</span>
         </div>
       </div>
 
-      <!-- 3. Windows Exe Butonu -->
       <div class="bg-zinc-900 border border-zinc-800 hover:border-zinc-700 rounded-3xl p-6 flex flex-col justify-between transition">
         <div>
           <div class="w-12 h-12 rounded-2xl bg-purple-500/10 text-purple-400 border border-purple-500/30 flex items-center justify-center text-2xl mb-4">
@@ -154,9 +361,7 @@
             Windows 10 ve 11 bilgisayarlar ve tahtalar için kurulumsuz masaüstü sürümü.
           </p>
         </div>
-
         <div class="mt-6">
-          <!-- İNDİRME BUTONU (LİNKİ DEĞİŞTİRMEK İÇİN href="..." KISMINA YAZIN) -->
           <a href="https://example.com/indir/windows-exe" onclick="handleDownloadClick(event, 'Windows Masaüstü')" class="download-btn w-full py-3 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow transition active:scale-95">
             <span>📥</span>
             <span>Windows EXE İndir</span>
@@ -169,25 +374,133 @@
   </section>
 
   <!-- ========================================================= -->
+  <!-- 🆕 3.5. SÜRÜM NOTLARI (CHANGELOG) BÖLÜMÜ                  -->
+  <!-- ========================================================= -->
+  <section id="surum-notlari" class="py-16 px-6 md:px-12 max-w-5xl mx-auto w-full scroll-mt-24">
+    <div class="text-center mb-8">
+      <span class="text-xs font-black text-emerald-400 uppercase tracking-widest block mb-1">GÜNCELLEMELER</span>
+      <h2 class="text-3xl font-black text-white">📋 Sürüm Notları</h2>
+      <p class="text-sm text-zinc-400 mt-2">
+        İnanç Pusulası'nın gelişim yolculuğu — her sürümde eklenen yenilikler.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+
+      <!-- v1.1.1 -->
+      <div class="bg-zinc-900 border-2 border-emerald-500/50 rounded-3xl p-6 flex flex-col hover:border-emerald-500 transition shadow-lg shadow-emerald-500/10 relative overflow-hidden">
+        <div class="absolute top-4 right-4 px-2.5 py-1 rounded-full bg-emerald-500 text-white text-[10px] font-black uppercase tracking-wider animate-pulse">
+          GÜNCEL
+        </div>
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-12 h-12 rounded-2xl bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 flex items-center justify-center text-2xl">
+            🐛
+          </div>
+          <div>
+            <h3 class="text-lg font-black text-white">v1.1.1</h3>
+            <p class="text-[10px] text-emerald-400 font-bold uppercase tracking-wider">Hata Düzeltmeleri</p>
+          </div>
+        </div>
+        <ul class="text-xs text-zinc-300 space-y-2 flex-1">
+          <li class="flex items-start gap-2">
+            <span class="text-emerald-400 shrink-0 mt-0.5">✅</span>
+            <span><strong class="text-white">`a'taynâkel` hata çözüldü:</strong> artık  "a'taynâkel`" kelimesine tıklanılabilecek!</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-emerald-400 shrink-0 mt-0.5">✅</span>
+            <span>İnternetsiz uygulama hakkında geliştirmeler devam ediyor.</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-emerald-400 shrink-0 mt-0.5">✅</span>
+            <span>Emeği geçenler bölümüne DeepSeek eklendi</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-emerald-400 shrink-0 mt-0.5">✅</span>
+            <span>Oyunlara fazladan yepyeni sorular getirildi!</span>
+          </li>
+        </ul>
+        <div class="mt-4 pt-4 border-t border-zinc-800">
+          <span class="text-[10px] text-zinc-500 font-bold uppercase tracking-wider">📅 Sürüm Tarihi</span>
+          <span class="text-xs text-emerald-400 font-bold block mt-0.5">08.10.2026</span>
+        </div>
+      </div>
+      <!-- v1.0.0 -->
+      <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-6 flex flex-col hover:border-teal-500/50 transition">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-12 h-12 rounded-2xl bg-teal-500/15 text-teal-400 border border-teal-500/30 flex items-center justify-center text-2xl">
+            🚀
+          </div>
+          <div>
+            <h3 class="text-lg font-black text-white">v1.0.0</h3>
+            <p class="text-[10px] text-teal-400 font-bold uppercase tracking-wider">İlk Sürüm</p>
+          </div>
+        </div>
+        <ul class="text-xs text-zinc-300 space-y-2 flex-1">
+          <li class="flex items-start gap-2">
+            <span class="text-teal-400 shrink-0 mt-0.5">🎯</span>
+            <span>🧭 Ana portal ve tanıtım sayfası</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-teal-400 shrink-0 mt-0.5">🎯</span>
+            <span>🏫 Akıllı tahta 2P düello modu</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-teal-400 shrink-0 mt-0.5">🎯</span>
+            <span>📱 Tek kişilik 9 oyunlu motor</span>
+          </li>
+        </ul>
+        <div class="mt-4 pt-4 border-t border-zinc-800">
+          <span class="text-[10px] text-zinc-500 font-bold uppercase tracking-wider">📅 Sürüm Tarihi</span>
+          <span class="text-xs text-teal-400 font-bold block mt-0.5">06.10.2026</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Semantic Versioning Bilgi Kartı -->
+    <div class="mt-8 p-5 rounded-2xl bg-zinc-900/60 border border-zinc-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <span class="text-3xl">📖</span>
+        <div>
+          <h4 class="text-xs font-black text-emerald-400 uppercase tracking-wide">Sürümleme Sistemi</h4>
+          <p class="text-xs text-zinc-400 mt-0.5">
+            <strong class="text-white">SemVer 2.0.0</strong> kullanıyoruz: <code class="bg-zinc-800 px-1.5 py-0.5 rounded text-emerald-400 font-mono text-[11px]">v1.1.1</code>
+          </p>
+        </div>
+      </div>
+      <div class="flex gap-2 text-[10px] font-bold">
+        <span class="px-3 py-1 rounded-full bg-teal-500/15 text-teal-400 border border-teal-500/30" title="v1.x.x — Temel">
+          v<span class="text-white">1</span>.x.x
+        </span>
+        <span class="px-3 py-1 rounded-full bg-amber-500/15 text-amber-400 border border-amber-500/30" title="vx.1.x — Ekleme/Çıkarma">
+          vx.<span class="text-white">1</span>.x
+        </span>
+        <span class="px-3 py-1 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30" title="vx.x.1 — Hata Düzeltmesi">
+          vx.x.<span class="text-white">1</span>
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================= -->
   <!-- 4. YAPIMCILAR / PROJE KÜNYESİ & RESMİ SPONSOR             -->
   <!-- ========================================================= -->
   <section id="kunye" class="py-16 px-6 md:px-12 bg-zinc-900/60 border-t border-zinc-800 w-full">
     <div class="max-w-4xl mx-auto text-center">
       <span class="text-xs font-black text-emerald-400 uppercase tracking-widest block mb-1">PROJE KÜNYESİ</span>
-      <h2 class="text-3xl font-black text-white">Emeği Geçenler & Yapımcılar</h2>
+      <h2 class="text-3xl font-black text-white">Emeği Geçenler &amp; Yapımcılar</h2>
       <p class="text-xs text-zinc-400 mt-1">İnanç Pusulası eğitim projesinin hazırlanmasında rol alan ekip:</p>
 
-      <!-- Künye Kartları -->
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8">
-        
-        <!-- 1. Yazar -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
+
+        <!-- 1. Temel Geliştirici -->
         <div class="bg-zinc-950 border border-zinc-800 rounded-2xl p-5 flex flex-col items-center text-center shadow-lg hover:border-emerald-500/50 transition">
           <div class="w-12 h-12 rounded-2xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 flex items-center justify-center text-2xl mb-3">
-            ✍️
+            🛠️
           </div>
-          <span class="text-[11px] text-zinc-500 font-extrabold uppercase tracking-wider">YAZAR / GELİŞTİRİCİ</span>
+          <span class="text-[11px] text-zinc-500 font-extrabold uppercase tracking-wider">TEMEL GELİŞTİRİCİ</span>
           <h3 class="text-lg font-black text-white mt-1">Antigravity</h3>
-          <p class="text-xs text-emerald-400 font-semibold mt-0.5">Yapay Zeka Mimarı</p>
+          <p class="text-xs text-emerald-400 font-semibold mt-0.5">Sitenin Temelini %100 Kendisi Yaptı</p>
         </div>
 
         <!-- 2. Fikir -->
@@ -197,7 +510,7 @@
           </div>
           <span class="text-[11px] text-zinc-500 font-extrabold uppercase tracking-wider">PROJE FİKRİ</span>
           <h3 class="text-lg font-black text-white mt-1">Yasin Demirtaş</h3>
-          <p class="text-xs text-amber-400 font-semibold mt-0.5">Fikir & Konsept Tasarımı</p>
+          <p class="text-xs text-amber-400 font-semibold mt-0.5">Fikir &amp; Konsept Tasarımı</p>
         </div>
 
         <!-- 3. Görev Veren -->
@@ -207,7 +520,17 @@
           </div>
           <span class="text-[11px] text-zinc-500 font-extrabold uppercase tracking-wider">GÖREV VEREN</span>
           <h3 class="text-lg font-black text-white mt-1">Büşra Ertek</h3>
-          <p class="text-xs text-purple-400 font-semibold mt-0.5">Eğitim & Görev Koordinasyonu</p>
+          <p class="text-xs text-purple-400 font-semibold mt-0.5">Eğitim &amp; Görev Koordinasyonu</p>
+        </div>
+
+        <!-- 4. Geliştirici (DeepSeek) -->
+        <div class="bg-zinc-950 border border-zinc-800 rounded-2xl p-5 flex flex-col items-center text-center shadow-lg hover:border-teal-500/50 transition">
+          <div class="w-12 h-12 rounded-2xl bg-teal-500/10 text-teal-400 border border-teal-500/30 flex items-center justify-center text-2xl mb-3">
+            🧠
+          </div>
+          <span class="text-[11px] text-zinc-500 font-extrabold uppercase tracking-wider">GELİŞTİRİCİ</span>
+          <h3 class="text-lg font-black text-white mt-1">DeepSeek</h3>
+          <p class="text-xs text-teal-400 font-semibold mt-0.5">Sitenin Yapımında Katkı Sağladı (Şimdilik Bu Kadar)</p>
         </div>
 
       </div>
@@ -218,7 +541,7 @@
           <span class="text-3xl">🤝</span>
           <div>
             <h4 class="text-xs font-black text-emerald-400 uppercase tracking-wide">RESMİ DİJİTAL SPONSOR</h4>
-            <p class="text-xs text-zinc-300 font-medium">Bu proje, sınıf içi sunumlar için <strong>Antigravity</strong> tarafından ücretsiz ve tam destekle desteklenmektedir.</p>
+            <p class="text-xs text-zinc-300 font-medium">Bu proje, sınıf içi sunumlar için <strong>DeepSeek</strong> tarafından ücretsiz ve tam destekle desteklenmektedir.</p>
           </div>
         </div>
         <span class="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 text-[10px] font-black uppercase shrink-0">
@@ -238,19 +561,67 @@
         <span class="font-bold text-zinc-400">İnanç Pusulası Projesi</span>
         <span>&bull;</span>
         <span>MEB Talim Terbiye Müfredatına Uygun</span>
+        <span>&bull;</span>
+        <a href="#surum-notlari" class="text-emerald-500 font-bold hover:underline">v1.1.1</a>
       </div>
       <div>
-        Hazırlayanlar: Antigravity &bull; Yasin Demirtaş &bull; Büşra Ertek
+        Hazırlayanlar: Antigravity &bull; Yasin Demirtaş &bull; Büşra Ertek &bull; DeepSeek
       </div>
     </div>
   </footer>
 
-  <!-- İNDİRME UYARI POPUP / BİLDİRİMİ -->
+  <!-- ========================================================= -->
+  <!-- JAVASCRIPT                                                -->
+  <!-- ========================================================= -->
   <script>
+    let soundEnabled = true;
+    let audioCtx = null;
+    function initAudio() { if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
+    function playSfx(type) {
+      if (!soundEnabled) return;
+      try {
+        initAudio();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        const now = audioCtx.currentTime;
+
+        if (type === 'theme') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(392, now);
+          osc.frequency.exponentialRampToValueAtTime(784, now + 0.3);
+          gain.gain.setValueAtTime(0.12, now);
+          gain.gain.linearRampToValueAtTime(0.01, now + 0.35);
+          osc.start(now); osc.stop(now + 0.35);
+        }
+      } catch (e) {}
+    }
+
+    function toggleTheme() {
+      const body = document.body;
+      const toggle = document.getElementById('themeToggle');
+
+      playSfx('theme');
+
+      toggle.classList.add('animating');
+      setTimeout(() => toggle.classList.remove('animating'), 850);
+
+      body.classList.add('theme-transitioning');
+
+      if (body.classList.contains('theme-dark')) {
+        body.classList.remove('theme-dark');
+        body.classList.add('theme-light');
+      } else {
+        body.classList.remove('theme-light');
+        body.classList.add('theme-dark');
+      }
+
+      setTimeout(() => body.classList.remove('theme-transitioning'), 700);
+    }
+
     function handleDownloadClick(event, platformName) {
-      // Şimdilik indirme butonuna basıldığında dostça bir bilgilendirme penceresi açar
-      // Eğer kendi web sitenize yönlendirmek isterseniz bu fonksiyonu kaldırıp
-      // butonlardaki href="..." kısmına doğrudan gitmek istediğiniz linki yazabilirsiniz!
       event.preventDefault();
       alert(`⚠️ ${platformName} indirme bağlantısı şimdilik kullanılamıyor.\n\nİstediğiniz zaman index.html dosyasında ilgili butonun href="..." kısmına kendi indirme linkinizi ekleyebilirsiniz!`);
     }
