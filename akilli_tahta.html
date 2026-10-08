@@ -20,9 +20,187 @@
     .confetti-piece { animation: confetti-fall 2.5s ease-in forwards; }
 
     .no-select { user-select: none; -webkit-user-select: none; }
+
+    /* ==================== TEMA GEÇİŞ SİSTEMİ ==================== */
+    body { transition: background-color 0.5s ease, color 0.5s ease; }
+
+    body.theme-transitioning *:not(.lamp-bulb) {
+      transition: background-color 0.55s ease,
+                  color 0.55s ease,
+                  border-color 0.55s ease !important;
+    }
+
+    /* ==================== LAMBA TEMA DEĞİŞTİRİCİ ==================== */
+    .lamp-container {
+      position: fixed;
+      top: 76px;
+      right: 24px;
+      z-index: 55;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      pointer-events: none;
+    }
+    .lamp-wire {
+      width: 2px;
+      height: 16px;
+      background: linear-gradient(to bottom, #52525b, #71717a);
+      border-radius: 1px;
+      transition: background 0.4s ease;
+    }
+    .lamp-toggle {
+      pointer-events: auto;
+      position: relative;
+      width: 64px;
+      height: 64px;
+      background: transparent;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform-origin: top center;
+      animation: lamp-swing 4s ease-in-out infinite;
+    }
+    .lamp-toggle:hover  { filter: brightness(1.15); }
+    .lamp-toggle:active { transform: scale(0.94); }
+
+    @keyframes lamp-swing {
+      0%, 100% { transform: rotate(-5deg); }
+      50%      { transform: rotate(5deg); }
+    }
+
+    .lamp-bulb {
+      position: relative;
+      font-size: 40px;
+      line-height: 1;
+      display: block;
+      filter: drop-shadow(0 0 12px rgba(251, 191, 36, 0.95))
+              drop-shadow(0 0 26px rgba(251, 191, 36, 0.55));
+      transition: filter 0.6s ease, transform 0.6s ease;
+      z-index: 2;
+    }
+
+    .lamp-glow {
+      position: absolute;
+      inset: -10px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(251, 191, 36, 0.45) 0%, rgba(251, 191, 36, 0) 65%);
+      pointer-events: none;
+      animation: lamp-pulse 2.5s ease-in-out infinite;
+    }
+
+    @keyframes lamp-pulse {
+      0%, 100% { transform: scale(1);    opacity: 0.8; }
+      50%      { transform: scale(1.15); opacity: 1;   }
+    }
+
+    /* GECE MODU → lamba söner */
+    body.theme-dark .lamp-bulb {
+      filter: drop-shadow(0 0 4px rgba(148, 163, 184, 0.55))
+              drop-shadow(0 0 8px rgba(148, 163, 184, 0.25));
+      transform: scale(0.92);
+    }
+    body.theme-dark .lamp-glow {
+      background: radial-gradient(circle, rgba(148, 163, 184, 0.20) 0%, rgba(148, 163, 184, 0) 65%);
+      animation: none;
+      opacity: 0.35;
+    }
+    body.theme-dark .lamp-wire {
+      background: linear-gradient(to bottom, #3f3f46, #27272a);
+    }
+
+    /* Tıklama animasyonu (sallanma) */
+    @keyframes lamp-flash {
+      0%   { transform: rotate(0)      scale(1);    }
+      30%  { transform: rotate(-18deg) scale(1.22); }
+      60%  { transform: rotate(12deg)  scale(1.12); }
+      100% { transform: rotate(0)      scale(1);    }
+    }
+    .lamp-toggle.animating {
+      animation: lamp-flash 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    }
+
+    /* ==================== AYDINLIK TEMA OVERRIDE ==================== */
+    body.theme-light {
+      background-color: #f1f5f9 !important;
+      color: #0f172a !important;
+    }
+    body.theme-light header {
+      background-color: #ffffff !important;
+      border-bottom-color: #e2e8f0 !important;
+    }
+    body.theme-light header h1 { color: #059669 !important; }
+    body.theme-light header p  { color: #64748b !important; }
+
+    /* Arka planlar */
+    body.theme-light .bg-zinc-950       { background-color: #f1f5f9 !important; }
+    body.theme-light .bg-zinc-900       { background-color: #ffffff !important; }
+    body.theme-light .bg-zinc-900\/60   { background-color: rgba(255,255,255,0.75) !important; }
+    body.theme-light .bg-zinc-800       { background-color: #e2e8f0 !important; }
+    body.theme-light .bg-zinc-800\/60   { background-color: rgba(226,232,240,0.70) !important; }
+
+    /* Kenarlıklar */
+    body.theme-light .border-zinc-800      { border-color: #cbd5e1 !important; }
+    body.theme-light .border-zinc-800\/80  { border-color: rgba(203,213,225,0.8) !important; }
+    body.theme-light .border-zinc-700      { border-color: #94a3b8 !important; }
+
+    /* Yazılar */
+    body.theme-light .text-white   { color: #0f172a !important; }
+    body.theme-light .text-zinc-200{ color: #1e293b !important; }
+    body.theme-light .text-zinc-300{ color: #334155 !important; }
+    body.theme-light .text-zinc-400{ color: #475569 !important; }
+    body.theme-light .text-zinc-500{ color: #64748b !important; }
+
+    /* Renkli yazılar (koyulaştırılmış) */
+    body.theme-light .text-emerald-400 { color: #047857 !important; }
+    body.theme-light .text-teal-400    { color: #0f766e !important; }
+    body.theme-light .text-teal-300    { color: #115e59 !important; }
+    body.theme-light .text-amber-400   { color: #b45309 !important; }
+    body.theme-light .text-amber-300   { color: #92400e !important; }
+    body.theme-light .text-purple-400  { color: #7c3aed !important; }
+    body.theme-light .text-rose-400    { color: #be123c !important; }
+
+    /* İki oyuncu alanı — koyu gradient yerine aydınlık gradient */
+    body.theme-light #view-arena > section:nth-of-type(1) {
+      background: linear-gradient(135deg, #ccfbf1 0%, #f0fdfa 40%, #f8fafc 80%) !important;
+      border-right-color: #cbd5e1 !important;
+    }
+    body.theme-light #view-arena > section:nth-of-type(2) {
+      background: linear-gradient(225deg, #fef3c7 0%, #fffbeb 40%, #f8fafc 80%) !important;
+      border-left-color: #cbd5e1 !important;
+    }
+
+    /* Kartlara hafif gölge */
+    body.theme-light .bg-zinc-900.border-2,
+    body.theme-light .unit-selector {
+      box-shadow: 0 2px 8px rgba(15,23,42,0.06);
+    }
   </style>
 </head>
-<body class="bg-zinc-950 text-white font-sans overflow-hidden h-screen w-screen flex flex-col no-select">
+<body class="theme-light bg-zinc-950 text-white font-sans overflow-hidden h-screen w-screen flex flex-col no-select">
+
+```html
+<!-- ========================================================= -->
+<!-- LAMBA TEMA DEĞİŞTİRİCİ (Sağ üst köşe)                    -->
+<!-- ========================================================= -->
+<div class="lamp-container">
+  <div class="lamp-wire"></div>
+
+  <button class="lamp-toggle" id="themeToggle"
+          onclick="toggleTheme()"
+          title="Gündüz / Gece Modu"
+          aria-label="Tema Değiştir">
+
+    <span class="lamp-bulb" id="lampBulb"
+          style="display: inline-block; transform: rotate(180deg);">
+      💡
+    </span>
+
+    <span class="lamp-glow"></span>
+  </button>
+</div>
 
   <!-- ========================================================= -->
   <!-- AKILLI TAHTA ÜST KONTROL BAR (PARDUS / ETAP UYUMLU)       -->
@@ -53,7 +231,7 @@
     </div>
 
     <!-- Sağ: Ses, Tam Ekran ve Çıkış -->
-    <div class="flex items-center gap-3">
+    <div class="flex items-center gap-3 mr-20">
       <button onclick="toggleAudio()" class="px-3 py-1.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-xs font-bold flex items-center gap-1.5 transition">
         <span id="audioIcon">🔊</span> <span id="audioLabel">Ses Açık</span>
       </button>
@@ -308,6 +486,13 @@
           gain.gain.setValueAtTime(0.2, now);
           gain.gain.linearRampToValueAtTime(0.01, now + 0.2);
           osc.start(now); osc.stop(now + 0.2);
+        } else if (type === 'theme') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(392, now);
+          osc.frequency.exponentialRampToValueAtTime(784, now + 0.3);
+          gain.gain.setValueAtTime(0.12, now);
+          gain.gain.linearRampToValueAtTime(0.01, now + 0.35);
+          osc.start(now); osc.stop(now + 0.35);
         } else if (type === 'victory') {
           osc.type = 'triangle';
           osc.frequency.setValueAtTime(440, now);
@@ -333,6 +518,31 @@
       } else {
         document.exitFullscreen().catch(() => {});
       }
+    }
+
+    // =========================================================
+    // LAMBA TEMA DEĞİŞTİRİCİ
+    // =========================================================
+    function toggleTheme() {
+      const body = document.body;
+      const toggle = document.getElementById('themeToggle');
+
+      playSfx('theme');
+
+      toggle.classList.add('animating');
+      setTimeout(() => toggle.classList.remove('animating'), 800);
+
+      body.classList.add('theme-transitioning');
+
+      if (body.classList.contains('theme-light')) {
+        body.classList.remove('theme-light');
+        body.classList.add('theme-dark');
+      } else {
+        body.classList.remove('theme-dark');
+        body.classList.add('theme-light');
+      }
+
+      setTimeout(() => body.classList.remove('theme-transitioning'), 700);
     }
 
     // =========================================================
@@ -379,7 +589,6 @@
     // =========================================================
     // 2 KİŞİLİK AYRI VE TEKRARSIZ SORU MOTORU
     // =========================================================
-    // DOĞRU / YANLIŞ HAVUZU (En az 30 adet soru)
     const SWIPE_POOL = [
       { q: "İhlas suresi Allah'ın bir ve tek olduğunu (Tevhid) bildirir.", a: true },
       { q: "Ramazan ayında oruca başlama vaktine İftar denir.", a: false },
@@ -413,62 +622,21 @@
       { q: "Mihrap imamın namaz kıldırdığı ve kıble yönünü gösteren girintidir.", a: true }
     ];
 
-    // BOŞLUK DOLDURMA HAVUZU (1 Doğru, 4 Yanlış - 5 Seçenekli)
     const CLOZE_POOL = [
-      {
-        text: "Allah'ın var ve bir olmasına, hiçbir ortağının bulunmamasına _______ inancı denir.",
-        ans: "Tevhid",
-        options: ["Tevhid", "Nifak", "Kaza", "Tevekkül", "Gıybet"]
-      },
-      {
-        text: "Ramazan ayında tan yerinin ağarmasıyla başlayan oruca başlama anına _______ denir.",
-        ans: "İmsak",
-        options: ["İmsak", "İftar", "Sahur", "Teravih", "Mukabele"]
-      },
-      {
-        text: "Müslümanların karşılaştıklarında birbirlerine sağlık ve esenlik dilemelerine _______ denir.",
-        ans: "Selam",
-        options: ["Selam", "Gıybet", "İftira", "Kibir", "İsraf"]
-      },
-      {
-        text: "Peygamber Efendimiz dürüstlüğü nedeniyle Mekkelilerce _______ lakabıyla anılmıştır.",
-        ans: "El-Emin",
-        options: ["El-Emin", "Halilullah", "Zebur", "Ensar", "Muhacir"]
-      },
-      {
-        text: "Camilerde cuma günleri imamın hutbe irad ettiği basamaklı yüksek yere _______ denir.",
-        ans: "Minber",
-        options: ["Minber", "Şadırvan", "Kubbe", "Kandil", "Mihrap"]
-      },
-      {
-        text: "Allah'ın her şeyi hakkıyla bilmesi sıfatına İslam düşüncesinde _______ denir.",
-        ans: "İlim",
-        options: ["İlim", "Kudret", "Basar", "Semi", "Tekvin"]
-      },
-      {
-        text: "Ramazan ayında yatsı namazından sonra kılınan 20 rekatlık sünnet namaza _______ denir.",
-        ans: "Teravih",
-        options: ["Teravih", "Cenaze", "Kaza", "Vitir", "Bayram"]
-      },
-      {
-        text: "Yüce Allah'ın Kur'an'da hikmetli öğütleriyle övdüğü bilge şahsiyet Hz. _______ (a.s.)'dır.",
-        ans: "Lokman",
-        options: ["Lokman", "Nemrut", "Karun", "Firavun", "Ebu Leheb"]
-      },
-      {
-        text: "Peygamber Efendimize verilen sonsuz hayır ve cennetteki havuzun adı _______ Suresi'nde geçer.",
-        ans: "Kevser",
-        options: ["Kevser", "Fil", "Nasr", "Tebbet", "İhlas"]
-      },
-      {
-        text: "Cami avlularında cemaatin temizlenip abdest alması için yapılan kubbeli çeşmeye _______ denir.",
-        ans: "Şadırvan",
-        options: ["Şadırvan", "Minare", "Minber", "Kaside", "Türbe"]
-      }
+      { text: "Allah'ın var ve bir olmasına, hiçbir ortağının bulunmamasına _______ inancı denir.", ans: "Tevhid", options: ["Tevhid", "Nifak", "Kaza", "Tevekkül", "Gıybet"] },
+      { text: "Ramazan ayında tan yerinin ağarmasıyla başlayan oruca başlama anına _______ denir.", ans: "İmsak", options: ["İmsak", "İftar", "Sahur", "Teravih", "Mukabele"] },
+      { text: "Müslümanların karşılaştıklarında birbirlerine sağlık ve esenlik dilemelerine _______ denir.", ans: "Selam", options: ["Selam", "Gıybet", "İftira", "Kibir", "İsraf"] },
+      { text: "Peygamber Efendimiz dürüstlüğü nedeniyle Mekkelilerce _______ lakabıyla anılmıştır.", ans: "El-Emin", options: ["El-Emin", "Halilullah", "Zebur", "Ensar", "Muhacir"] },
+      { text: "Camilerde cuma günleri imamın hutbe irad ettiği basamaklı yüksek yere _______ denir.", ans: "Minber", options: ["Minber", "Şadırvan", "Kubbe", "Kandil", "Mihrap"] },
+      { text: "Allah'ın her şeyi hakkıyla bilmesi sıfatına İslam düşüncesinde _______ denir.", ans: "İlim", options: ["İlim", "Kudret", "Basar", "Semi", "Tekvin"] },
+      { text: "Ramazan ayında yatsı namazından sonra kılınan 20 rekatlık sünnet namaza _______ denir.", ans: "Teravih", options: ["Teravih", "Cenaze", "Kaza", "Vitir", "Bayram"] },
+      { text: "Yüce Allah'ın Kur'an'da hikmetli öğütleriyle övdüğü bilge şahsiyet Hz. _______ (a.s.)'dır.", ans: "Lokman", options: ["Lokman", "Nemrut", "Karun", "Firavun", "Ebu Leheb"] },
+      { text: "Peygamber Efendimize verilen sonsuz hayır ve cennetteki havuzun adı _______ Suresi'nde geçer.", ans: "Kevser", options: ["Kevser", "Fil", "Nasr", "Tebbet", "İhlas"] },
+      { text: "Cami avlularında cemaatin temizlenip abdest alması için yapılan kubbeli çeşmeye _______ denir.", ans: "Şadırvan", options: ["Şadırvan", "Minare", "Minber", "Kaside", "Türbe"] }
     ];
 
-    // NOKTA SEÇME HAVUZU (Soru + Dağılmış Kelimeler)
-    const FLOATING_POOL = [
+        const FLOATING_POOL = [
+      // === ESKİ 5 SORU ===
       {
         q: "Hangisi Allah'ın güzel isimlerinden (Esma-ül Hüsna) biridir?",
         correct: "Er-Rahman",
@@ -493,18 +661,79 @@
         q: "Camilerin minarelerinden günde beş vakit okunan kutsal çağrı?",
         correct: "Ezan",
         words: ["Ezan", "Kaside", "İlahi", "Mevlit", "Tekbir", "Hutbe", "Vaaz", "Salavat"]
+      },
+
+      // === YENİ 10 SORU ===
+      {
+        q: "Ramazan ayında yatsı namazından sonra kılınan sünnet namaz?",
+        correct: "Teravih",
+        words: ["Teravih", "Bayram", "Cenaze", "Vitir", "Kaza", "Cuma", "Öğle", "İkindi"]
+      },
+      {
+        q: "Peygamber Efendimizin doğduğu yıl hangisidir?",
+        correct: "571",
+        words: ["571", "610", "632", "622", "1453", "1071", "1856", "1923"]
+      },
+      {
+        q: "İslam dininin ilk şartı ve imanın özü nedir?",
+        correct: "Kelime-i Şehadet",
+        words: ["Kelime-i Şehadet", "Namaz", "Oruç", "Zekat", "Hac", "Sadaka", "Dua", "Zikir"]
+      },
+      {
+        q: "Kur-an-ı Kerim toplam kaç sureden oluşur?",
+        correct: "114",
+        words: ["114", "100", "99", "120", "30", "40", "50", "66"]
+      },
+      {
+        q: "Ramazan ayında sabah ezanından önce yediğimiz yemeğin adı?",
+        correct: "Sahur",
+        words: ["Sahur", "İftar", "İmsak", "Teravih", "Mukabele", "Fitre", "Zekat", "Bayram"]
+      },
+      {
+        q: "Peygamber Efendimizin annesinin mübarek adı nedir?",
+        correct: "Amine",
+        words: ["Amine", "Hatice", "Aişe", "Fatıma", "Zeynep", "Halime", "Meryem", "Sümeyye"]
+      },
+      {
+        q: "Cami avlusunda abdest almak için yapılan kubbeli çeşme?",
+        correct: "Şadırvan",
+        words: ["Şadırvan", "Minare", "Minber", "Mihrap", "Kubbe", "Kürsü", "Hutbe", "Müezzin"]
+      },
+      {
+        q: "Vahiy getiren ve meleklerin en büyüğü olan melek?",
+        correct: "Cebrail",
+        words: ["Cebrail", "Mikail", "İsrafil", "Azrail", "Kiramen", "Katibin", "Münker", "Nekir"]
+      },
+      {
+        q: "Hicri takvimin ilk ayı hangisidir?",
+        correct: "Muharrem",
+        words: ["Muharrem", "Ramazan", "Şevval", "Recep", "Şaban", "Zilhicce", "Safer", "Rebiülevvel"]
+      },
+      {
+        q: "İslam dininde günde kaç vakit namaz farzdır?",
+        correct: "5",
+        words: ["5", "3", "4", "6", "7", "2", "8", "10"]
       }
     ];
 
-    // AYET TAMAMLAMA HAVUZU
     const WORD_RACE_POOL = [
       ["Bismillâhir", "rahmânir", "rahîm"],
       ["Kul", "hüvallâhü", "ehad"],
       ["Allâhüs", "samed"],
-      ["İnna", "a'taynâkel", "kevser"],
+      ["İnna", "ataynâkel", "kevser"],
       ["Temizlik", "imanın", "yarısıdır"],
       ["Güzel", "söz", "sadakadır"],
-      ["Selamı", "aranızda", "yayınız"]
+      ["Selamı", "aranızda", "yayınız"],
+      ["Kul", "eûzü", "birabbil", "felak"],                              
+      ["Kul", "eûzü", "birabbin", "nâs"],                                
+      ["Li", "îlâfi", "Kureyş"],                                          
+      ["Elem", "tere", "keyfe", "feale", "rabbüke", "bi", "ashâbil", "fîl"], 
+      ["Rabbenâ", "âtinâ", "fid", "dünyâ", "haseneten"],                  
+      ["Ettehiyyâtü", "lillâhi", "ve", "salavâtü", "ve", "tayyibâtü"],    
+      ["Allâhümme", "salli", "alâ", "Muhammed"],                          
+      ["Lâ", "ilâhe", "illallâh"],                                        
+      ["Ameller", "niyetlere", "göredir"],                                
+      ["Müjdeleyiniz", "nefret", "ettirmeyiniz"]
     ];
 
     // =========================================================
@@ -515,7 +744,6 @@
     let arenaTimer = null;
     let arenaTimeLeft = 45;
 
-    // Oyuncu bazlı soru indexi veya kuyrukları
     let p1Queue = [];
     let p2Queue = [];
     let p1CurrentQ = null;
@@ -538,13 +766,9 @@
       document.getElementById('view-arena').classList.remove('hidden');
       document.getElementById('winnerModal').classList.add('hidden');
 
-      // Soruları karıştırıp 1. ve 2. oyuncuya FARKLI soruları paylaştır
       initQueuesForMode(mode);
-
-      // Sayacı başlat
       startArenaTimer();
 
-      // İki oyuncunun ekranını render et
       loadPlayerQuestion(1);
       loadPlayerQuestion(2);
     }
@@ -577,7 +801,6 @@
     function initQueuesForMode(mode) {
       if (mode === 'swipe') {
         const shuffled = [...SWIPE_POOL].sort(() => Math.random() - 0.5);
-        // Yarısını Sol Oyuncuya, Diğer Yarısını Sağ Oyuncuya ver (BİRBİRİNDEN FARKLI SORULAR!)
         p1Queue = shuffled.slice(0, Math.floor(shuffled.length / 2));
         p2Queue = shuffled.slice(Math.floor(shuffled.length / 2));
       } else if (mode === 'cloze') {
@@ -601,7 +824,6 @@
     function loadPlayerQuestion(playerNum) {
       const queue = (playerNum === 1) ? p1Queue : p2Queue;
       const playArea = document.getElementById(playerNum === 1 ? 'p1PlayArea' : 'p2PlayArea');
-      const feedback = document.getElementById(playerNum === 1 ? 'p1Feedback' : 'p2Feedback');
 
       if (queue.length === 0) {
         playArea.innerHTML = `
@@ -617,7 +839,7 @@
       const qObj = queue.pop();
       if (playerNum === 1) p1CurrentQ = qObj; else p2CurrentQ = qObj;
 
-      // 1. MOD: DOĞRU MU YANLIŞ MI (SWIPE / BUTON)
+      // 1. MOD: DOĞRU MU YANLIŞ MI
       if (activeGameMode === 'swipe') {
         playArea.innerHTML = `
           <div class="flex flex-col items-center justify-center gap-6 h-full">
@@ -625,8 +847,6 @@
               <span class="text-4xl mb-3 block">📜</span>
               <p class="text-base font-bold text-white leading-relaxed">${qObj.q}</p>
             </div>
-
-            <!-- Akıllı Tahta Dev Dokunmatik Butonları -->
             <div class="grid grid-cols-2 gap-4 w-full max-w-sm">
               <button onclick="answerSwipe(${playerNum}, false)" class="py-5 rounded-2xl bg-rose-600 hover:bg-rose-500 active:scale-95 text-white font-black text-lg shadow-xl transition flex items-center justify-center gap-2">
                 <span>❌</span> <span>YANLIŞ</span>
@@ -639,13 +859,13 @@
         `;
       }
 
-      // 2. MOD: BOŞLUK DOLDURMA (5 KELİME - 1 DOĞRU 4 YANLIŞ)
+      // 2. MOD: BOŞLUK DOLDURMA
       else if (activeGameMode === 'cloze') {
         const shuffledOpts = [...qObj.options].sort(() => Math.random() - 0.5);
         let optsHtml = '';
         shuffledOpts.forEach(opt => {
           optsHtml += `
-            <button onclick="answerCloze(${playerNum}, '${opt}')" class="py-3 px-4 rounded-xl bg-zinc-900 border-2 border-zinc-800 hover:border-blue-500 text-sm font-bold text-white active:scale-95 transition shadow">
+            <button onclick='answerCloze(${playerNum}, ${JSON.stringify(opt)})' class="py-3 px-4 rounded-xl bg-zinc-900 border-2 border-zinc-800 hover:border-blue-500 text-sm font-bold text-white active:scale-95 transition shadow">
               ${opt}
             </button>
           `;
@@ -657,7 +877,6 @@
               <span class="text-3xl mb-2 block">📝</span>
               <p class="text-sm font-bold text-zinc-200 leading-relaxed">${qObj.text}</p>
             </div>
-
             <div class="w-full max-w-md">
               <span class="text-[11px] font-bold text-zinc-400 block mb-2 text-center">Boşluğa gelmesi gereken kelimeyi seç (1 Doğru, 4 Yanlış):</span>
               <div class="grid grid-cols-2 gap-2.5">
@@ -668,13 +887,13 @@
         `;
       }
 
-      // 3. MOD: NOKTA SEÇME (DAĞILMIŞ KELİMELER)
+      // 3. MOD: NOKTA SEÇME
       else if (activeGameMode === 'floating') {
         let wordsHtml = '';
         const shuffled = [...qObj.words].sort(() => Math.random() - 0.5);
         shuffled.forEach((w) => {
           wordsHtml += `
-            <button onclick="answerFloating(${playerNum}, '${w}')" class="py-2.5 px-4 rounded-2xl bg-zinc-900 border border-zinc-700 hover:border-purple-500 active:scale-95 text-xs font-black text-zinc-200 shadow transition">
+            <button onclick='answerFloating(${playerNum}, ${JSON.stringify(w)})' class="py-2.5 px-4 rounded-2xl bg-zinc-900 border border-zinc-700 hover:border-purple-500 active:scale-95 text-xs font-black text-zinc-200 shadow transition">
               📍 ${w}
             </button>
           `;
@@ -686,7 +905,6 @@
               <span class="text-2xl mb-1 block">🎯</span>
               <p class="text-sm font-black text-purple-300">${qObj.q}</p>
             </div>
-
             <div class="w-full max-w-md bg-zinc-950/80 border-2 border-dashed border-zinc-800 rounded-3xl p-4 min-h-[160px] flex flex-wrap gap-2.5 items-center justify-center">
               ${wordsHtml}
             </div>
@@ -694,14 +912,14 @@
         `;
       }
 
-      // 4. MOD: AYET TAMAMLAMA
+      // 4. MOD: AYET TAMAMLAMA (BUG FIX: JSON.stringify)
       else if (activeGameMode === 'wordrace') {
         const words = [...qObj];
         const shuffled = [...words].sort(() => Math.random() - 0.5);
         let buttonsHtml = '';
         shuffled.forEach(w => {
           buttonsHtml += `
-            <button onclick="answerWordRace(${playerNum}, '${w}', this)" class="py-2.5 px-4 rounded-xl bg-zinc-900 border border-zinc-700 text-xs font-black text-white hover:border-amber-500 active:scale-95 transition">
+            <button onclick='answerWordRace(${playerNum}, ${JSON.stringify(w)}, this)' class="py-2.5 px-4 rounded-xl bg-zinc-900 border border-zinc-700 text-xs font-black text-white hover:border-amber-500 active:scale-95 transition">
               ${w}
             </button>
           `;
@@ -833,7 +1051,6 @@
         sub.textContent = "İki oyuncu da eşit derecede mükemmel bir performans sergiledi!";
       }
 
-      // Konfeti Yağmuru
       const box = document.getElementById('confettiBoxArena');
       box.innerHTML = '';
       const colors = ['#10b981', '#f59e0b', '#3b82f6', '#ec4899', '#8b5cf6', '#14b8a6'];
