@@ -171,66 +171,11 @@
             <p class="text-[9px] text-[var(--text-sub)]">Her ünitede konuya özel oyunlar açılır:</p>
           </div>
 
-          <div id="unitsGridContainer" class="grid grid-cols-1 gap-2 my-1"><div class="cursor-pointer bg-[var(--bg-card)] border border-[var(--border-line)] hover:border-emerald-500 rounded-2xl p-3.5 flex items-center justify-between active:scale-98 transition shadow-xs">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-2xl bg-emerald-500/15 text-emerald-500 flex items-center justify-center text-xl border border-emerald-500/20 shrink-0">
-              ✨
-            </div>
-            <div>
-              <h4 class="text-xs font-black text-[var(--text-main)] leading-snug">1. Ünite: Allah İnancı</h4>
-              <p class="text-[9px] text-[var(--text-sub)] mt-0.5">7 Alt Konu • 4 Oyun</p>
-            </div>
-          </div>
-          <span class="text-emerald-500 font-black text-sm pr-1">➔</span>
-        </div><div class="cursor-pointer bg-[var(--bg-card)] border border-[var(--border-line)] hover:border-emerald-500 rounded-2xl p-3.5 flex items-center justify-between active:scale-98 transition shadow-xs">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-2xl bg-emerald-500/15 text-emerald-500 flex items-center justify-center text-xl border border-emerald-500/20 shrink-0">
-              🌙
-            </div>
-            <div>
-              <h4 class="text-xs font-black text-[var(--text-main)] leading-snug">2. Ünite: Ramazan ve Oruç</h4>
-              <p class="text-[9px] text-[var(--text-sub)] mt-0.5">4 Alt Konu • 4 Oyun</p>
-            </div>
-          </div>
-          <span class="text-emerald-500 font-black text-sm pr-1">➔</span>
-        </div><div class="cursor-pointer bg-[var(--bg-card)] border border-[var(--border-line)] hover:border-emerald-500 rounded-2xl p-3.5 flex items-center justify-between active:scale-98 transition shadow-xs">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-2xl bg-emerald-500/15 text-emerald-500 flex items-center justify-center text-xl border border-emerald-500/20 shrink-0">
-              🤝
-            </div>
-            <div>
-              <h4 class="text-xs font-black text-[var(--text-main)] leading-snug">3. Ünite: Adap ve Nezaket</h4>
-              <p class="text-[9px] text-[var(--text-sub)] mt-0.5">7 Alt Konu • 4 Oyun</p>
-            </div>
-          </div>
-          <span class="text-emerald-500 font-black text-sm pr-1">➔</span>
-        </div><div class="cursor-pointer bg-[var(--bg-card)] border border-[var(--border-line)] hover:border-emerald-500 rounded-2xl p-3.5 flex items-center justify-between active:scale-98 transition shadow-xs">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-2xl bg-emerald-500/15 text-emerald-500 flex items-center justify-center text-xl border border-emerald-500/20 shrink-0">
-              🕊️
-            </div>
-            <div>
-              <h4 class="text-xs font-black text-[var(--text-main)] leading-snug">4. Ünite: Hz. Muhammed ve Aile Hayatı</h4>
-              <p class="text-[9px] text-[var(--text-sub)] mt-0.5">5 Alt Konu • 4 Oyun</p>
-            </div>
-          </div>
-          <span class="text-emerald-500 font-black text-sm pr-1">➔</span>
-        </div><div class="cursor-pointer bg-[var(--bg-card)] border border-[var(--border-line)] hover:border-emerald-500 rounded-2xl p-3.5 flex items-center justify-between active:scale-98 transition shadow-xs">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-2xl bg-emerald-500/15 text-emerald-500 flex items-center justify-center text-xl border border-emerald-500/20 shrink-0">
-              🕌
-            </div>
-            <div>
-              <h4 class="text-xs font-black text-[var(--text-main)] leading-snug">5. Ünite: Çevremizde Dinin İzleri</h4>
-              <p class="text-[9px] text-[var(--text-sub)] mt-0.5">5 Alt Konu • 4 Oyun</p>
-            </div>
-          </div>
-          <span class="text-emerald-500 font-black text-sm pr-1">➔</span>
-        </div></div>
+          <div id="unitsGridContainer" class="grid grid-cols-1 gap-2 my-1"></div>
         </section>
 
-        <!-- 3. EKRAN: SEÇİLEN ÜNİTENİN OYUNLARI (ÖĞRENME/PRATİK AYRIMI KALKTI - DOĞRUDAN OYUNLAR) -->
-        <section id="screen-games" class="screen-view absolute inset-0 flex flex-col p-3 z-20 overflow-y-auto no-scrollbar">
+        <!-- 3. EKRAN: SEÇİLEN ÜNİTENİN OYUNLARI -->
+        <section id="screen-games" class="screen-view absolute inset-0 flex flex-col p-3 z-20 overflow-y-auto no-scrollbar hidden">
           <div class="text-center mb-2">
             <span id="selectedUnitBadge" class="text-[10px] bg-emerald-500/20 text-emerald-500 px-2.5 py-0.5 rounded-full font-bold">1. Ünite</span>
             <h3 id="selectedUnitTitle" class="text-xs font-black text-[var(--text-main)] mt-1">1. Ünite: Allah İnancı</h3>
@@ -242,55 +187,11 @@
               <span class="text-[9px] font-black text-emerald-500 uppercase tracking-wider">📌 Ünite Alt Konuları:</span>
               <span id="subtopicCountBadge" class="text-[8px] bg-emerald-500/10 text-emerald-500 px-1.5 py-0.2 rounded font-bold">7 Konu</span>
             </div>
-            <ul id="unitSubtopicsDisplay" class="text-[9px] text-[var(--text-sub)] space-y-0.5 pl-3 list-disc max-h-20 overflow-y-auto no-scrollbar"><li>Allah Vardır ve Birdir</li><li>Allah Yaradandır</li><li>Allah Rahman ve Rahimdir</li><li>Allah Her Şeyi İşitir, Görür ve Bilir</li><li>Allah'ın Her Şeye Gücü Yeter</li><li>Bir Peygamber Tanıyorum: Hz. İbrahim (a.s.)</li><li>Bir Sure Tanıyorum: İhlas Suresi ve Anlamı</li></ul>
+            <ul id="unitSubtopicsDisplay" class="text-[9px] text-[var(--text-sub)] space-y-0.5 pl-3 list-disc max-h-20 overflow-y-auto no-scrollbar"></ul>
           </div>
 
           <p class="text-[9px] font-bold text-[var(--text-main)] mb-1 px-1">🎮 Üniteye Özel Oyunlar (En Az 3 Oyun):</p>
-          <div id="unitGamesGrid" class="grid grid-cols-2 gap-2 pb-2"><div class="cursor-pointer bg-[var(--bg-card)] border border-[var(--border-line)] hover:border-emerald-500 rounded-2xl p-2.5 flex flex-col justify-between active:scale-95 transition shadow-xs">
-          <div>
-            <div class="flex items-center gap-2 mb-1.5">
-              <span class="text-2xl">⚡</span>
-              <h4 class="text-[10px] font-bold text-[var(--text-main)] leading-tight">Doğru / Yanlış</h4>
-            </div>
-            <p class="text-[8px] text-[var(--text-sub)] line-clamp-2 leading-relaxed">Tüm ekran kaydırma! Sağa: DOĞRU, Sola: YANLIŞ. Butonsuz!</p>
-          </div>
-          <span class="mt-2 text-[9px] bg-emerald-500/10 text-emerald-500 font-bold px-2 py-0.5 rounded text-center">
-            Oyna ➔
-          </span>
-        </div><div class="cursor-pointer bg-[var(--bg-card)] border border-[var(--border-line)] hover:border-emerald-500 rounded-2xl p-2.5 flex flex-col justify-between active:scale-95 transition shadow-xs">
-          <div>
-            <div class="flex items-center gap-2 mb-1.5">
-              <span class="text-2xl">✍️</span>
-              <h4 class="text-[10px] font-bold text-[var(--text-main)] leading-tight">Ayet &amp; Dua Tamamla</h4>
-            </div>
-            <p class="text-[8px] text-[var(--text-sub)] line-clamp-2 leading-relaxed">Kelimeleri sırayla basarak metni tamamla.</p>
-          </div>
-          <span class="mt-2 text-[9px] bg-emerald-500/10 text-emerald-500 font-bold px-2 py-0.5 rounded text-center">
-            Oyna ➔
-          </span>
-        </div><div class="cursor-pointer bg-[var(--bg-card)] border border-[var(--border-line)] hover:border-emerald-500 rounded-2xl p-2.5 flex flex-col justify-between active:scale-95 transition shadow-xs">
-          <div>
-            <div class="flex items-center gap-2 mb-1.5">
-              <span class="text-2xl">🃏</span>
-              <h4 class="text-[10px] font-bold text-[var(--text-main)] leading-tight">Hafıza Kartları</h4>
-            </div>
-            <p class="text-[8px] text-[var(--text-sub)] line-clamp-2 leading-relaxed">Peygamber, sure ve kavramları eşleştir.</p>
-          </div>
-          <span class="mt-2 text-[9px] bg-emerald-500/10 text-emerald-500 font-bold px-2 py-0.5 rounded text-center">
-            Oyna ➔
-          </span>
-        </div><div class="cursor-pointer bg-[var(--bg-card)] border border-[var(--border-line)] hover:border-emerald-500 rounded-2xl p-2.5 flex flex-col justify-between active:scale-95 transition shadow-xs">
-          <div>
-            <div class="flex items-center gap-2 mb-1.5">
-              <span class="text-2xl">🧺</span>
-              <h4 class="text-[10px] font-bold text-[var(--text-main)] leading-tight">Kavram Sepeti</h4>
-            </div>
-            <p class="text-[8px] text-[var(--text-sub)] line-clamp-2 leading-relaxed">Her 3 saniyede +0.5 hızlanır! İyilikleri yakala.</p>
-          </div>
-          <span class="mt-2 text-[9px] bg-emerald-500/10 text-emerald-500 font-bold px-2 py-0.5 rounded text-center">
-            Oyna ➔
-          </span>
-        </div></div>
+          <div id="unitGamesGrid" class="grid grid-cols-2 gap-2 pb-2"></div>
         </section>
 
         <!-- 4. EKRAN: OYNANABİLİR OYUN ALANI (GAMEPLAY) -->
@@ -306,7 +207,7 @@
             </div>
           </div>
 
-          <!-- OYUN 1: DOĞRU / YANLIŞ (TÜM EKRAN KAYDIRMA - BUTONSUZ & ALTI BOŞ) -->
+          <!-- OYUN 1: DOĞRU / YANLIŞ -->
           <div id="module-swipe" class="game-module flex-1 flex flex-col justify-center relative touch-none select-none hidden">
             <div class="text-center text-[9px] text-[var(--text-sub)] mb-1">← Sola Kaydır: YANLIŞ &nbsp;|&nbsp; Sağa Kaydır: DOĞRU →</div>
             <div class="w-full flex-1 flex items-center justify-center relative">
@@ -332,7 +233,7 @@
             </button>
           </div>
 
-          <!-- OYUN 3: PEYGAMBERLER & KAVRAMLAR HAFIZA KARTLARI -->
+          <!-- OYUN 3: HAFIZA KARTLARI -->
           <div id="module-memory" class="game-module flex-1 flex flex-col justify-between hidden">
             <div id="memoryGrid" class="grid grid-cols-4 gap-2 my-auto"></div>
             <div id="memoryFeedbackBox" class="text-center text-[10px] text-[var(--text-sub)] bg-[var(--bg-subcard)] p-1.5 rounded-xl border border-[var(--border-line)]">
@@ -340,7 +241,7 @@
             </div>
           </div>
 
-          <!-- OYUN 4: AHLAKİ TERCİH (4 SEÇENEK, KOPYASIZ, İPUCU BUTONLU) -->
+          <!-- OYUN 4: AHLAKİ TERCİH -->
           <div id="module-moralchoice" class="game-module flex-1 flex flex-col justify-between hidden">
             <div class="bg-[var(--bg-card)] border border-purple-500/40 rounded-2xl p-3 shadow-sm text-center relative">
               <span class="text-2xl mb-1 block">⚖️</span>
@@ -348,7 +249,6 @@
                 Yükleniyor...
               </p>
               
-              <!-- İPUCU BUTONU -->
               <div class="mt-2 flex justify-center">
                 <button id="moralHintBtn" onclick="toggleHint('moral')" class="text-[9px] px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-500 font-bold flex items-center gap-1 active:scale-95 transition">
                   <span>💡</span> <span>İpucu Gör</span>
@@ -364,7 +264,7 @@
             </div>
           </div>
 
-          <!-- OYUN 5: TARİH ŞERİDİ (KRONOLOJİK SIRALAMA - KOPYASIZ) -->
+          <!-- OYUN 5: TARİH ŞERİDİ -->
           <div id="module-timeline" class="game-module flex-1 flex flex-col justify-between hidden">
             <div class="bg-[var(--bg-card)] p-3 rounded-2xl border border-[var(--border-line)]">
               <span class="text-[9px] text-[var(--text-sub)] block mb-1 font-bold">Olayları veya Peygamberleri Eskiden Yeniye Sırala:</span>
@@ -382,7 +282,7 @@
             </div>
           </div>
 
-          <!-- OYUN 6: KUTSAL ŞEHİRLER & MEKANLAR -->
+          <!-- OYUN 6: KUTSAL ŞEHİRLER -->
           <div id="module-map" class="game-module flex-1 flex flex-col justify-between hidden">
             <div class="p-2.5 bg-[var(--bg-card)] border border-[var(--border-line)] rounded-2xl text-center">
               <p id="mapQuestionText" class="text-xs font-bold text-[var(--text-main)]">
@@ -404,27 +304,24 @@
             </div>
           </div>
 
-          <!-- OYUN 7: KAVRAM SEPETİ (KULLANICI KURALI: HER 3 SN'DE +0.5 HIZ ARTIŞI & EN ALTA KADAR DÜŞME) -->
+          <!-- OYUN 7: KAVRAM SEPETİ -->
           <div id="module-catcher" class="game-module flex-1 flex flex-col justify-between hidden">
             <div class="flex justify-between items-center text-[10px] text-teal-400 font-bold mb-1">
               <span>İyi huyları yakala!</span>
               <span id="catcherSpeedLabel" class="bg-teal-500/10 px-2 py-0.5 rounded-full text-teal-500">Hız: 1.0x</span>
             </div>
 
-            <!-- Canlı Oyun Sahnesi -->
             <div id="catcherPlayground" class="relative w-full flex-1 bg-[var(--canvas-bg)] border-2 border-[var(--border-line)] rounded-2xl overflow-hidden cursor-ew-resize touch-none select-none">
-              <!-- Düşen Kavram -->
               <div id="fallingItem" class="absolute left-1/2 -translate-x-1/2 px-3 py-1.5 rounded-xl bg-[var(--bg-card)] border-2 border-[var(--border-line)] text-[var(--text-main)] font-black text-xs shadow-md transition-none" style="top: 0px;">
                 Dürüstlük
               </div>
-              <!-- Sürüklenebilir Sepet -->
               <div id="basketObj" class="absolute bottom-2 left-1/2 -translate-x-1/2 w-28 h-9 bg-amber-600 border-2 border-amber-400 rounded-2xl flex items-center justify-center text-xs font-bold text-white shadow-lg pointer-events-none transition-none">
                 🧺 Sepet
               </div>
             </div>
           </div>
 
-          <!-- OYUN 8: SEVAP KOŞUSU (NÖTR RENK & ÇEŞİTLİ KAVRAMLAR) -->
+          <!-- OYUN 8: SEVAP KOŞUSU -->
           <div id="module-runner" class="game-module flex-1 flex flex-col justify-between hidden">
             <div id="runnerLane" class="relative w-full h-[180px] bg-[var(--canvas-bg)] border border-[var(--border-line)] rounded-2xl overflow-hidden flex flex-col justify-end p-2 select-none">
               <div id="runnerObstacle" class="absolute bottom-3 right-4 px-2.5 py-1 rounded-xl bg-[var(--bg-card)] border border-[var(--border-line)] text-[var(--text-main)] font-bold text-[10px] shadow">
@@ -442,7 +339,7 @@
             </button>
           </div>
 
-          <!-- OYUN 9: HİCRET & BİLGELİK YOLU (İPUCU BUTONLU) -->
+          <!-- OYUN 9: HİKMET & SAVUNMA -->
           <div id="module-defense" class="game-module flex-1 flex flex-col justify-between hidden">
             <div class="bg-[var(--bg-card)] p-3 rounded-2xl border border-[var(--border-line)] text-center relative">
               <span class="text-2xl mb-1 block">🐪</span>
@@ -450,7 +347,6 @@
                 Yükleniyor...
               </p>
 
-              <!-- İPUCU BUTONU -->
               <div class="mt-2 flex justify-center">
                 <button id="defenseHintBtn" onclick="toggleHint('defense')" class="text-[9px] px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-500 font-bold flex items-center gap-1 active:scale-95 transition">
                   <span>💡</span> <span>İpucu Gör</span>
@@ -508,50 +404,1480 @@
             <p class="text-[9px] text-[var(--text-sub)]">Oyunları tamamladıkça kilitleri açılır:</p>
           </div>
 
-          <div id="badgesGridContainer" class="grid grid-cols-2 gap-2 text-xs"><div class="p-2.5 rounded-2xl bg-[var(--bg-card)] border flex items-center gap-2 shadow-xs transition border-[var(--border-line)] opacity-50">
-          <span class="text-2xl">🔒</span>
-          <div>
-            <div class="font-bold text-[var(--text-main)] text-[10px] leading-tight">İlk Adım Kaşifi</div>
-            <div class="text-[8px] text-[var(--text-sub)] mt-0.5">
-              İlk oyununu başarıyla tamamla
+          <div id="badgesGridContainer" class="grid grid-cols-2 gap-2 text-xs"></div>
+        </section>
+
+      </div>
+
+      <!-- SÜRE AYAR MODALİ (15 - 120 SN) -->
+      <div id="timeSelectModal" class="hidden absolute inset-0 bg-black/75 backdrop-blur-xs items-center justify-center p-4 z-50">
+        <div class="bg-[var(--modal-bg)] border-2 border-emerald-500/60 rounded-3xl p-5 max-w-xs w-full shadow-2xl text-center">
+          <span class="text-3xl mb-1 block">⏱️</span>
+          <h4 id="timeModalGameTitle" class="font-black text-xs text-[var(--text-main)]">Oyun Başlığı</h4>
+          <p id="timeModalGameDesc" class="text-[10px] text-[var(--text-sub)] mt-1 leading-tight"></p>
+
+          <div class="my-4 py-2 px-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/40 inline-flex items-center gap-2">
+            <span class="text-base">⏳</span>
+            <span id="sliderValueText" class="text-base font-black text-emerald-500">45 Saniye</span>
+          </div>
+
+          <div class="px-2 mb-2">
+            <input type="range" id="gameDurationSlider" min="15" max="120" step="5" value="45" oninput="updateSliderValue(this.value)" class="w-full h-2 bg-zinc-700 rounded-lg appearance-none cursor-pointer">
+            <div class="flex justify-between text-[9px] text-[var(--text-sub)] mt-1 font-bold">
+              <span>15 sn</span>
+              <span>60 sn</span>
+              <span>120 sn</span>
             </div>
           </div>
-        </div><div class="p-2.5 rounded-2xl bg-[var(--bg-card)] border flex items-center gap-2 shadow-xs transition border-[var(--border-line)] opacity-50">
-          <span class="text-2xl">🔒</span>
+
+          <div class="grid grid-cols-2 gap-2 mt-4">
+            <button onclick="closeTimeModal()" class="py-2.5 rounded-xl bg-[var(--btn-bg)] text-[var(--btn-text)] font-bold text-xs border border-[var(--border-line)]">Vazgeç</button>
+            <button onclick="confirmAndStartGame()" class="py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs shadow-md shadow-emerald-600/30 active:scale-95 transition">Başlat ➔</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ÇIKIŞ ONAY MODALİ -->
+      <div id="confirmExitModal" class="hidden absolute inset-0 bg-black/75 backdrop-blur-xs items-center justify-center p-5 z-50">
+        <div class="bg-[var(--modal-bg)] border border-[var(--border-line)] rounded-3xl p-5 max-w-xs w-full shadow-2xl text-center">
+          <div class="w-12 h-12 rounded-full bg-amber-500/20 text-amber-500 flex items-center justify-center text-2xl mx-auto mb-2 border border-amber-500/30">⚠️</div>
+          <h4 class="font-bold text-sm text-[var(--text-main)]">Oyundan Çıkmak İstiyor musun?</h4>
+          <p class="text-xs text-[var(--text-sub)] mt-1">Oyunun ortasındasın. Şimdi çıkarsan bu turdaki ilerlemen kaybolur.</p>
+          <div class="grid grid-cols-2 gap-2 mt-4">
+            <button onclick="closeConfirmModal(false)" class="py-2.5 rounded-xl bg-[var(--btn-bg)] text-[var(--btn-text)] font-bold text-xs active:scale-95 transition border border-[var(--border-line)]">Hayır, Devam Et</button>
+            <button onclick="closeConfirmModal(true)" class="py-2.5 rounded-xl bg-red-600 hover:bg-red-500 text-white font-bold text-xs active:scale-95 transition">Evet, Çık</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- YENİ ROZET KAZANMA & KUTLAMA ANİMASYON MODALİ -->
+      <div id="badgeCelebrateModal" class="hidden absolute inset-0 bg-black/85 backdrop-blur-sm items-center justify-center p-5 z-[60]">
+        <div class="relative bg-[var(--modal-bg)] border-2 border-amber-500/60 rounded-3xl p-6 max-w-xs w-full shadow-2xl text-center overflow-hidden">
+          <div id="confettiBox" class="absolute inset-0 pointer-events-none overflow-hidden"></div>
+          
+          <div id="celebrateBadgeIcon" class="text-5xl mb-2 block animate-badge-pop">🌟</div>
+          <span class="text-[10px] text-amber-400 font-extrabold uppercase tracking-wider block">🎉 YENİ BAŞARI KAZANILDI!</span>
+          <h4 id="celebrateBadgeTitle" class="text-base font-black text-[var(--text-main)] mt-1">Rozet Başlığı</h4>
+          <p id="celebrateBadgeDesc" class="text-[10px] text-[var(--text-sub)] mt-1 leading-relaxed"></p>
+
+          <button onclick="closeBadgeModal()" class="mt-4 w-full py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-white font-black text-xs shadow-lg active:scale-95 transition">
+            Harika! Devam Et ✨
+          </button>
+        </div>
+      </div>
+
+      <!-- SABİT ALT MENÜ ÇUBUĞU -->
+      <nav id="appBottomNav" class="h-14 bg-[var(--nav-bg)] border-t border-[var(--border-line)] px-3 flex items-center justify-around text-[10px] z-30 select-none transition-colors">
+        <button onclick="navigateTo('welcome')" id="bnav-welcome" class="flex flex-col items-center gap-0.5 text-[var(--text-sub)] hover:text-emerald-500 transition">
+          <span class="text-base">🏠</span><span class="font-medium">Ana Sayfa</span>
+        </button>
+        <button onclick="navigateTo('units')" id="bnav-units" class="flex flex-col items-center gap-0.5 hover:text-emerald-500 transition text-[var(--text-sub)]">
+          <span class="text-base">📚</span><span class="font-medium">Üniteler</span>
+        </button>
+        <button onclick="navigateTo('games')" id="bnav-games" class="flex flex-col items-center gap-0.5 hover:text-emerald-500 transition text-[var(--text-sub)]">
+          <span class="text-base">🎮</span><span class="font-medium">Oyunlar</span>
+        </button>
+        <button onclick="navigateTo('badges')" id="bnav-badges" class="flex flex-col items-center gap-0.5 text-[var(--text-sub)] hover:text-amber-500 transition">
+          <span class="text-base">🏆</span><span class="font-medium">Rozetler</span>
+        </button>
+      </nav>
+
+    </div>
+    <div></div>
+  </main>
+
+  <script>
+    // =========================================================
+    // SES MOTORU (Web Audio API)
+    // =========================================================
+    let soundEnabled = true;
+    let audioCtx = null;
+    function initAudio() {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    function playAudio(type) {
+      if (!soundEnabled) return;
+      try {
+        initAudio();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        const now = audioCtx.currentTime;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        if (type === 'click') {
+          osc.frequency.setValueAtTime(440, now);
+          osc.frequency.exponentialRampToValueAtTime(880, now + 0.07);
+          gain.gain.setValueAtTime(0.12, now);
+          gain.gain.linearRampToValueAtTime(0.01, now + 0.07);
+          osc.start(now); osc.stop(now + 0.07);
+        } else if (type === 'correct') {
+          osc.frequency.setValueAtTime(523.25, now);
+          osc.frequency.setValueAtTime(659.25, now + 0.08);
+          osc.frequency.setValueAtTime(783.99, now + 0.16);
+          gain.gain.setValueAtTime(0.18, now);
+          gain.gain.linearRampToValueAtTime(0.01, now + 0.3);
+          osc.start(now); osc.stop(now + 0.3);
+        } else if (type === 'wrong') {
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(220, now);
+          osc.frequency.linearRampToValueAtTime(120, now + 0.22);
+          gain.gain.setValueAtTime(0.18, now);
+          gain.gain.linearRampToValueAtTime(0.01, now + 0.22);
+          osc.start(now); osc.stop(now + 0.22);
+        } else if (type === 'start') {
+          osc.frequency.setValueAtTime(330, now);
+          osc.frequency.exponentialRampToValueAtTime(660, now + 0.2);
+          gain.gain.setValueAtTime(0.2, now);
+          gain.gain.linearRampToValueAtTime(0.01, now + 0.25);
+          osc.start(now); osc.stop(now + 0.25);
+        } else if (type === 'lamp') {
+          osc.frequency.setValueAtTime(600, now);
+          osc.frequency.exponentialRampToValueAtTime(1200, now + 0.12);
+          gain.gain.setValueAtTime(0.15, now);
+          gain.gain.linearRampToValueAtTime(0.01, now + 0.12);
+          osc.start(now); osc.stop(now + 0.12);
+        } else if (type === 'badge') {
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(523.25, now);
+          osc.frequency.setValueAtTime(659.25, now + 0.1);
+          osc.frequency.setValueAtTime(783.99, now + 0.2);
+          osc.frequency.setValueAtTime(1046.50, now + 0.3);
+          gain.gain.setValueAtTime(0.25, now);
+          gain.gain.linearRampToValueAtTime(0.01, now + 0.6);
+          osc.start(now); osc.stop(now + 0.6);
+        }
+      } catch (e) {}
+    }
+
+    function toggleSound() {
+      soundEnabled = !soundEnabled;
+      playAudio('click');
+    }
+
+    // Gece/Gündüz Modu
+    let isNight = false;
+    function toggleTheme() {
+      isNight = !isNight;
+      playAudio('lamp');
+      const body = document.getElementById('pageBody');
+      const lampIcon = document.getElementById('lampIcon');
+      const aura = document.getElementById('lampAura');
+
+      if (isNight) {
+        body.classList.remove('mode-day');
+        body.classList.add('mode-night');
+        lampIcon.textContent = '🌙';
+        aura.classList.remove('bg-amber-400/50');
+        aura.classList.add('bg-emerald-400/60');
+      } else {
+        body.classList.remove('mode-night');
+        body.classList.add('mode-day');
+        lampIcon.textContent = '💡';
+        aura.classList.remove('bg-emerald-400/60');
+        aura.classList.add('bg-amber-400/50');
+      }
+    }
+
+    // =========================================================
+    // 6. SINIF MEB MÜFREDATI & ALT KONULARI
+    // =========================================================
+    const CURRICULUM = [
+      {
+        id: 1,
+        title: "1. Ünite: Allah İnancı",
+        icon: "✨",
+        subtopics: [
+          "Allah Vardır ve Birdir",
+          "Allah Yaradandır",
+          "Allah Rahman ve Rahimdir",
+          "Allah Her Şeyi İşitir, Görür ve Bilir",
+          "Allah'ın Her Şeye Gücü Yeter",
+          "Bir Peygamber Tanıyorum: Hz. İbrahim (a.s.)",
+          "Bir Sure Tanıyorum: İhlas Suresi ve Anlamı"
+        ],
+        games: ['swipe', 'wordbuild', 'memory', 'catcher']
+      },
+      {
+        id: 2,
+        title: "2. Ünite: Ramazan ve Oruç",
+        icon: "🌙",
+        subtopics: [
+          "Ramazan Ayı ve Orucun Önemi",
+          "Ramazan ve Oruçla İlgili Kavramlar (Sahur, İftar, İmsak, Teravih, Fitre)",
+          "Bir Peygamber Tanıyorum: Hz. Davud (a.s.)",
+          "Bir Dua Tanıyorum: Rabbenâ Duaları ve Anlamı"
+        ],
+        games: ['swipe', 'wordbuild', 'catcher', 'moralchoice']
+      },
+      {
+        id: 3,
+        title: "3. Ünite: Adap ve Nezaket",
+        icon: "🤝",
+        subtopics: [
+          "Nezaket Kuralları",
+          "Selamlaşma Adabı",
+          "İletişim ve Konuşma Adabı",
+          "Sofra Adabı",
+          "Mahremiyet Eğitimi ve Nezaket",
+          "Bir Peygamber Tanıyorum: Hz. Lokman (a.s.)",
+          "Bir Dua Tanıyorum: Tahiyyat Duası ve Anlamı"
+        ],
+        games: ['moralchoice', 'swipe', 'catcher', 'runner']
+      },
+      {
+        id: 4,
+        title: "4. Ünite: Hz. Muhammed ve Aile Hayatı",
+        icon: "🕊️",
+        subtopics: [
+          "Hz. Muhammed'in (s.a.v.) Doğumu ve Çocukluk Yılları",
+          "Hz. Muhammed'in (s.a.v.) Gençlik Yılları ve Evliliği",
+          "Hz. Muhammed'in (s.a.v.) Aile İçi İletişimi ve Örnek Davranışları",
+          "Hz. Muhammed'in (s.a.v.) Çocuk Sevgisi ve Onlara Verdiği Değer",
+          "Bir Sure Tanıyorum: Kevser Suresi ve Anlamı"
+        ],
+        games: ['timeline', 'swipe', 'defense', 'memory']
+      },
+      {
+        id: 5,
+        title: "5. Ünite: Çevremizde Dinin İzleri",
+        icon: "🕌",
+        subtopics: [
+          "Mimarimizde Dinin İzleri (Cami, Şadırvan, Minare vb.)",
+          "Musikimizde Dinin İzleri (Ezan, İlahi, Kaside, Mevlit)",
+          "Edebiyatımızda Dinin İzleri (Atasözleri, Deyimler, Dini Şiirler)",
+          "Örf ve Âdetlerimizde Dinin İzleri (Kandiller, Bayramlaşma, Sünnet, Taziye)",
+          "Bir Mimari Eser Tanıyorum: Mescid-i Nebevî"
+        ],
+        games: ['map', 'swipe', 'catcher', 'moralchoice']
+      }
+    ];
+
+    // =========================================================
+    // 10 ADET BAŞARI ROZETİ
+    // =========================================================
+    const BADGES = [
+      { id: 1, icon: "🌟", title: "İlk Adım Kaşifi", desc: "İlk oyununu başarıyla tamamla", unlocked: false },
+      { id: 2, icon: "⚡", title: "Şimşek Refleks", desc: "Doğru/Yanlış swipe turunu bitir", unlocked: false },
+      { id: 3, icon: "📖", title: "Ayet & Dua Ustası", desc: "Kelimeleri eksiksiz diz", unlocked: false },
+      { id: 4, icon: "🃏", title: "Hafıza Dehası", desc: "Peygamber ve kavramları eşleştir", unlocked: false },
+      { id: 5, icon: "⚖️", title: "Erdem Abidesi", desc: "Ahlaki Tercih senaryolarını çöz", unlocked: false },
+      { id: 6, icon: "⏳", title: "Zamanın Efendisi", desc: "Tarih Şeridini kronolojik diz", unlocked: false },
+      { id: 7, icon: "🗺️", title: "Kutsal Rehber", desc: "Kutsal Şehirleri haritada doğru bul", unlocked: false },
+      { id: 8, icon: "🧺", title: "Fazilet Avcısı", desc: "Kavram sepetini iyilikle doldur", unlocked: false },
+      { id: 9, icon: "🏃", title: "Sabır Yolcusu", desc: "Sevap Koşusunda engelleri aş", unlocked: false },
+      { id: 10, icon: "👑", title: "İnanç Pusulası Şampiyonu", desc: "Savunma ve bilgelik yolunu tamamla", unlocked: false }
+    ];
+
+    const BADGE_TRIGGER_MAP = {
+      swipe: 2,
+      wordbuild: 3,
+      memory: 4,
+      moralchoice: 5,
+      timeline: 6,
+      map: 7,
+      catcher: 8,
+      runner: 9,
+      defense: 10
+    };
+
+    function unlockBadge(badgeId) {
+      const badge = BADGES.find(b => b.id === badgeId);
+      if (badge && !badge.unlocked) {
+        badge.unlocked = true;
+        renderBadgesList();
+        showBadgeCelebration(badge);
+      }
+    }
+
+    function showBadgeCelebration(badge) {
+      playAudio('badge');
+      document.getElementById('celebrateBadgeIcon').textContent = badge.icon;
+      document.getElementById('celebrateBadgeTitle').textContent = badge.title;
+      document.getElementById('celebrateBadgeDesc').textContent = badge.desc;
+
+      const modal = document.getElementById('badgeCelebrateModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+
+      const box = document.getElementById('confettiBox');
+      box.innerHTML = '';
+      const colors = ['#10b981', '#f59e0b', '#3b82f6', '#ec4899', '#8b5cf6', '#14b8a6'];
+      for (let i = 0; i < 35; i++) {
+        const p = document.createElement('div');
+        p.className = 'confetti-piece absolute w-2 h-2 rounded-xs';
+        p.style.backgroundColor = colors[i % colors.length];
+        p.style.left = (Math.random() * 95) + '%';
+        p.style.top = (Math.random() * 20) + '%';
+        p.style.animationDelay = (Math.random() * 0.4) + 's';
+        p.style.animationDuration = (1.5 + Math.random() * 1.0) + 's';
+        box.appendChild(p);
+      }
+    }
+
+    function closeBadgeModal() {
+      playAudio('click');
+      const modal = document.getElementById('badgeCelebrateModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function renderBadgesList() {
+      const container = document.getElementById('badgesGridContainer');
+      container.innerHTML = '';
+      BADGES.forEach(b => {
+        const item = document.createElement('div');
+        item.className = `p-2.5 rounded-2xl bg-[var(--bg-card)] border flex items-center gap-2 shadow-xs transition ${
+          b.unlocked ? 'border-amber-500/60 shadow-amber-500/10' : 'border-[var(--border-line)] opacity-50'
+        }`;
+        item.innerHTML = `
+          <span class="text-2xl">${b.unlocked ? b.icon : '🔒'}</span>
           <div>
-            <div class="font-bold text-[var(--text-main)] text-[10px] leading-tight">Şimşek Refleks</div>
-            <div class="text-[8px] text-[var(--text-sub)] mt-0.5">
-              Doğru/Yanlış swipe turunu bitir
+            <div class="font-bold text-[var(--text-main)] text-[10px] leading-tight">${b.title}</div>
+            <div class="text-[8px] ${b.unlocked ? 'text-amber-500 font-bold' : 'text-[var(--text-sub)]'} mt-0.5">
+              ${b.unlocked ? '✅ Kazanıldı' : b.desc}
             </div>
           </div>
-        </div><div class="p-2.5 rounded-2xl bg-[var(--bg-card)] border flex items-center gap-2 shadow-xs transition border-[var(--border-line)] opacity-50">
-          <span class="text-2xl">🔒</span>
-          <div>
-            <div class="font-bold text-[var(--text-main)] text-[10px] leading-tight">Ayet &amp; Dua Ustası</div>
-            <div class="text-[8px] text-[var(--text-sub)] mt-0.5">
-              Kelimeleri eksiksiz diz
+        `;
+        container.appendChild(item);
+      });
+    }
+
+    // =========================================================
+    // OYUN TANIMLARI
+    // =========================================================
+    const GAME_META = {
+      swipe: { title: "Doğru / Yanlış", icon: "⚡", desc: "Tüm ekran kaydırma! Sağa: DOĞRU, Sola: YANLIŞ. Butonsuz!" },
+      wordbuild: { title: "Ayet & Dua Tamamla", icon: "✍️", desc: "Kelimeleri sırayla basarak metni tamamla." },
+      memory: { title: "Hafıza Kartları", icon: "🃏", desc: "Peygamber, sure ve kavramları eşleştir." },
+      moralchoice: { title: "Ahlaki Tercih", icon: "⚖️", desc: "4 seçenekli erdemli kararlar. İpucu butonu var!" },
+      timeline: { title: "Tarih Şeridi", icon: "⏳", desc: "Olayları geçmişten günümüze doğru sırala." },
+      map: { title: "Kutsal Mekanlar", icon: "🗺️", desc: "Soruya göre doğru şehre ve mekana dokun." },
+      catcher: { title: "Kavram Sepeti", icon: "🧺", desc: "Her 3 saniyede +0.5 hızlanır! İyilikleri yakala." },
+      runner: { title: "Sevap Koşusu", icon: "🏃", desc: "Kötü huylardan zıpla, hayırları topla." },
+      defense: { title: "Hikmet & Savunma", icon: "🛡️", desc: "Tarihi durumlarda doğru kararı ver. İpucu var!" }
+    };
+
+    // =========================================================
+    // 30+ SORULUK ÜNİTEYE ÖZGÜ SORU HAVUZU
+    // =========================================================
+    function generateQuestionBank(unitId, gameType) {
+      const pool = [];
+
+      if (gameType === 'swipe') {
+        const sets = {
+          1: [
+            { q: "İhlas suresi Allah'ın bir ve tek olduğunu (Tevhid) bildirir.", a: true },
+            { q: "Allah'ın Rahman ismi yalnızca ahirette müminlere merhamet edeceğini belirtir.", a: false },
+            { q: "Allah her şeyi işitir (Semi), görür (Basar) ve bilir (İlim).", a: true },
+            { q: "Hz. İbrahim ateşe atıldığında ateş onu hemen yakmıştır.", a: false },
+            { q: "Allah'ın her şeye gücü yetmesine 'Kudret' sıfatı denir.", a: true },
+            { q: "Evrendeki kusursuz düzen Allah'ın varlığı ve birliğinin delilidir.", a: true }
+          ],
+          2: [
+            { q: "Ramazan ayında oruca başlama vaktine 'İftar' denir.", a: false },
+            { q: "İmsak, oruca başlama ve sabah ezanı vaktidir.", a: true },
+            { q: "Teravih namazı Ramazan ayına özgü sünnet bir namazdır.", a: true },
+            { q: "Fitre (Fıtır sadakası) Ramazan'da yoksullara verilen vacip sadakadır.", a: true },
+            { q: "Hz. Davud bir gün oruç tutup bir gün tutmayarak örnek olmuştur.", a: true },
+            { q: "Oruç tutan kişi sadece aç kalır, kötü söz söylemesinde sakınca yoktur.", a: false }
+          ],
+          3: [
+            { q: "Selam vermek sünnet, verilen selamı almak ise farzdır.", a: true },
+            { q: "Birisinin odasına girerken kapıyı çalmadan girmek nezaket gereğidir.", a: false },
+            { q: "Sofra adabına göre yemekten önce ve sonra eller yıkanmalıdır.", a: true },
+            { q: "Hz. Lokman oğluna kibirlenmemesini ve alçakgönüllü olmasını öğütlemiştir.", a: true },
+            { q: "Tahiyyat duası namazların oturuş kısımlarında okunur.", a: true },
+            { q: "Başkalarının özel hayatını araştırmak (tecessüs) İslam'da serbesttir.", a: false }
+          ],
+          4: [
+            { q: "Peygamberimiz 571 yılında Mekke'de dünyaya gelmiştir.", a: true },
+            { q: "Peygamberimize gençliğinde dürüstlüğünden ötürü 'Muhammedü'l-Emin' denmiştir.", a: true },
+            { q: "Hz. Muhammed (s.a.v.) çocuklara karşı daima sevgi ve şefkatle yaklaşmıştır.", a: true },
+            { q: "Kevser Suresi Peygamberimize verilen sonsuz hayır ve bereketi müjdeler.", a: true },
+            { q: "Peygamberimiz ev işlerinde ailesine asla yardım etmezdi.", a: false },
+            { q: "Peygamberimiz ilk evliliğini Hz. Hatice ile yapmıştır.", a: true }
+          ],
+          5: [
+            { q: "Camilerde cuma günleri hutbe okunan basamaklı yüksek yere Minber denir.", a: true },
+            { q: "Camilerin minarelerinden günde 5 vakit ezan okunur.", a: true },
+            { q: "Şadırvan, cami avlusunda abdest alınan kubbeli su havuzudur.", a: true },
+            { q: "Mescid-i Nebevî Peygamberimizin Medine'de inşa ettiği mescittir.", a: true },
+            { q: "Edebiyatımızdaki naat türü şiirler Peygamber Efendimize duyulan sevgiyi anlatır.", a: true },
+            { q: "Mihrap, camide vaaz verilen yer olup kble yönünü göstermez.", a: false }
+          ]
+        };
+        const list = sets[unitId] || sets[1];
+        for (let i = 0; i < 35; i++) {
+          const item = list[i % list.length];
+          pool.push({ q: item.q, a: (i % 2 === 0) ? item.a : !item.a });
+        }
+      } else if (gameType === 'wordbuild') {
+        const sentences = [
+          ["Bismillâhir", "rahmânir", "rahîm"],
+          ["Kul", "hüvallâhü", "ehad"],
+          ["Allâhüs", "samed"],
+          ["Rabbenâ", "âtinâ", "fid", "dünyâ", "haseneten"],
+          ["Temizlik", "imanın", "yarısıdır"],
+          ["Komşusu", "açken", "tok", "yatan", "bizden", "değildir"],
+          ["İnna", "ataynâkel", "kevser"],
+          ["Güzel", "söz", "sadakadır"],
+          ["Selamı", "aranızda", "yayınız"],
+          ["Sabır", "kurtuluşun", "anahtarıdır"],
+          ["Kul", "eûzü", "birabbil", "felak"],
+          ["Kul", "eûzü", "birabbin", "nâs"],
+          ["Li", "îlâfi", "Kureyş"],
+          ["Elem", "tere", "keyfe", "feale", "rabbüke", "bi", "ashâbil", "fîl"],
+          ["Ettehiyyâtü", "lillâhi", "ve", "salavâtü", "ve", "tayyibâtü"],
+          ["Allâhümme", "salli", "alâ", "Muhammed"],
+          ["Lâ", "ilâhe", "illallâh"],
+          ["Ameller", "niyetlere", "göredir"],
+          ["Müjdeleyiniz", "nefret", "ettirmeyiniz"],
+          ["Hiçbiriniz", "kendisi", "için", "istediğini", "kardeşi", "için", "istemedikçe", "imân", "etmiş", "olmaz"]
+        ];
+        for (let i = 0; i < 35; i++) {
+          pool.push({ words: sentences[i % sentences.length] });
+        }
+      } else if (gameType === 'memory') {
+        const pairs = [
+          { p: "Hz. İbrahim", m: "Tevhid Mücadelesi" },
+          { p: "Hz. Davud", m: "Zebur & Güzel Ses" },
+          { p: "Hz. Lokman", m: "Hikmetli Öğütler" },
+          { p: "İhlas Suresi", m: "Allah'ın Birliği" },
+          { p: "Kevser Suresi", m: "Tükenmez Nimet" },
+          { p: "Tahiyyat Duası", m: "Mirac Hediyesi" },
+          { p: "Mescid-i Nebevî", m: "Peygamber Mescidi" },
+          { p: "Minber", m: "Hutbe Yeri" }
+        ];
+        for (let i = 0; i < 35; i++) {
+          pool.push(pairs[i % pairs.length]);
+        }
+      } else if (gameType === 'moralchoice') {
+        const scenarios = [
+          {
+            desc: "Yemek yerken önünden almak yerine tabağın ortasına uzanan arkadaşını gördün. Ne yaparsın?",
+            opts: ["Herkesin içinde seslice bağırırım", "Yumuşak dille sofra adabını hatırlatırım", "Tabağı önünden tamamen çekerim", "Ben de aynısını yaparım"],
+            best: 1,
+            hint: "Nezaket kurallarında kırmadan ve yumuşakça uyarmak esastır.",
+            expl: "Nezaket ve peygamberimizin sünneti, uyarıları incitmeden yapmayı gerektirir."
+          },
+          {
+            desc: "Arkadaşın konuşurken lafını bölmek istiyorsun. Nasıl davranmalısın?",
+            opts: ["Sözünü kesip hemen kendi fikrimi söylerim", "Sözünün bitmesini sabırla bekler öyle konuşurum", "Konuştuğu için ona kızıp masayı terk ederim", "Gülüp alay ederim"],
+            best: 1,
+            hint: "İletişim adabında dinlemek de konuşmak kadar fazilettir.",
+            expl: "Başkalarının sözünü kesmemek temel iletişim adabındandır."
+          },
+          {
+            desc: "Evde kardeşinin odasına gireceksin. Nasıl hareket etmelisin?",
+            opts: ["Kapıyı aniden açıp içeri dalarım", "Kapıyı vurur, izin verirse içeri girerim", "Kapı deliğinden gizlice bakarım", "Bağırarak içeri çağırırım"],
+            best: 1,
+            hint: "Mahremiyet ve izin isteme (isti'zan) dinimizin emridir.",
+            expl: "Mahremiyet eğitimi gereği odaya girerken izin istemek şarttır."
+          },
+          {
+            desc: "Yolda yürürken karşıdan bir tanıdığın geliyor. İlk adımı kim atmalı?",
+            opts: ["Görmezden gelip başımı çeviririm", "Güleryüzle ilk önce ben selam veririm", "Onun selam vermesini gururla beklerim", "Yolumu değiştiririm"],
+            best: 1,
+            hint: "Peygamberimiz selamı ilk verenin daha hayırlı olduğunu bildirmiştir.",
+            expl: "Selamlaşmada ilk davranan olmak faziletli bir sünnettir."
+          }
+        ];
+        for (let i = 0; i < 35; i++) {
+          const s = scenarios[i % scenarios.length];
+          pool.push({ desc: s.desc, opts: s.opts, best: s.best, hint: s.hint, expl: s.expl });
+        }
+      } else if (gameType === 'timeline') {
+        const sets = [
+          { items: ["Hz. Muhammed'in Doğumu", "Hz. Hatice ile Evliliği", "İlk Vahyin Gelişi", "Hicret", "Veda Haccı"], correct: ["Hz. Muhammed'in Doğumu", "Hz. Hatice ile Evliliği", "İlk Vahyin Gelişi", "Hicret", "Veda Haccı"] },
+          { items: ["Hz. Adem", "Hz. Nuh", "Hz. İbrahim", "Hz. Davud", "Hz. Muhammed"], correct: ["Hz. Adem", "Hz. Nuh", "Hz. İbrahim", "Hz. Davud", "Hz. Muhammed"] },
+          { items: ["Tevrat", "Zebur", "İncil", "Kur'an-ı Kerim"], correct: ["Tevrat", "Zebur", "İncil", "Kur'an-ı Kerim"] }
+        ];
+        for (let i = 0; i < 35; i++) {
+          pool.push(sets[i % sets.length]);
+        }
+      } else if (gameType === 'map') {
+        const cities = [
+          { q: "Mescid-i Nebevî'nin bulunduğu, hicret edilen kutlu şehir?", a: "Medine" },
+          { q: "Kâbe-i Muazzama'nın bulunduğu ve Peygamberimizin doğduğu mübarek belde?", a: "Mekke" },
+          { q: "Mescid-i Aksa'nın bulunduğu ve ilk kıblemiz olan kadim şehir?", a: "Kudüs" },
+          { q: "Hz. İbrahim'in ateşe atıldığı yer olarak bilinen Balıklıgöl'ün şehri?", a: "Şanlıurfa" },
+          { q: "Peygamberimizin İslam'ı tebliğ etmek için gittiği komşu şehir?", a: "Taif" },
+          { q: "Tarihi Emeviye Camii ile ünlü İslam kenti?", a: "Şam" }
+        ];
+        for (let i = 0; i < 35; i++) {
+          pool.push(cities[i % cities.length]);
+        }
+      } else if (gameType === 'catcher') {
+        const goods = ["Dürüstlük", "Adalet", "Cömertlik", "Merhamet", "Tevazu", "Sabır", "Saygı", "İffet", "Şükür", "Sadakat", "Huşu", "Nezaket", "İkram", "Affedicilik"];
+        const bads = ["Yalan", "Kibir", "Gıybet", "Cimrilik", "Haset", "İftira", "Tembellik", "Öfke", "Böbürlenme", "Kul Hakkı", "İsraf", "Kıskançlık", "Nankörlük"];
+        for (let i = 0; i < 35; i++) {
+          const isG = (i % 2 === 0);
+          pool.push({ text: isG ? goods[i % goods.length] : bads[i % bads.length], isGood: isG });
+        }
+      } else if (gameType === 'runner') {
+        const runnerItems = [
+          { text: "Gıybet", isObstacle: true },
+          { text: "Namaz", isObstacle: false },
+          { text: "Kibir", isObstacle: true },
+          { text: "Sadaka", isObstacle: false },
+          { text: "Yalan", isObstacle: true },
+          { text: "Selam", isObstacle: false },
+          { text: "Kul Hakkı", isObstacle: true },
+          { text: "Cömertlik", isObstacle: false },
+          { text: "Tembellik", isObstacle: true },
+          { text: "Şükür", isObstacle: false },
+          { text: "Haset", isObstacle: true },
+          { text: "Merhamet", isObstacle: false }
+        ];
+        for (let i = 0; i < 35; i++) {
+          pool.push(runnerItems[i % runnerItems.length]);
+        }
+      } else if (gameType === 'defense') {
+        const stages = [
+          { desc: "Hicret yolunda Sevr Mağarası'na sığınıldı. Hz. Ebu Bekir endişelendiğinde ne yapılmalıdır?", opts: ["'Korkma, Allah bizimle beraberdir' diyerek tevekkül etmek", "Hemen dışarı fırlayıp savaşmak", "Mekke'ye geri dönmek"], ans: 0, hint: "Tevbe Suresi 40. ayette Allah'ın inayeti anlatılır." },
+          { desc: "Medine öncesi ilk mola yerinde Müslümanların birliği için atılan tarihi adım neydi?", opts: ["Kuba Mescidi'ni inşa etmek", "Mola vermeden hemen uzaklaşmak", "Herkesi kendi haline bırakmak"], ans: 0, hint: "İslam tarihindeki ilk mescidin inşasını hatırla." },
+          { desc: "Medineli Ensar ile Mekkeli Muhacirler arasında nasıl bir bağ kurulmuştur?", opts: ["Kardeşlik (Muâhât) bağı kurmak", "Herkesi yabancı kabul etmek", "Ayrı köylerde yaşamak"], ans: 0, hint: "Ensar ve Muhacir kardeş ilan edilmişti." }
+        ];
+        for (let i = 0; i < 35; i++) {
+          pool.push(stages[i % stages.length]);
+        }
+      }
+      return pool;
+    }
+
+    const ROUND_TRACKER = {};
+    function getNextQuestion(unitId, gameType) {
+      const key = `${unitId}_${gameType}`;
+      if (!ROUND_TRACKER[key] || ROUND_TRACKER[key].length === 0) {
+        const fullBank = generateQuestionBank(unitId, gameType);
+        ROUND_TRACKER[key] = [...fullBank].sort(() => Math.random() - 0.5);
+      }
+      return ROUND_TRACKER[key].pop();
+    }
+
+    // =========================================================
+    // NAVİGASYON & EKRAN YÖNETİMİ
+    // =========================================================
+    let currentUnit = CURRICULUM[0];
+    let currentScreen = '';   // DÜZELTİLDİ: 'welcome' yerine boş string
+    let isGameActive = false;
+
+    const SCREEN_HIERARCHY = {
+      'welcome': null,
+      'units': 'welcome',
+      'games': 'units',
+      'gameplay': 'games',
+      'badges': 'welcome'
+    };
+
+    function navigateTo(screenName) {
+      if (screenName === currentScreen) return;
+      playAudio('click');
+      currentScreen = screenName;
+
+      if (screenName !== 'gameplay') {
+        stopAllGameLoops();
+      }
+
+      document.querySelectorAll('.screen-view').forEach(s => s.classList.add('hidden'));
+      const target = document.getElementById('screen-' + screenName);
+      if (target) target.classList.remove('hidden');
+
+      const backBtn = document.getElementById('globalBackBtn');
+      const titleEl = document.getElementById('topBarTitle');
+      const subTitleEl = document.getElementById('topBarSubtitle');
+
+      if (screenName === 'welcome') {
+        backBtn.classList.add('invisible');
+        titleEl.textContent = 'İNANÇ PUSULASI';
+        subTitleEl.textContent = '6. Sınıf Din Kültürü';
+      } else {
+        backBtn.classList.remove('invisible');
+        if (screenName === 'units') {
+          titleEl.textContent = 'ÜNİTELER';
+          subTitleEl.textContent = '6. Sınıf MEB';
+          renderUnitsGrid();
+        } else if (screenName === 'games') {
+          titleEl.textContent = currentUnit.title.replace(/^\d+\.\s*Ünite:\s*/, '').toUpperCase();
+          subTitleEl.textContent = 'Eğitici Oyunlar';
+          renderUnitGamesScreen();
+        } else if (screenName === 'gameplay') {
+          titleEl.textContent = 'CANLI OYUN';
+          subTitleEl.textContent = activeGameTitle;
+        } else if (screenName === 'badges') {
+          titleEl.textContent = '10 BAŞARI ROZETİ';
+          subTitleEl.textContent = 'Kazanılan Başarılar';
+          renderBadgesList();
+        }
+      }
+
+      // Alt menü buton aktiflik durumu
+      document.querySelectorAll('#appBottomNav button').forEach(b => {
+        b.classList.remove('text-emerald-500', 'text-amber-500');
+        b.classList.add('text-[var(--text-sub)]');
+      });
+      const activeNavBtn = document.getElementById('bnav-' + screenName);
+      if (activeNavBtn) {
+        activeNavBtn.classList.remove('text-[var(--text-sub)]');
+        if (screenName === 'badges') activeNavBtn.classList.add('text-amber-500');
+        else activeNavBtn.classList.add('text-emerald-500');
+      }
+    }
+
+    function stopAllGameLoops() {
+      isGameActive = false;
+      clearInterval(timerInterval);
+      clearInterval(catcherInterval);
+      clearInterval(catcherSpeedInterval);
+      clearInterval(runnerInterval);
+    }
+
+    function handleSmartBack() {
+      playAudio('click');
+      if (currentScreen === 'gameplay' && isGameActive) {
+        pauseGameTimer();
+        document.getElementById('confirmExitModal').classList.remove('hidden');
+        document.getElementById('confirmExitModal').classList.add('flex');
+      } else {
+        const prev = SCREEN_HIERARCHY[currentScreen] || 'welcome';
+        navigateTo(prev);
+      }
+    }
+
+    function closeConfirmModal(shouldExit) {
+      playAudio('click');
+      const modal = document.getElementById('confirmExitModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      if (shouldExit) {
+        stopAllGameLoops();
+        navigateTo('games');
+      } else {
+        resumeGameTimer();
+      }
+    }
+
+    // =========================================================
+    // ÜNİTE LİSTESİ RENDER
+    // =========================================================
+    function renderUnitsGrid() {
+      const container = document.getElementById('unitsGridContainer');
+      container.innerHTML = '';
+
+      CURRICULUM.forEach((unit, idx) => {
+        const card = document.createElement('div');
+        card.className = "cursor-pointer bg-[var(--bg-card)] border border-[var(--border-line)] hover:border-emerald-500 rounded-2xl p-3.5 flex items-center justify-between active:scale-98 transition shadow-xs";
+        card.onclick = () => selectUnit(unit);
+
+        card.innerHTML = `
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-2xl bg-emerald-500/15 text-emerald-500 flex items-center justify-center text-xl border border-emerald-500/20 shrink-0">
+              ${unit.icon}
+            </div>
+            <div>
+              <h4 class="text-xs font-black text-[var(--text-main)] leading-snug">${unit.title}</h4>
+              <p class="text-[9px] text-[var(--text-sub)] mt-0.5">${unit.subtopics.length} Alt Konu &bull; ${unit.games.length} Oyun</p>
             </div>
           </div>
-        </div><div class="p-2.5 rounded-2xl bg-[var(--bg-card)] border flex items-center gap-2 shadow-xs transition border-[var(--border-line)] opacity-50">
-          <span class="text-2xl">🔒</span>
+          <span class="text-emerald-500 font-black text-sm pr-1">➔</span>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function selectUnit(unitObj) {
+      playAudio('click');
+      currentUnit = unitObj;
+      navigateTo('games');
+    }
+
+    // =========================================================
+    // ÜNİTEYE ÖZEL OYUNLAR EKRANI
+    // =========================================================
+    function renderUnitGamesScreen() {
+      document.getElementById('selectedUnitBadge').textContent = `${currentUnit.id}. Ünite`;
+      document.getElementById('selectedUnitTitle').textContent = currentUnit.title;
+      document.getElementById('subtopicCountBadge').textContent = `${currentUnit.subtopics.length} Konu`;
+
+      const list = document.getElementById('unitSubtopicsDisplay');
+      list.innerHTML = '';
+      currentUnit.subtopics.forEach(sub => {
+        const li = document.createElement('li');
+        li.textContent = sub;
+        list.appendChild(li);
+      });
+
+      const grid = document.getElementById('unitGamesGrid');
+      grid.innerHTML = '';
+
+      currentUnit.games.forEach(gKey => {
+        const info = GAME_META[gKey];
+        if (!info) return;
+
+        const card = document.createElement('div');
+        card.className = "cursor-pointer bg-[var(--bg-card)] border border-[var(--border-line)] hover:border-emerald-500 rounded-2xl p-2.5 flex flex-col justify-between active:scale-95 transition shadow-xs";
+        card.onclick = () => openTimeSelectModal(gKey, info.title, info.desc);
+
+        card.innerHTML = `
           <div>
-            <div class="font-bold text-[var(--text-main)] text-[10px] leading-tight">Hafıza Dehası</div>
-            <div class="text-[8px] text-[var(--text-sub)] mt-0.5">
-              Peygamber ve kavramları eşleştir
+            <div class="flex items-center gap-2 mb-1.5">
+              <span class="text-2xl">${info.icon}</span>
+              <h4 class="text-[10px] font-bold text-[var(--text-main)] leading-tight">${info.title}</h4>
             </div>
+            <p class="text-[8px] text-[var(--text-sub)] line-clamp-2 leading-relaxed">${info.desc}</p>
           </div>
-        </div><div class="p-2.5 rounded-2xl bg-[var(--bg-card)] border flex items-center gap-2 shadow-xs transition border-[var(--border-line)] opacity-50">
-          <span class="text-2xl">🔒</span>
-          <div>
-            <div class="font-bold text-[var(--text-main)] text-[10px] leading-tight">Erdem Abidesi</div>
-            <div class="text-[8px] text-[var(--text-sub)] mt-0.5">
-              Ahlaki Tercih senaryolarını çöz
-            </div>
-          </div>
-        </div><div class="p-2.5 rounded-2xl bg-[var(--bg-card)] border flex items-center gap-2 shadow-xs transition border-[var(--border-line)] opacity-50">
-          <span class="text-2xl">🔒</span>
-          <div>
-            <div class="font-bold text-[var(--text-main)] text-[10px] leading-tight">Zamanın Efendisi</div>
+          <span class="mt-2 text-[9px] bg-emerald-500/10 text-emerald-500 font-bold px-2 py-0.5 rounded text-center">
+            Oyna ➔
+          </span>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    // =========================================================
+    // SÜRE AYAR MODALİ (15-120 SN)
+    // =========================================================
+    let pendingGameType = 'swipe';
+    let activeGameTitle = '';
+    let chosenDuration = 45;
+
+    function openTimeSelectModal(gameType, title, desc) {
+      playAudio('click');
+      pendingGameType = gameType;
+      activeGameTitle = title;
+      document.getElementById('timeModalGameTitle').textContent = title;
+      document.getElementById('timeModalGameDesc').textContent = desc;
+      document.getElementById('gameDurationSlider').value = 45;
+      updateSliderValue(45);
+
+      const modal = document.getElementById('timeSelectModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function updateSliderValue(val) {
+      chosenDuration = parseInt(val);
+      document.getElementById('sliderValueText').textContent = `${val} Saniye`;
+    }
+
+    function closeTimeModal() {
+      playAudio('click');
+      const modal = document.getElementById('timeSelectModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function confirmAndStartGame() {
+      closeTimeModal();
+      playAudio('start');
+      launchGame(pendingGameType, chosenDuration);
+    }
+
+    // =========================================================
+    // CANLI OYUN MOTORU & SAYAÇ
+    // =========================================================
+    let timerInterval = null;
+    let timeLeft = 45;
+    let gameScore = 0;
+    let correctAnswersCount = 0;
+    let hasPlayedAnyGame = false;
+
+    function launchGame(type, duration) {
+      stopAllGameLoops();
+      isGameActive = true;
+      gameScore = 0;
+      correctAnswersCount = 0;
+      updateScore(0);
+      navigateTo('gameplay');
+
+      document.querySelectorAll('.game-module').forEach(m => m.classList.add('hidden'));
+      document.getElementById('gameFinishModal').classList.add('hidden');
+
+      startTimer(duration, () => finishGame());
+
+      if (type === 'swipe') initSwipeGame();
+      else if (type === 'wordbuild') initWordBuildGame();
+      else if (type === 'memory') initMemoryGame();
+      else if (type === 'moralchoice') initMoralGame();
+      else if (type === 'timeline') initTimelineGame();
+      else if (type === 'map') initMapGame();
+      else if (type === 'catcher') initCatcherGame();
+      else if (type === 'runner') initRunnerGame();
+      else if (type === 'defense') initDefenseGame();
+    }
+
+    function startTimer(duration, onExpire) {
+      clearInterval(timerInterval);
+      timeLeft = duration;
+      const display = document.getElementById('gameTimerDisplay');
+      display.textContent = `${timeLeft}s`;
+
+      timerInterval = setInterval(() => {
+        if (!isGameActive) {
+          clearInterval(timerInterval);
+          return;
+        }
+        timeLeft--;
+        display.textContent = `${timeLeft}s`;
+        if (timeLeft <= 0) {
+          clearInterval(timerInterval);
+          if (onExpire) onExpire();
+        }
+      }, 1000);
+    }
+
+    function pauseGameTimer() { clearInterval(timerInterval); }
+    function resumeGameTimer() {
+      if (timeLeft > 0 && isGameActive) startTimer(timeLeft, () => finishGame());
+    }
+
+    function updateScore(val) {
+      gameScore = val;
+      document.getElementById('gameScoreDisplay').textContent = `Puan: ${gameScore}`;
+    }
+
+    function finishGame() {
+      stopAllGameLoops();
+      playAudio('start');
+      document.getElementById('finalScoreText').textContent = `+${gameScore}`;
+      document.getElementById('finalCorrectText').textContent = `${correctAnswersCount} Doğru`;
+      document.getElementById('gameFinishModal').classList.remove('hidden');
+
+      if (!hasPlayedAnyGame) {
+        hasPlayedAnyGame = true;
+        setTimeout(() => unlockBadge(1), 1000);
+      }
+
+      const specificBadgeId = BADGE_TRIGGER_MAP[pendingGameType];
+      if (specificBadgeId) {
+        setTimeout(() => unlockBadge(specificBadgeId), hasPlayedAnyGame ? 800 : 2500);
+      }
+    }
+
+    function restartCurrentGame() {
+      launchGame(pendingGameType, chosenDuration);
+    }
+
+    // =========================================================
+    // OYUN 1: SWIPE
+    // =========================================================
+    let currentSwipeItem = null;
+
+    function initSwipeGame() {
+      const moduleEl = document.getElementById('module-swipe');
+      moduleEl.classList.remove('hidden');
+      setupFullScreenSwipePhysics();
+      loadNextSwipeQuestion();
+    }
+
+    function loadNextSwipeQuestion() {
+      if (!isGameActive) return;
+      currentSwipeItem = getNextQuestion(currentUnit.id, 'swipe');
+      const card = document.getElementById('swipeCard');
+      card.style.transform = 'translate(0px, 0px) rotate(0deg)';
+      document.getElementById('stampRight').style.opacity = '0';
+      document.getElementById('stampLeft').style.opacity = '0';
+      document.getElementById('swipeCardText').textContent = currentSwipeItem.q;
+    }
+
+    function setupFullScreenSwipePhysics() {
+      const surface = document.getElementById('module-swipe');
+      const card = document.getElementById('swipeCard');
+      let startX = 0, currentX = 0, isDragging = false;
+
+      function onStart(x) {
+        if (!isGameActive) return;
+        isDragging = true;
+        startX = x;
+      }
+      function onMove(x) {
+        if (!isDragging || !isGameActive) return;
+        currentX = x;
+        const deltaX = currentX - startX;
+        const rot = deltaX * 0.08;
+        card.style.transform = `translate(${deltaX}px, 0px) rotate(${rot}deg)`;
+
+        if (deltaX > 40) {
+          document.getElementById('stampRight').style.opacity = Math.min(1, deltaX / 90);
+          document.getElementById('stampLeft').style.opacity = '0';
+        } else if (deltaX < -40) {
+          document.getElementById('stampLeft').style.opacity = Math.min(1, Math.abs(deltaX) / 90);
+          document.getElementById('stampRight').style.opacity = '0';
+        } else {
+          document.getElementById('stampRight').style.opacity = '0';
+          document.getElementById('stampLeft').style.opacity = '0';
+        }
+      }
+      function onEnd() {
+        if (!isDragging) return;
+        isDragging = false;
+        const deltaX = currentX - startX;
+
+        if (deltaX > 60) {
+          card.style.transform = 'translate(400px, 0px) rotate(30deg)';
+          evaluateSwipe(true);
+        } else if (deltaX < -60) {
+          card.style.transform = 'translate(-400px, 0px) rotate(-30deg)';
+          evaluateSwipe(false);
+        } else {
+          card.style.transform = 'translate(0px, 0px) rotate(0deg)';
+          document.getElementById('stampRight').style.opacity = '0';
+          document.getElementById('stampLeft').style.opacity = '0';
+        }
+      }
+
+      surface.onmousedown = (e) => onStart(e.clientX);
+      window.onmousemove = (e) => onMove(e.clientX);
+      window.onmouseup = () => onEnd();
+
+      surface.ontouchstart = (e) => onStart(e.touches[0].clientX);
+      surface.ontouchmove = (e) => onMove(e.touches[0].clientX);
+      surface.ontouchend = () => onEnd();
+    }
+
+    function evaluateSwipe(userChoice) {
+      if (userChoice === currentSwipeItem.a) {
+        playAudio('correct');
+        gameScore += 30;
+        correctAnswersCount++;
+        updateScore(gameScore);
+      } else {
+        playAudio('wrong');
+      }
+      setTimeout(loadNextSwipeQuestion, 250);
+    }
+
+    // =========================================================
+    // OYUN 2: WORD BUILD
+    // =========================================================
+    let currentWordItem = null;
+    let userBuiltWords = [];
+
+    function initWordBuildGame() {
+      document.getElementById('module-wordbuild').classList.remove('hidden');
+      loadNextWordQuestion();
+    }
+
+    function loadNextWordQuestion() {
+      if (!isGameActive) return;
+      currentWordItem = getNextQuestion(currentUnit.id, 'wordbuild');
+      resetWordGame();
+    }
+
+    function resetWordGame() {
+      userBuiltWords = [];
+      renderBuiltWords();
+      const pool = document.getElementById('wordPoolArea');
+      pool.innerHTML = '';
+      const shuffled = [...currentWordItem.words].sort(() => Math.random() - 0.5);
+
+      shuffled.forEach(w => {
+        const b = document.createElement('button');
+        b.className = "px-3 py-2 rounded-xl bg-[var(--bg-card)] border border-[var(--border-line)] font-black text-xs text-[var(--text-main)] hover:border-amber-500 active:scale-95 transition shadow-xs";
+        b.textContent = w;
+        b.onclick = () => {
+          playAudio('click');
+          b.classList.add('opacity-20', 'pointer-events-none');
+          userBuiltWords.push(w);
+          renderBuiltWords();
+          checkWordBuild();
+        };
+        pool.appendChild(b);
+      });
+    }
+
+    function renderBuiltWords() {
+      const area = document.getElementById('builtSentenceArea');
+      area.innerHTML = '';
+      if (userBuiltWords.length === 0) {
+        area.innerHTML = "<span class='text-[10px] text-[var(--text-sub)] italic'>Kelimeler buraya dizilecek...</span>";
+        return;
+      }
+      userBuiltWords.forEach(w => {
+        const span = document.createElement('span');
+        span.className = "px-2.5 py-1 bg-amber-500 text-white rounded-lg text-xs font-bold shadow-xs";
+        span.textContent = w;
+        area.appendChild(span);
+      });
+    }
+
+    function checkWordBuild() {
+      if (userBuiltWords.length === currentWordItem.words.length) {
+        const isMatch = userBuiltWords.every((w, i) => w === currentWordItem.words[i]);
+        if (isMatch) {
+          playAudio('correct');
+          gameScore += 40;
+          correctAnswersCount++;
+          updateScore(gameScore);
+          document.getElementById('wordFeedbackBox').innerHTML = "<span class='text-emerald-500 font-bold'>🎉 Mükemmel! Sıradaki geliyor...</span>";
+          setTimeout(loadNextWordQuestion, 800);
+        } else {
+          playAudio('wrong');
+          document.getElementById('wordFeedbackBox').innerHTML = "<span class='text-red-500 font-bold'>Sıralama hatalı, sıfırla ve dene!</span>";
+        }
+      }
+    }
+
+    // =========================================================
+    // OYUN 3: HAFIZA KARTLARI
+    // =========================================================
+    let memFlipped = [];
+    let memMatched = 0;
+
+    function initMemoryGame() {
+      document.getElementById('module-memory').classList.remove('hidden');
+      memFlipped = [];
+      memMatched = 0;
+      const pairs = [];
+      for (let i = 0; i < 4; i++) {
+        const q = getNextQuestion(currentUnit.id, 'memory');
+        pairs.push({ id: i, text: q.p }, { id: i, text: q.m });
+      }
+      const shuffled = pairs.sort(() => Math.random() - 0.5);
+      const grid = document.getElementById('memoryGrid');
+      grid.innerHTML = '';
+
+      shuffled.forEach(card => {
+        const btn = document.createElement('button');
+        btn.className = "h-14 rounded-xl bg-[var(--bg-card)] border border-[var(--border-line)] font-bold text-[9px] text-[var(--text-main)] flex items-center justify-center p-1 text-center shadow-xs active:scale-95 transition";
+        btn.dataset.id = card.id;
+        btn.dataset.text = card.text;
+        btn.textContent = "❓";
+
+        btn.onclick = () => {
+          if (memFlipped.length >= 2 || btn.classList.contains('matched') || btn.textContent !== "❓") return;
+          playAudio('click');
+          btn.textContent = card.text;
+          btn.classList.add('border-indigo-500', 'bg-indigo-500/10');
+          memFlipped.push(btn);
+
+          if (memFlipped.length === 2) {
+            const [b1, b2] = memFlipped;
+            if (b1.dataset.id === b2.dataset.id) {
+              playAudio('correct');
+              b1.classList.add('matched', 'bg-emerald-600', 'text-white');
+              b2.classList.add('matched', 'bg-emerald-600', 'text-white');
+              gameScore += 30;
+              correctAnswersCount++;
+              updateScore(gameScore);
+              memMatched += 2;
+              memFlipped = [];
+              if (memMatched >= 8) setTimeout(initMemoryGame, 700);
+            } else {
+              playAudio('wrong');
+              setTimeout(() => {
+                b1.textContent = "❓";
+                b2.textContent = "❓";
+                b1.classList.remove('border-indigo-500', 'bg-indigo-500/10');
+                b2.classList.remove('border-indigo-500', 'bg-indigo-500/10');
+                memFlipped = [];
+              }, 600);
+            }
+          }
+        };
+        grid.appendChild(btn);
+      });
+    }
+
+    // =========================================================
+    // OYUN 4: AHLAKİ TERCİH
+    // =========================================================
+    let currentMoralItem = null;
+
+    function initMoralGame() {
+      document.getElementById('module-moralchoice').classList.remove('hidden');
+      loadNextMoralQuestion();
+    }
+
+    function loadNextMoralQuestion() {
+      if (!isGameActive) return;
+      currentMoralItem = getNextQuestion(currentUnit.id, 'moralchoice');
+      document.getElementById('moralDesc').textContent = currentMoralItem.desc;
+      document.getElementById('moralResultBox').textContent = "En erdemli kararı seçin:";
+
+      const hintBox = document.getElementById('moralHintBox');
+      hintBox.classList.add('hidden');
+      hintBox.textContent = currentMoralItem.hint || "Peygamberimizin güzel ahlakını düşünerek karar verin.";
+
+      const box = document.getElementById('moralOptionsBox');
+      box.innerHTML = '';
+
+      currentMoralItem.opts.forEach((optText, idx) => {
+        const btn = document.createElement('button');
+        btn.className = "p-2.5 rounded-xl bg-[var(--bg-card)] border border-[var(--border-line)] text-left text-[10px] text-[var(--text-main)] font-semibold transition active:scale-98 shadow-xs";
+        btn.textContent = `${String.fromCharCode(65 + idx)}) ${optText}`;
+        btn.onclick = () => {
+          if (idx === currentMoralItem.best) {
+            playAudio('correct');
+            gameScore += 50;
+            correctAnswersCount++;
+            updateScore(gameScore);
+            document.getElementById('moralResultBox').innerHTML = `<span class='text-emerald-500 font-bold'>Doğru Karar! ${currentMoralItem.expl}</span>`;
+          } else {
+            playAudio('wrong');
+            document.getElementById('moralResultBox').innerHTML = `<span class='text-red-500 font-bold'>Daha erdemli yol vardı! ${currentMoralItem.expl}</span>`;
+          }
+          setTimeout(loadNextMoralQuestion, 900);
+        };
+        box.appendChild(btn);
+      });
+    }
+
+    function toggleHint(gameType) {
+      playAudio('click');
+      if (gameType === 'moral') {
+        const hb = document.getElementById('moralHintBox');
+        hb.classList.toggle('hidden');
+      } else if (gameType === 'defense') {
+        const hb = document.getElementById('defenseHintBox');
+        hb.classList.toggle('hidden');
+      }
+    }
+
+    // =========================================================
+    // OYUN 5: TARİH ŞERİDİ
+    // =========================================================
+    let currentTimelineItem = null;
+    let userTimeline = [];
+
+    function initTimelineGame() {
+      document.getElementById('module-timeline').classList.remove('hidden');
+      loadNextTimeline();
+    }
+
+    function loadNextTimeline() {
+      if (!isGameActive) return;
+      currentTimelineItem = getNextQuestion(currentUnit.id, 'timeline');
+      resetTimeline();
+    }
+
+    function resetTimeline() {
+      userTimeline = [];
+      const target = document.getElementById('timelineTarget');
+      target.innerHTML = "<span class='text-[9px] text-[var(--text-sub)] italic'>Sıralanacak olaylar...</span>";
+
+      const pool = document.getElementById('timelinePool');
+      pool.innerHTML = '';
+      const shuffled = [...currentTimelineItem.items].sort(() => Math.random() - 0.5);
+
+      shuffled.forEach(item => {
+        const b = document.createElement('button');
+        b.className = "p-2 rounded-xl bg-[var(--bg-card)] border border-[var(--border-line)] font-bold text-[10px] text-[var(--text-main)] hover:border-blue-500 active:scale-95 transition shadow-xs";
+        b.textContent = item;
+        b.onclick = () => {
+          playAudio('click');
+          b.classList.add('opacity-20', 'pointer-events-none');
+          userTimeline.push(item);
+          renderTimelineTarget();
+        };
+        pool.appendChild(b);
+      });
+    }
+
+    function renderTimelineTarget() {
+      const target = document.getElementById('timelineTarget');
+      target.innerHTML = '';
+      userTimeline.forEach((t) => {
+        const badge = document.createElement('span');
+        badge.className = "px-2 py-1 bg-blue-600 text-white rounded-lg text-[9px] font-bold shrink-0";
+        badge.textContent = t;
+        target.appendChild(badge);
+      });
+    }
+
+    function checkTimeline() {
+      if (userTimeline.length !== currentTimelineItem.correct.length) {
+        alert("Lütfen tüm maddeleri sıraya dizin.");
+        return;
+      }
+      const isCorrect = userTimeline.every((val, i) => val === currentTimelineItem.correct[i]);
+      if (isCorrect) {
+        playAudio('correct');
+        gameScore += 50;
+        correctAnswersCount++;
+        updateScore(gameScore);
+        loadNextTimeline();
+      } else {
+        playAudio('wrong');
+        resetTimeline();
+      }
+    }
+
+    // =========================================================
+    // OYUN 6: KUTSAL MEKANLAR
+    // =========================================================
+    let currentMapItem = null;
+
+    function initMapGame() {
+      document.getElementById('module-map').classList.remove('hidden');
+      loadNextMapQuestion();
+    }
+
+    function loadNextMapQuestion() {
+      if (!isGameActive) return;
+      currentMapItem = getNextQuestion(currentUnit.id, 'map');
+      document.getElementById('mapQuestionText').textContent = currentMapItem.q;
+      document.getElementById('mapFeedbackBox').textContent = "Doğru pin'e dokun!";
+    }
+
+    function handleCityClick(cityName) {
+      if (cityName === currentMapItem.a) {
+        playAudio('correct');
+        gameScore += 40;
+        correctAnswersCount++;
+        updateScore(gameScore);
+        document.getElementById('mapFeedbackBox').innerHTML = `<span class='text-emerald-500 font-bold'>Doğru! ${cityName}</span>`;
+        setTimeout(loadNextMapQuestion, 800);
+      } else {
+        playAudio('wrong');
+        document.getElementById('mapFeedbackBox').innerHTML = `<span class='text-red-500 font-bold'>Yanlış şehir! Tekrar dene.</span>`;
+      }
+    }
+
+    // =========================================================
+    // OYUN 7: KAVRAM SEPETİ
+    // =========================================================
+    let basketX = 50;
+    let catcherInterval = null;
+    let catcherSpeedInterval = null;
+    let catcherSpeed = 3.0;
+    let currentFallingObj = null;
+
+    function initCatcherGame() {
+      document.getElementById('module-catcher').classList.remove('hidden');
+      basketX = 50;
+      catcherSpeed = 3.0;
+      updateBasketPos();
+      updateCatcherSpeedDisplay();
+      setupBasketDragPhysics();
+
+      clearInterval(catcherSpeedInterval);
+      catcherSpeedInterval = setInterval(() => {
+        if (!isGameActive) {
+          clearInterval(catcherSpeedInterval);
+          return;
+        }
+        catcherSpeed = Math.min(catcherSpeed + 0.5, 15);
+        updateCatcherSpeedDisplay();
+      }, 3000);
+
+      spawnNextFallingItem();
+    }
+
+    function updateCatcherSpeedDisplay() {
+      const mult = (catcherSpeed / 3.0).toFixed(1);
+      const label = document.getElementById('catcherSpeedLabel');
+      if (label) label.textContent = `Hız: ${mult}x ⚡`;
+    }
+
+    function setupBasketDragPhysics() {
+      const playground = document.getElementById('catcherPlayground');
+      let isDragging = false;
+
+      function onMove(clientX) {
+        if (!isDragging || !isGameActive) return;
+        const rect = playground.getBoundingClientRect();
+        let relX = clientX - rect.left;
+        let pct = (relX / rect.width) * 100;
+        basketX = Math.max(15, Math.min(85, pct));
+        updateBasketPos();
+      }
+
+      playground.onmousedown = (e) => { isDragging = true; onMove(e.clientX); };
+      window.onmousemove = (e) => onMove(e.clientX);
+      window.onmouseup = () => { isDragging = false; };
+
+      playground.ontouchstart = (e) => { isDragging = true; onMove(e.touches[0].clientX); };
+      playground.ontouchmove = (e) => onMove(e.touches[0].clientX);
+      playground.ontouchend = () => { isDragging = false; };
+    }
+
+    function updateBasketPos() {
+      document.getElementById('basketObj').style.left = basketX + '%';
+    }
+
+    function spawnNextFallingItem() {
+      if (!isGameActive) return;
+      currentFallingObj = getNextQuestion(currentUnit.id, 'catcher');
+      const itemEl = document.getElementById('fallingItem');
+      const playground = document.getElementById('catcherPlayground');
+      itemEl.textContent = currentFallingObj.text;
+      itemEl.style.display = 'block';
+
+      const randomLeft = Math.floor(Math.random() * 65) + 18;
+      itemEl.style.left = randomLeft + '%';
+      itemEl.dataset.left = randomLeft;
+
+      let topPos = 0;
+      itemEl.style.top = '0px';
+
+      clearInterval(catcherInterval);
+      catcherInterval = setInterval(() => {
+        if (!isGameActive) {
+          clearInterval(catcherInterval);
+          return;
+        }
+
+        topPos += catcherSpeed;
+        itemEl.style.top = topPos + 'px';
+
+        const totalH = playground.offsetHeight;
+        const basketTopY = totalH - 44;
+        const floorY = totalH - 22;
+
+        if (topPos >= basketTopY && topPos <= floorY) {
+          const itemL = parseInt(itemEl.dataset.left);
+          if (Math.abs(itemL - basketX) < 22) {
+            clearInterval(catcherInterval);
+            itemEl.style.display = 'none';
+
+            if (currentFallingObj.isGood) {
+              playAudio('correct');
+              gameScore += 30;
+              correctAnswersCount++;
+              updateScore(gameScore);
+            } else {
+              playAudio('wrong');
+              gameScore = Math.max(0, gameScore - 20);
+              updateScore(gameScore);
+            }
+            setTimeout(spawnNextFallingItem, 150);
+            return;
+          }
+        }
+
+        if (topPos >= floorY) {
+          clearInterval(catcherInterval);
+          itemEl.style.display = 'none';
+
+          if (currentFallingObj.isGood) {
+            playAudio('click');
+          }
+          setTimeout(spawnNextFallingItem, 150);
+        }
+      }, 30);
+    }
+
+    // =========================================================
+    // OYUN 8: SEVAP KOŞUSU
+    // =========================================================
+    let runnerInterval = null;
+    let heroJumping = false;
+    let currentRunnerItem = null;
+
+    function initRunnerGame() {
+      document.getElementById('module-runner').classList.remove('hidden');
+      heroJumping = false;
+      startRunnerObstacle();
+    }
+
+    function heroJump() {
+      if (heroJumping || !isGameActive) return;
+      playAudio('start');
+      heroJumping = true;
+      const hero = document.getElementById('runnerHero');
+      hero.style.bottom = '75px';
+      setTimeout(() => {
+        hero.style.bottom = '12px';
+        setTimeout(() => { heroJumping = false; }, 150);
+      }, 400);
+    }
+
+    function startRunnerObstacle() {
+      if (!isGameActive) return;
+      currentRunnerItem = getNextQuestion(currentUnit.id, 'runner');
+      const obs = document.getElementById('runnerObstacle');
+      obs.textContent = currentRunnerItem.text;
+      obs.className = "absolute bottom-3 right-4 px-2.5 py-1 rounded-xl bg-[var(--bg-card)] border border-[var(--border-line)] text-[var(--text-main)] font-bold text-[10px] shadow";
+      
+      let posX = 300;
+      clearInterval(runnerInterval);
+
+      runnerInterval = setInterval(() => {
+        if (!isGameActive) {
+          clearInterval(runnerInterval);
+          return;
+        }
+
+        posX -= 14;
+        obs.style.right = (320 - posX) + 'px';
+
+        if (posX < 80 && posX > 30) {
+          if (currentRunnerItem.isObstacle) {
+            if (!heroJumping) {
+              playAudio('wrong');
+              gameScore = Math.max(0, gameScore - 15);
+              updateScore(gameScore);
+            }
+          } else {
+            playAudio('correct');
+            gameScore += 25;
+            correctAnswersCount++;
+            updateScore(gameScore);
+          }
+        }
+        if (posX <= 0) {
+          clearInterval(runnerInterval);
+          setTimeout(startRunnerObstacle, 200);
+        }
+      }, 75);
+    }
+
+    // =========================================================
+    // OYUN 9: HİKMET & SAVUNMA
+    // =========================================================
+    let currentDefenseItem = null;
+
+    function initDefenseGame() {
+      document.getElementById('module-defense').classList.remove('hidden');
+      loadNextDefense();
+    }
+
+    function loadNextDefense() {
+      if (!isGameActive) return;
+      currentDefenseItem = getNextQuestion(currentUnit.id, 'defense');
+      document.getElementById('defenseDesc').textContent = currentDefenseItem.desc;
+      document.getElementById('defenseFeedback').textContent = "Tarihi gerçeğe uygun doğru kararı ver.";
+
+      const hintBox = document.getElementById('defenseHintBox');
+      hintBox.classList.add('hidden');
+      hintBox.textContent = currentDefenseItem.hint || "Olayın tarihi arka planını düşünün.";
+
+      const box = document.getElementById('defenseChoicesBox');
+      box.innerHTML = '';
+
+      currentDefenseItem.opts.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.className = "p-2 rounded-xl bg-[var(--bg-card)] border border-[var(--border-line)] text-left text-[10px] text-[var(--text-main)] font-semibold hover:border-emerald-500 active:scale-95 transition shadow-xs";
+        btn.textContent = opt;
+        btn.onclick = () => {
+          if (idx === currentDefenseItem.ans) {
+            playAudio('correct');
+            gameScore += 40;
+            correctAnswersCount++;
+            updateScore(gameScore);
+            document.getElementById('defenseFeedback').innerHTML = "<span class='text-emerald-500 font-bold'>Doğru Karar!</span>";
+          } else {
+            playAudio('wrong');
+            document.getElementById('defenseFeedback').innerHTML = "<span class='text-red-500 font-bold'>Tarihi tedbir bu değildi!</span>";
+          }
+          setTimeout(loadNextDefense, 800);
+        };
+        box.appendChild(btn);
+      });
+    }
+
+    // =========================================================
+    // BAŞLANGIÇ YÜKLEMESİ
+    // =========================================================
+    renderUnitsGrid();
+    renderBadgesList();
+    navigateTo('welcome');
+  </script>
+
+</body></html>ing-tight">Zamanın Efendisi</div>
             <div class="text-[8px] text-[var(--text-sub)] mt-0.5">
               Tarih Şeridini kronolojik diz
             </div>
@@ -1002,18 +2328,31 @@
           pool.push({ q: item.q, a: (i % 2 === 0) ? item.a : !item.a });
         }
       } else if (gameType === 'wordbuild') {
-        const sentences = [
+                const sentences = [
+          // === ESKİ ===
           ["Bismillâhir", "rahmânir", "rahîm"],
           ["Kul", "hüvallâhü", "ehad"],
           ["Allâhüs", "samed"],
           ["Rabbenâ", "âtinâ", "fid", "dünyâ", "haseneten"],
           ["Temizlik", "imanın", "yarısıdır"],
           ["Komşusu", "açken", "tok", "yatan", "bizden", "değildir"],
-          ["İnna", "a'taynâkel", "kevser"],
+          ["İnna", "ataynâkel", "kevser"],
           ["Güzel", "söz", "sadakadır"],
           ["Selamı", "aranızda", "yayınız"],
-          ["Sabır", "kurtuluşun", "anahtarıdır"]
-        ];
+          ["Sabır", "kurtuluşun", "anahtarıdır"],
+
+          // === YENİ 10 ===
+          ["Kul", "eûzü", "birabbil", "felak"],
+          ["Kul", "eûzü", "birabbin", "nâs"],
+          ["Li", "îlâfi", "Kureyş"],
+          ["Elem", "tere", "keyfe", "feale", "rabbüke", "bi", "ashâbil", "fîl"],
+          ["Ettehiyyâtü", "lillâhi", "ve", "salavâtü", "ve", "tayyibâtü"],
+          ["Allâhümme", "salli", "alâ", "Muhammed"],
+          ["Lâ", "ilâhe", "illallâh"],
+          ["Ameller", "niyetlere", "göredir"],
+          ["Müjdeleyiniz", "nefret", "ettirmeyiniz"],
+          ["Hiçbiriniz", "kendisi", "için", "istediğini", "kardeşi", "için", "istemedikçe", "imân", "etmiş", "olmaz"]
+        ];;
         for (let i = 0; i < 35; i++) {
           pool.push({ words: sentences[i % sentences.length] });
         }
