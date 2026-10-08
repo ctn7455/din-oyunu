@@ -1,3 +1,4 @@
+[README.md](https://github.com/user-attachments/files/33218655/README.md)
 # 🧭 İNANÇ PUSULASI (MEB 6. Sınıf Din Kültürü Oyunu & Portalı)
 
 > **Sürüm:** v1.1.1 &bull; **Durum:** Kararlı (Stable) &bull; **Lisans:** MIT
