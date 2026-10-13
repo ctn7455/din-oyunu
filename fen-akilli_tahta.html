@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kuvvetli Fen - Akıllı Tahta 2 Kişilik Düello</title>
+  <link rel="stylesheet" href="tailwind.min.css">
+  <style>
+    @keyframes confetti-fall {
+      0% { transform: translateY(-50px) rotate(0); opacity: 1; }
+      100% { transform: translateY(800px) rotate(720deg); opacity: 0; }
+    }
+    .confetti-piece { animation: confetti-fall 2.5s ease-in forwards; }
+
+    .no-select { user-select: none; -webkit-user-select: none; }
+
+    body { transition: background-color 0.5s ease, color 0.5s ease; }
+    body.theme-transitioning *:not(.lamp-bulb) {
+      transition: background-color 0.55s ease, color 0.55s ease, border-color 0.55s ease !important;
+    }
+
+    /* Lamba */
+    .lamp-container { position: fixed; top: 76px; right: 24px; z-index: 55; display: flex; flex-direction: column; align-items: center; pointer-events: none; }
+    .lamp-wire { width: 2px; height: 16px; background: linear-gradient(to bottom, #52525b, #71717a); border-radius: 1px; }
+    .lamp-toggle { pointer-events: auto; position: relative; width: 64px; height: 64px; background: transparent; border: none; padding: 0; cursor: pointer; display: flex; align-items: center; justify-content: center; transform-origin: top center; animation: lamp-swing 4s ease-in-out infinite; }
+    .lamp-toggle:hover { filter: brightness(1.15); }
+    .lamp-toggle:active { transform: scale(0.94); }
+    @keyframes lamp-swing { 0%, 100% { transform: rotate(-5deg); } 50% { transform: rotate(5deg); } }
+    .lamp-bulb { position: relative; font-size: 40px; line-height: 1; display: block; filter: drop-shadow(0 0 12px rgba(251, 191, 36, 0.95)) drop-shadow(0 0 26px rgba(251, 191, 36, 0.55)); transition: filter 0.6s ease, transform 0.6s ease; z-index: 2; }
+    .lamp-glow { position: absolute; inset: -10px; border-radius: 50%; background: radial-gradient(circle, rgba(251, 191, 36, 0.45) 0%, rgba(251, 191, 36, 0) 65%); pointer-events: none; animation: lamp-pulse 2.5s ease-in-out infinite; }
+    @keyframes lamp-pulse { 0%, 100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.15); opacity: 1; } }
+    body.theme-dark .lamp-bulb { filter: drop-shadow(0 0 4px rgba(148, 163, 184, 0.55)) drop-shadow(0 0 8px rgba(148, 163, 184, 0.25)); transform: scale(0.92); }
+    body.theme-dark .lamp-glow { background: radial-gradient(circle, rgba(148, 163, 184, 0.20) 0%, rgba(148, 163, 184, 0) 65%); animation: none; opacity: 0.35; }
+    body.theme-dark .lamp-wire { background: linear-gradient(to bottom, #3f3f46, #27272a); }
+    @keyframes lamp-flash { 0% { transform: rotate(0) scale(1); } 30% { transform: rotate(-18deg) scale(1.22); } 60% { transform: rotate(12deg) scale(1.12); } 100% { transform: rotate(0) scale(1); } }
+    .lamp-toggle.animating { animation: lamp-flash 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55); }
+
+    /* Aydınlık tema */
+    body.theme-light { background-color: #f1f5f9 !important; color: #0f172a !important; }
+    body.theme-light header { background-color: #ffffff !important; border-bottom-color: #e2e8f0 !important; }
+    body.theme-light header h1 { color: #1d4ed8 !important; }
+    body.theme-light header p { color: #64748b !important; }
+    body.theme-light .bg-zinc-950 { background-color: #f1f5f9 !important; }
+    body.theme-light .bg-zinc-900 { background-color: #ffffff !important; }
+    body.theme-light .bg-zinc-900\/60 { background-color: rgba(255,255,255,0.75) !important; }
+    body.theme-light .bg-zinc-800 { background-color: #e2e8f0 !important; }
+    body.theme-light .bg-zinc-800\/60 { background-color: rgba(226,232,240,0.70) !important; }
+    body.theme-light .border-zinc-800 { border-color: #cbd5e1 !important; }
+    body.theme-light .border-zinc-800\/80 { border-color: rgba(203,213,225,0.8) !important; }
+    body.theme-light .border-zinc-700 { border-color: #94a3b8 !important; }
+    body.theme-light .text-white { color: #0f172a !important; }
+    body.theme-light .text-zinc-200 { color: #1e293b !important; }
+    body.theme-light .text-zinc-300 { color: #334155 !important; }
+    body.theme-light .text-zinc-400 { color: #475569 !important; }
+    body.theme-light .text-zinc-500 { color: #64748b !important; }
+    body.theme-light .text-emerald-400 { color: #047857 !important; }
+    body.theme-light .text-teal-400 { color: #0f766e !important; }
+    body.theme-light .text-amber-400 { color: #b45309 !important; }
+    body.theme-light .text-purple-400 { color: #7c3aed !important; }
+    body.theme-light .text-rose-400 { color: #be123c !important; }
+    body.theme-light .text-blue-400 { color: #1d4ed8 !important; }
+    body.theme-light #view-arena > section:nth-of-type(1) { background: linear-gradient(135deg, #dbeafe 0%, #eff6ff 40%, #f8fafc 80%) !important; border-right-color: #cbd5e1 !important; }
+    body.theme-light #view-arena > section:nth-of-type(2) { background: linear-gradient(225deg, #ccfbf1 0%, #f0fdfa 40%, #f8fafc 80%) !important; border-left-color: #cbd5e1 !important; }
+    body.theme-light .bg-zinc-900.border-2, body.theme-light .unit-selector { box-shadow: 0 2px 8px rgba(15,23,42,0.06); }
+  </style>
+</head>
+<body class="theme-light bg-zinc-950 text-white font-sans overflow-hidden h-screen w-screen flex flex-col no-select">
+
+  <!-- Lamba -->
+  <div class="lamp-container">
+    <div class="lamp-wire"></div>
+    <button class="lamp-toggle" id="themeToggle" onclick="toggleTheme()" title="Gündüz / Gece Modu">
+      <span class="lamp-bulb" style="display:inline-block; transform:rotate(180deg);">💡</span>
+      <span class="lamp-glow"></span>
+    </button>
+  </div>
+
+  <!-- HEADER -->
+  <header class="h-16 bg-zinc-900 border-b-2 border-zinc-800 px-6 flex items-center justify-between shrink-0 z-40">
+    <div class="flex items-center gap-3">
+      <a href="fen-giris.html" class="w-9 h-9 rounded-xl bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 flex items-center justify-center text-sm font-black transition">←</a>
+      <span class="text-3xl">🧪</span>
+      <div>
+        <h1 class="text-lg font-black tracking-wide text-blue-400">KUVVETLİ FEN • AKILLI TAHTA MODU</h1>
+        <p class="text-[11px] text-zinc-400">6. Sınıf Fen Bilimleri • 2 Kişilik Sınıf Düellosu</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-6">
+      <div class="flex items-center gap-2 bg-zinc-800 px-4 py-1.5 rounded-2xl border border-zinc-700">
+        <span class="text-xl">⏱️</span>
+        <span id="centerTimerDisplay" class="text-2xl font-black text-amber-400">45</span>
+        <span class="text-xs text-zinc-400 font-bold">sn</span>
+      </div>
+      <span id="activeUnitPill" class="text-xs px-3 py-1 rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/40 font-bold">
+        Ünite 1: Güneş Sistemi
+      </span>
+    </div>
+    <div class="flex items-center gap-3 mr-20">
+      <button onclick="toggleAudio()" class="px-3 py-1.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-xs font-bold flex items-center gap-1.5 transition">
+        <span id="audioIcon">🔊</span> <span id="audioLabel">Ses Açık</span>
+      </button>
+      <button onclick="toggleFullscreen()" class="px-3 py-1.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-xs font-bold flex items-center gap-1.5 transition">
+        <span>⛶</span> <span>Tam Ekran</span>
+      </button>
+      <button onclick="showMainMenu()" class="px-3.5 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-xs font-black shadow transition">✕ Menü</button>
+    </div>
+  </header>
+
+  <!-- MENÜ GÖRÜNÜMÜ -->
+  <main id="view-menu" class="flex-1 p-8 flex flex-col justify-between overflow-y-auto z-30">
+    <div class="text-center max-w-2xl mx-auto">
+      <span class="px-4 py-1 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-black">
+        🔬 6. Sınıf Fen Bilimleri • 2 Kişilik Yarışma
+      </span>
+      <h2 class="text-3xl font-black mt-3">Tahtaya 2 Öğrenci Çağırın ve Başlayın!</h2>
+      <p class="text-sm text-zinc-400 mt-1">
+        Sol taraf 1. Oyuncu, sağ taraf 2. Oyuncudur. İki öğrenciye de <strong>birbirinden farklı</strong> sorular gelir.
+      </p>
+    </div>
+
+    <div class="max-w-4xl mx-auto w-full my-4">
+      <h3 class="text-xs font-bold text-zinc-400 uppercase tracking-wider mb-2">1. Adım: Üniteyi Seçin</h3>
+      <div class="grid grid-cols-4 gap-3">
+        <button onclick="selectUnit(1)" id="unitBtn-1" class="unit-selector p-3 rounded-2xl bg-zinc-900 border-2 border-blue-500 text-center transition">
+          <span class="text-2xl block mb-1">☀️</span>
+          <span class="text-xs font-bold block text-white">1. Güneş Sistemi</span>
+        </button>
+        <button onclick="selectUnit(2)" id="unitBtn-2" class="unit-selector p-3 rounded-2xl bg-zinc-900 border-2 border-zinc-800 hover:border-zinc-700 text-center transition">
+          <span class="text-2xl block mb-1">⚡</span>
+          <span class="text-xs font-bold block text-zinc-300">2. Kuvvet & Hareket</span>
+        </button>
+        <button onclick="selectUnit(3)" id="unitBtn-3" class="unit-selector p-3 rounded-2xl bg-zinc-900 border-2 border-zinc-800 hover:border-zinc-700 text-center transition">
+          <span class="text-2xl block mb-1">🌱</span>
+          <span class="text-xs font-bold block text-zinc-300">3. Üreme & Gelişme</span>
+        </button>
+        <button onclick="selectUnit(4)" id="unitBtn-4" class="unit-selector p-3 rounded-2xl bg-zinc-900 border-2 border-zinc-800 hover:border-zinc-700 text-center transition">
+          <span class="text-2xl block mb-1">💡</span>
+          <span class="text-xs font-bold block text-zinc-300">4. Işık</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Alt Konu Seçimi (İsteğe Bağlı) -->
+    <div class="max-w-4xl mx-auto w-full mb-3">
+      <div class="flex items-center justify-between mb-2">
+        <h3 class="text-xs font-bold text-zinc-400 uppercase tracking-wider">🎯 Alt Konu Seçin (Tüm Konular veya Özel Konu):</h3>
+        <span id="subtopicIndicator" class="text-[10px] text-blue-400 font-bold bg-blue-500/10 px-2 py-0.5 rounded-full border border-blue-500/30">Tüm Konular Aktif</span>
+      </div>
+      <div id="subtopicsContainer" class="flex flex-wrap gap-2 p-2.5 rounded-2xl bg-zinc-900 border border-zinc-800">
+        <!-- JS ile doldurulacak -->
+      </div>
+    </div>
+
+    <div class="max-w-4xl mx-auto w-full my-2">
+      <h3 class="text-xs font-bold text-zinc-400 uppercase tracking-wider mb-2">2. Adım: Oyun Modunu Seçin</h3>
+      <div class="grid grid-cols-4 gap-4">
+
+        <div onclick="startDualGame('swipe')" class="cursor-pointer bg-zinc-900 border-2 border-zinc-800 hover:border-blue-500 rounded-3xl p-5 flex flex-col justify-between active:scale-95 transition shadow-lg">
+          <div>
+            <span class="text-4xl mb-2 block">⚡</span>
+            <h4 class="text-base font-black text-white">Doğru / Yanlış</h4>
+            <p class="text-xs text-zinc-400 mt-1">İki oyuncuya ayrı sorular gelir. Hızlıca karar verip butona dokun!</p>
+          </div>
+          <span class="mt-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-center text-xs font-black">Düelloyu Başlat ➔</span>
+        </div>
+
+        <div onclick="startDualGame('cloze')" class="cursor-pointer bg-zinc-900 border-2 border-zinc-800 hover:border-emerald-500 rounded-3xl p-5 flex flex-col justify-between active:scale-95 transition shadow-lg">
+          <div>
+            <span class="text-4xl mb-2 block">📝</span>
+            <h4 class="text-base font-black text-white">Boşluk Doldurma</h4>
+            <p class="text-xs text-zinc-400 mt-1">Metindeki boşluğa 5 kelimeden doğru olanını ilk yerleştiren puanı kapar!</p>
+          </div>
+          <span class="mt-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-center text-xs font-black">Düelloyu Başlat ➔</span>
+        </div>
+
+        <div onclick="startDualGame('floating')" class="cursor-pointer bg-zinc-900 border-2 border-zinc-800 hover:border-purple-500 rounded-3xl p-5 flex flex-col justify-between active:scale-95 transition shadow-lg">
+          <div>
+            <span class="text-4xl mb-2 block">🎯</span>
+            <h4 class="text-base font-black text-white">Nokta Seçme</h4>
+            <p class="text-xs text-zinc-400 mt-1">Soru sorulur, sahada dağılmış kelimelerden doğru cevaba ilk sen bas!</p>
+          </div>
+          <span class="mt-4 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-xl text-center text-xs font-black">Düelloyu Başlat ➔</span>
+        </div>
+
+        <div onclick="startDualGame('wordfind')" class="cursor-pointer bg-zinc-900 border-2 border-zinc-800 hover:border-amber-500 rounded-3xl p-5 flex flex-col justify-between active:scale-95 transition shadow-lg">
+          <div>
+            <span class="text-4xl mb-2 block">🔤</span>
+            <h4 class="text-base font-black text-white">Kelimeyi Bul</h4>
+            <p class="text-xs text-zinc-400 mt-1">Açıklamayı oku, harfleri sırayla bas, kavramı ilk sen tamamla!</p>
+          </div>
+          <span class="mt-4 py-2 bg-amber-600 hover:bg-amber-500 text-white rounded-xl text-center text-xs font-black">Düelloyu Başlat ➔</span>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="max-w-md mx-auto text-center flex items-center justify-center gap-4 bg-zinc-900 px-6 py-2 rounded-2xl border border-zinc-800 text-xs">
+      <span class="text-zinc-400 font-bold">Tur Süresi:</span>
+      <button onclick="setDuration(30)" id="dur-30" class="px-3 py-1 rounded-lg font-black bg-zinc-800 text-zinc-300">30s</button>
+      <button onclick="setDuration(45)" id="dur-45" class="px-3 py-1 rounded-lg font-black bg-blue-600 text-white">45s</button>
+      <button onclick="setDuration(60)" id="dur-60" class="px-3 py-1 rounded-lg font-black bg-zinc-800 text-zinc-300">60s</button>
+      <button onclick="setDuration(90)" id="dur-90" class="px-3 py-1 rounded-lg font-black bg-zinc-800 text-zinc-300">90s</button>
+    </div>
+  </main>
+
+  <!-- ARENA -->
+  <main id="view-arena" class="hidden flex-1 flex flex-row overflow-hidden relative">
+
+    <div class="absolute inset-y-0 left-1/2 -translate-x-1/2 w-1.5 bg-zinc-800 flex flex-col items-center justify-center z-20 pointer-events-none">
+      <div class="w-10 h-10 rounded-full bg-zinc-900 border-2 border-zinc-700 flex items-center justify-center font-black text-xs text-amber-400 shadow-xl">VS</div>
+    </div>
+
+    <section class="flex-1 bg-gradient-to-br from-blue-950/20 via-zinc-950 to-zinc-950 p-6 flex flex-col justify-between border-r border-zinc-800/80 relative">
+      <div class="flex items-center justify-between border-b border-blue-500/30 pb-3">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 rounded-2xl bg-blue-500/20 text-blue-400 border-2 border-blue-500/50 flex items-center justify-center text-2xl font-black">1</div>
+          <div>
+            <h3 class="text-lg font-black text-blue-400">1. OYUNCU</h3>
+            <span class="text-xs text-zinc-400 font-semibold">Sol Masaüstü</span>
+          </div>
+        </div>
+        <div class="bg-blue-500/10 border border-blue-500/40 px-4 py-2 rounded-2xl text-right">
+          <span class="text-[10px] text-blue-300 block font-bold uppercase tracking-wider">SKOR</span>
+          <span id="p1Score" class="text-3xl font-black text-blue-400">0</span>
+        </div>
+      </div>
+      <div id="p1PlayArea" class="flex-1 my-4 flex flex-col justify-center"></div>
+      <div id="p1Feedback" class="h-10 rounded-xl bg-zinc-900/60 border border-zinc-800 flex items-center justify-center text-xs font-bold text-zinc-400">Hazırlan...</div>
+    </section>
+
+    <section class="flex-1 bg-gradient-to-bl from-emerald-950/20 via-zinc-950 to-zinc-950 p-6 flex flex-col justify-between border-l border-zinc-800/80 relative">
+      <div class="flex items-center justify-between border-b border-emerald-500/30 pb-3">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-400 border-2 border-emerald-500/50 flex items-center justify-center text-2xl font-black">2</div>
+          <div>
+            <h3 class="text-lg font-black text-emerald-400">2. OYUNCU</h3>
+            <span class="text-xs text-zinc-400 font-semibold">Sağ Masaüstü</span>
+          </div>
+        </div>
+        <div class="bg-emerald-500/10 border border-emerald-500/40 px-4 py-2 rounded-2xl text-right">
+          <span class="text-[10px] text-emerald-300 block font-bold uppercase tracking-wider">SKOR</span>
+          <span id="p2Score" class="text-3xl font-black text-emerald-400">0</span>
+        </div>
+      </div>
+      <div id="p2PlayArea" class="flex-1 my-4 flex flex-col justify-center"></div>
+      <div id="p2Feedback" class="h-10 rounded-xl bg-zinc-900/60 border border-zinc-800 flex items-center justify-center text-xs font-bold text-zinc-400">Hazırlan...</div>
+    </section>
+  </main>
+
+  <!-- KAZANAN MODALİ -->
+  <div id="winnerModal" class="hidden absolute inset-0 bg-black/90 backdrop-blur-md flex items-center justify-center p-6 z-50">
+    <div class="relative bg-zinc-900 border-2 border-amber-500/60 rounded-3xl p-8 max-w-xl w-full shadow-2xl text-center overflow-hidden">
+      <div id="confettiBoxArena" class="absolute inset-0 pointer-events-none overflow-hidden"></div>
+      <div class="text-6xl mb-3 animate-bounce">🏆</div>
+      <span class="text-xs font-black text-amber-400 uppercase tracking-widest block">DÜELLO TAMAMLANDI!</span>
+      <h3 id="winnerTitleText" class="text-3xl font-black text-white mt-1">1. OYUNCU KAZANDI!</h3>
+      <p id="winnerSubText" class="text-sm text-zinc-400 mt-2">Mükemmel bir Fen Bilimleri bilgisi gösterisi!</p>
+      <div class="grid grid-cols-2 gap-4 my-6 bg-zinc-950 border border-zinc-800 p-4 rounded-2xl">
+        <div class="p-3 rounded-xl bg-blue-500/10 border border-blue-500/30">
+          <span class="text-xs text-blue-400 font-bold block">1. Oyuncu</span>
+          <span id="finalP1Score" class="text-3xl font-black text-white">0 Puan</span>
+        </div>
+        <div class="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30">
+          <span class="text-xs text-emerald-400 font-bold block">2. Oyuncu</span>
+          <span id="finalP2Score" class="text-3xl font-black text-white">0 Puan</span>
+        </div>
+      </div>
+      <div class="flex gap-4">
+        <button onclick="rematchGame()" class="flex-1 py-3.5 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white font-black text-sm active:scale-95 transition shadow-lg">🔄 Yeniden Oyna</button>
+        <button onclick="showMainMenu()" class="flex-1 py-3.5 rounded-2xl bg-zinc-800 hover:bg-zinc-700 text-white font-bold text-sm active:scale-95 transition border border-zinc-700">🏠 Menüye Dön</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- JAVASCRIPT                                                 -->
+  <!-- ========================================================= -->
+  <script>
+    // SES
+    let soundEnabled = true;
+    let audioCtx = null;
+    function initAudio() { if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
+    function playSfx(type) {
+      if (!soundEnabled) return;
+      try {
+        initAudio();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain); gain.connect(audioCtx.destination);
+        const now = audioCtx.currentTime;
+        if (type === 'correct') {
+          osc.frequency.setValueAtTime(523.25, now);
+          osc.frequency.setValueAtTime(659.25, now + 0.08);
+          osc.frequency.setValueAtTime(783.99, now + 0.16);
+          gain.gain.setValueAtTime(0.2, now);
+          gain.gain.linearRampToValueAtTime(0.01, now + 0.3);
+          osc.start(now); osc.stop(now + 0.3);
+        } else if (type === 'wrong') {
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(220, now);
+          osc.frequency.linearRampToValueAtTime(130, now + 0.2);
+          gain.gain.setValueAtTime(0.2, now);
+          gain.gain.linearRampToValueAtTime(0.01, now + 0.2);
+          osc.start(now); osc.stop(now + 0.2);
+        } else if (type === 'theme') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(392, now);
+          osc.frequency.exponentialRampToValueAtTime(784, now + 0.3);
+          gain.gain.setValueAtTime(0.12, now);
+          gain.gain.linearRampToValueAtTime(0.01, now + 0.35);
+          osc.start(now); osc.stop(now + 0.35);
+        } else if (type === 'victory') {
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(440, now);
+          osc.frequency.setValueAtTime(554, now + 0.1);
+          osc.frequency.setValueAtTime(659, now + 0.2);
+          osc.frequency.setValueAtTime(880, now + 0.35);
+          gain.gain.setValueAtTime(0.25, now);
+          gain.gain.linearRampToValueAtTime(0.01, now + 0.7);
+          osc.start(now); osc.stop(now + 0.7);
+        } else if (type === 'click') {
+          osc.frequency.setValueAtTime(440, now);
+          osc.frequency.exponentialRampToValueAtTime(880, now + 0.07);
+          gain.gain.setValueAtTime(0.12, now);
+          gain.gain.linearRampToValueAtTime(0.01, now + 0.07);
+          osc.start(now); osc.stop(now + 0.07);
+        }
+      } catch (e) {}
+    }
+
+    function toggleAudio() {
+      soundEnabled = !soundEnabled;
+      document.getElementById('audioLabel').textContent = soundEnabled ? 'Ses Açık' : 'Ses Kapalı';
+      document.getElementById('audioIcon').textContent = soundEnabled ? '🔊' : '🔇';
+    }
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) document.documentElement.requestFullscreen().catch(() => {});
+      else document.exitFullscreen().catch(() => {});
+    }
+    function toggleTheme() {
+      const body = document.body;
+      const toggle = document.getElementById('themeToggle');
+      playSfx('theme');
+      toggle.classList.add('animating');
+      setTimeout(() => toggle.classList.remove('animating'), 800);
+      body.classList.add('theme-transitioning');
+      if (body.classList.contains('theme-light')) { body.classList.remove('theme-light'); body.classList.add('theme-dark'); }
+      else { body.classList.remove('theme-dark'); body.classList.add('theme-light'); }
+      setTimeout(() => body.classList.remove('theme-transitioning'), 700);
+    }
+
+    // =========================================================
+    // =========================================================
+    // AYARLAR
+    // =========================================================
+    let selectedUnitId = 1;
+    let selectedSubtopicId = null;
+    let selectedDuration = 45;
+    let activeGameMode = 'swipe';
+
+    const UNIT_NAMES = {
+      1: "1. Ünite: Güneş Sistemi ve Tutulmalar",
+      2: "2. Ünite: Kuvvet ve Hareket",
+      3: "3. Ünite: Canlılarda Üreme ve Gelişme",
+      4: "4. Ünite: Işığın Yansıması ve Soğurulması"
+    };
+
+    const UNIT_SUBTOPICS = {
+      1: [
+        "Güneş Sistemi ve Gezegenler",
+        "Güneş ve Ay Tutulmaları",
+        "Asteroitler, Meteorlar ve Gök Taşları"
+      ],
+      2: [
+        "Bileşke Kuvvet (Dengelenmiş & Dengelenmemiş)",
+        "Sabit Süratli Hareket ve Sürat Hesaplama"
+      ],
+      3: [
+        "Denetleyici ve Düzenleyici Sistemler",
+        "Canlılarda Üreme ve Gelişme"
+      ],
+      4: [
+        "Işığın Yansıması ve Aynalar",
+        "Işığın Soğurulması ve Renkler"
+      ]
+    };
+
+    function selectUnit(id) {
+      selectedUnitId = id;
+      selectedSubtopicId = null;
+      document.querySelectorAll('.unit-selector').forEach(b => {
+        b.classList.remove('border-blue-500', 'bg-blue-500/10');
+        b.classList.add('border-zinc-800');
+      });
+      const activeBtn = document.getElementById('unitBtn-' + id);
+      if (activeBtn) {
+        activeBtn.classList.remove('border-zinc-800');
+        activeBtn.classList.add('border-blue-500', 'bg-blue-500/10');
+      }
+      updateActiveHeaderPill();
+      renderSubtopicsUI();
+    }
+
+    function renderSubtopicsUI() {
+      const container = document.getElementById('subtopicsContainer');
+      if (!container) return;
+      container.innerHTML = '';
+
+      const subs = UNIT_SUBTOPICS[selectedUnitId] || [];
+
+      // 1. Tümü Butonu
+      const allBtn = document.createElement('button');
+      const isAllActive = (selectedSubtopicId === null);
+      allBtn.className = `px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 ${
+        isAllActive
+          ? 'bg-blue-600 text-white shadow-md'
+          : 'bg-zinc-800 text-zinc-300 hover:bg-zinc-700'
+      }`;
+      allBtn.innerHTML = `<span>✨</span><span>Tüm Alt Konular (Karışık)</span>`;
+      allBtn.onclick = () => selectSubtopic(null);
+      container.appendChild(allBtn);
+
+      // Her bir alt konu
+      subs.forEach((sub, idx) => {
+        const btn = document.createElement('button');
+        const isActive = (selectedSubtopicId === idx);
+        btn.className = `px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 ${
+          isActive
+            ? 'bg-blue-600 text-white shadow-md'
+            : 'bg-zinc-800 text-zinc-300 hover:bg-zinc-700'
+        }`;
+        btn.innerHTML = `<span class="opacity-70">${idx + 1}.</span><span>${sub}</span>`;
+        btn.onclick = () => selectSubtopic(idx);
+        container.appendChild(btn);
+      });
+
+      const indicator = document.getElementById('subtopicIndicator');
+      if (indicator) {
+        if (selectedSubtopicId === null) {
+          indicator.textContent = "Tüm Konular Aktif";
+          indicator.className = "text-[10px] text-blue-400 font-bold bg-blue-500/10 px-2 py-0.5 rounded-full border border-blue-500/30";
+        } else {
+          indicator.textContent = `🎯 ${subs[selectedSubtopicId]}`;
+          indicator.className = "text-[10px] text-white font-bold bg-blue-600 px-2.5 py-0.5 rounded-full shadow-sm";
+        }
+      }
+    }
+
+    function selectSubtopic(idx) {
+      playSfx('theme');
+      selectedSubtopicId = idx;
+      renderSubtopicsUI();
+      updateActiveHeaderPill();
+    }
+
+    function updateActiveHeaderPill() {
+      const pill = document.getElementById('activeUnitPill');
+      if (!pill) return;
+      const base = UNIT_NAMES[selectedUnitId] || "Fen Bilimleri";
+      if (selectedSubtopicId !== null) {
+        const subName = (UNIT_SUBTOPICS[selectedUnitId] || [])[selectedSubtopicId] || "";
+        pill.textContent = `${base} • ${subName}`;
+      } else {
+        pill.textContent = base;
+      }
+    }
+
+    function setDuration(dur) {
+      selectedDuration = dur;
+      [30, 45, 60, 90].forEach(d => {
+        const btn = document.getElementById('dur-' + d);
+        if (d === dur) { btn.classList.add('bg-blue-600', 'text-white'); btn.classList.remove('bg-zinc-800', 'text-zinc-300'); }
+        else { btn.classList.remove('bg-blue-600', 'text-white'); btn.classList.add('bg-zinc-800', 'text-zinc-300'); }
+      });
+    }
+
+    // =========================================================
+    // SORU HAVUZLARI
+    // =========================================================
+    const SWIPE_POOL = {
+      1: [
+        { q: "Güneş sisteminde 8 gezegen bulunur.", a: true },
+        { q: "Dünya, Güneş'e en yakın gezegendir.", a: false },
+        { q: "Güneş bir yıldızdır.", a: true },
+        { q: "Ay, bir gezegendir.", a: false },
+        { q: "Güneş tutulmasında Ay, Dünya ile Güneş arasına girer.", a: true },
+        { q: "Ay tutulması gündüz vakti yaşanır.", a: false },
+        { q: "Jüpiter, Güneş sistemindeki en büyük gezegendir.", a: true },
+        { q: "Mars, 'Kızıl Gezegen' olarak bilinir.", a: true },
+        { q: "Güneş tutulması her ay düzenli olarak gerçekleşir.", a: false },
+        { q: "Dünya, Güneş'in etrafında döner.", a: true },
+        { q: "Satürn, halkalarıyla ünlü gezegendir.", a: true },
+        { q: "Venüs, Dünya'nın ikizi olarak bilinir.", a: true },
+        { q: "Güneş, Dünya'dan daha küçüktür.", a: false },
+        { q: "Ay, Dünya'nın tek doğal uydusudur.", a: true },
+        { q: "Merkür, Güneş'e en yakın gezegendir.", a: true },
+        { q: "Uranüs ve Neptün 'buz devleri' olarak bilinir.", a: true },
+        { q: "Güneş sisteminde 9 gezegen vardır.", a: false },
+        { q: "Ay tutulmasında Dünya, Ay ile Güneş arasına girer.", a: true }
+      ],
+      2: [
+        { q: "Bir cisme etki eden kuvvetlerin bileşkesi sıfırsa cisim dengelenmiş kuvvetlerin etkisindedir.", a: true },
+        { q: "Dengelenmiş kuvvetler cismin hızını değiştirir.", a: false },
+        { q: "Dengelenmemiş kuvvetler cismi hızlandırabilir veya yavaşlatabilir.", a: true },
+        { q: "Sürat, birim zamanda alınan yoldur.", a: true },
+        { q: "Hız, süratten farklı olarak yön de içerir.", a: true },
+        { q: "Sürat ve hız aynı büyüklüklerdir.", a: false },
+        { q: "Sabit süratli hareketin hızı zamanla değişir.", a: false },
+        { q: "Duran bir cisme kuvvet uygulanmazsa hareket etmez.", a: true },
+        { q: "Kuvvetin birimi Newton'dur.", a: true },
+        { q: "Aynı yöndeki kuvvetlerin bileşkesi kuvvetlerin toplamına eşittir.", a: true },
+        { q: "Zıt yöndeki kuvvetler birbirini güçlendirir.", a: false },
+        { q: "Sabit hızlı hareket eden cisim dengelenmiş kuvvetlerin etkisindedir.", a: true },
+        { q: "Hız birimi m/s veya km/s'dir.", a: true },
+        { q: "Dengelenmemiş kuvvetlerin bileşkesi sıfır olabilir.", a: false }
+      ],
+      3: [
+        { q: "Eşeyli üremede iki ata gerekir.", a: true },
+        { q: "Eşeysiz üremede tek ata yeterlidir.", a: true },
+        { q: "Bakteriler eşeyli üreme ile çoğalır.", a: false },
+        { q: "Çiçekli bitkiler tohumla ürer.", a: true },
+        { q: "Tohumun çimlenmesi için su, sıcaklık ve oksijen gereklidir.", a: true },
+        { q: "Tohum çimlenmesi için ışığa kesinlikle ihtiyaç vardır.", a: false },
+        { q: "İnsanda üreme hücresi yumurtadır.", a: true },
+        { q: "Denetleyici ve düzenleyici sistemler sinir ve iç salgı bezleridir.", a: true },
+        { q: "Ergenlik dönemi sadece kızlarda görülür.", a: false },
+        { q: "İç salgı bezleri hormon salgılar.", a: true },
+        { q: "Sperm hücresi erkek üreme hücresidir.", a: true },
+        { q: "Bitkilerde büyüme ve gelişme tohumla başlar.", a: true },
+        { q: "Denetleyici ve düzenleyici sistemler vücut sağlığı için önemsizdir.", a: false },
+        { q: "Hayvanlarda yavru bakımı tüm türlerde aynıdır.", a: false }
+      ],
+      4: [
+        { q: "Işık, düzgün yüzeylerde düzenli olarak yansır.", a: true },
+        { q: "Işığın yansıma açısı, gelme açısına eşittir.", a: true },
+        { q: "Pürüzlü yüzeylerde ışık dağınık yansır.", a: true },
+        { q: "Ayna, ışığı geçiren bir maddedir.", a: false },
+        { q: "Siyah renkli cisimler ışığı çok soğurur.", a: true },
+        { q: "Beyaz renkli cisimler ışığı hiç soğurmaz.", a: false },
+        { q: "Işığın soğurulması, ışığın madde tarafından emilmesidir.", a: true },
+        { q: "Koyu renkli cisimler güneş altında daha çok ısınır.", a: true },
+        { q: "Açık renkli cisimler ışığı yansıtır.", a: true },
+        { q: "Yansıma kanununda gelen ışın, yansıyan ışın ve normal aynı düzlemdedir.", a: true },
+        { q: "Aynalar ışığı soğurur, yansıtmaz.", a: false },
+        { q: "Güneş enerjisi panelleri ışığın soğurulmasından yararlanır.", a: true },
+        { q: "Düz ayna, cisimlerin görüntüsünü olduğu gibi gösterir.", a: true },
+        { q: "Işık, madde tarafından soğurulunca ısı enerjisine dönüşür.", a: true }
+      ]
+    };
+
+    const CLOZE_POOL = {
+      1: [
+        { text: "Güneş sistemindeki en büyük gezegen _______'dir.", ans: "Jüpiter", options: ["Jüpiter", "Satürn", "Dünya", "Mars", "Venüs"] },
+        { text: "Dünya'nın tek doğal uydusu _______'dır.", ans: "Ay", options: ["Ay", "Güneş", "Merkür", "Mars", "Venüs"] },
+        { text: "Halkalarıyla ünlü gezegen _______'dir.", ans: "Satürn", options: ["Satürn", "Jüpiter", "Uranüs", "Neptün", "Mars"] },
+        { text: "Güneş'e en yakın gezegen _______'tir.", ans: "Merkür", options: ["Merkür", "Venüs", "Dünya", "Mars", "Jüpiter"] },
+        { text: "'Kızıl Gezegen' olarak bilinen gezegen _______'tir.", ans: "Mars", options: ["Mars", "Jüpiter", "Merkür", "Satürn", "Uranüs"] },
+        { text: "Güneş sistemindeki tek yaşam barındıran gezegen _______'tir.", ans: "Dünya", options: ["Dünya", "Mars", "Venüs", "Merkür", "Jüpiter"] },
+        { text: "Güneş, bir _______'dır.", ans: "Yıldız", options: ["Yıldız", "Gezegen", "Uydu", "Kuyruklu Yıldız", "Asteroit"] },
+        { text: "Güneş tutulmasında Ay, Dünya ile _______ arasına girer.", ans: "Güneş", options: ["Güneş", "Mars", "Venüs", "Jüpiter", "Merkür"] },
+        { text: "Dünya'nın Güneş etrafındaki bir tam turu _______ gün sürer.", ans: "365", options: ["365", "100", "30", "24", "12"] },
+        { text: "Dünya'nın kendi etrafındaki bir tam dönüşü _______ saat sürer.", ans: "24", options: ["24", "12", "48", "365", "1"] },
+        { text: "Güneş sisteminde toplam _______ gezegen vardır.", ans: "8", options: ["8", "9", "7", "10", "6"] },
+        { text: "Dünya'nın ikizi olarak bilinen gezegen _______'tir.", ans: "Venüs", options: ["Venüs", "Mars", "Merkür", "Jüpiter", "Satürn"] }
+      ],
+      2: [
+        { text: "Bir cisme etki eden kuvvetlerin bileşkesi sıfırsa cisim _______ kuvvetlerin etkisindedir.", ans: "dengelenmiş", options: ["dengelenmiş", "dengelenmemiş", "sabit", "değişken", "yok"] },
+        { text: "Kuvvetin birimi _______'dur.", ans: "Newton", options: ["Newton", "Joule", "Watt", "Pascal", "Volt"] },
+        { text: "Birim zamanda alınan yola _______ denir.", ans: "sürat", options: ["sürat", "hız", "ivme", "kuvvet", "enerji"] },
+        { text: "Yönü de belirtilen sürate _______ denir.", ans: "hız", options: ["hız", "sürat", "ivme", "momentum", "kuvvet"] },
+        { text: "Aynı yöndeki iki kuvvetin bileşkesi kuvvetlerin _______ eşittir.", ans: "toplamına", options: ["toplamına", "farkına", "çarpımına", "bölümüne", "kareköküne"] },
+        { text: "Zıt yöndeki kuvvetlerin bileşkesi büyük kuvvetten küçük kuvvet _______ ile bulunur.", ans: "çıkarılarak", options: ["çıkarılarak", "toplanarak", "çarpılarak", "bölünerek", "kıyaslanarak"] },
+        { text: "Hareket etmeyen bir cisme _______ uygulanmazsa hareket etmez.", ans: "kuvvet", options: ["kuvvet", "hız", "sürat", "enerji", "iş"] },
+        { text: "Dengelenmemiş kuvvetler cismin hızını _______ .", ans: "değiştirir", options: ["değiştirir", "korur", "sıfırlar", "yavaşlatmaz", "etkilemez"] },
+        { text: "Süratin birimi _______'dir.", ans: "m/s", options: ["m/s", "kg", "N", "J", "W"] },
+        { text: "Sabit süratli hareket, _______ hızlı harekettir.", ans: "sabit", options: ["sabit", "değişken", "hızlanan", "yavaşlayan", "durağan"] },
+        { text: "50 N ve 30 N'luk aynı yönlü iki kuvvetin bileşkesi _______ N'dur.", ans: "80", options: ["80", "20", "50", "30", "1500"] },
+        { text: "50 N ve 30 N'luk zıt yönlü iki kuvvetin bileşkesi _______ N'dur.", ans: "20", options: ["20", "80", "50", "30", "1500"] }
+      ],
+      3: [
+        { text: "İki ata gerek duyulan üreme şekline _______ üreme denir.", ans: "eşeyli", options: ["eşeyli", "eşeysiz", "bitkisel", "vejetatif", "rejenerasyon"] },
+        { text: "Tek ata ile gerçekleşen üreme şekline _______ üreme denir.", ans: "eşeysiz", options: ["eşeysiz", "eşeyli", "cinsel", "tohumlu", "döllenmeli"] },
+        { text: "Tohumun çimlenmesi için su, oksijen ve uygun _______ gereklidir.", ans: "sıcaklık", options: ["sıcaklık", "ışık", "rüzgar", "toprak", "nem"] },
+        { text: "İnsanda dişi üreme hücresine _______ denir.", ans: "yumurta", options: ["yumurta", "sperm", "embriyo", "zigot", "fetüs"] },
+        { text: "İnsanda erkek üreme hücresine _______ denir.", ans: "sperm", options: ["sperm", "yumurta", "embriyo", "zigot", "fetüs"] },
+        { text: "Döllenmiş yumurtaya _______ denir.", ans: "zigot", options: ["zigot", "embriyo", "fetüs", "sperm", "yumurta"] },
+        { text: "Vücudu yöneten ve düzenleyen sistemlere _______ ve düzenleyici sistemler denir.", ans: "denetleyici", options: ["denetleyici", "salgılayıcı", "sindirim", "boşaltım", "solunum"] },
+        { text: "İç salgı bezleri _______ salgılar.", ans: "hormon", options: ["hormon", "enzim", "safra", "tükürük", "mide özü"] },
+        { text: "Çocukluktan yetişkinliğe geçiş dönemine _______ denir.", ans: "ergenlik", options: ["ergenlik", "bebeklik", "yaşlılık", "çocukluk", "yetişkinlik"] },
+        { text: "Bitkilerin çoğu _______ ile ürer.", ans: "tohum", options: ["tohum", "yumurta", "sperm", "spor", "rejenerasyon"] },
+        { text: "Denetleyici ve düzenleyici sistemler _______ sistemi ve iç salgı bezlerinden oluşur.", ans: "sinir", options: ["sinir", "sindirim", "solunum", "dolaşım", "boşaltım"] },
+        { text: "Hayvanlarda yavru bakımı türden türe _______ gösterir.", ans: "farklılık", options: ["farklılık", "benzerlik", "aynılık", "eşitlik", "sabitlik"] }
+      ],
+      4: [
+        { text: "Işığın yansıma açısı, gelme açısına _______'dir.", ans: "eşit", options: ["eşit", "büyük", "küçük", "zıt", "dik"] },
+        { text: "Işık, pürüzsüz yüzeylerde _______ olarak yansır.", ans: "düzenli", options: ["düzenli", "dağınık", "rastgele", "eğik", "karışık"] },
+        { text: "Işık, pürüzlü yüzeylerde _______ yansır.", ans: "dağınık", options: ["dağınık", "düzenli", "düz", "tam", "eşit"] },
+        { text: "Işığın madde tarafından emilmesine _______ denir.", ans: "soğurulma", options: ["soğurulma", "yansıma", "kırılma", "dağılma", "geçme"] },
+        { text: "_______ renkli cisimler ışığı çok soğurur.", ans: "Siyah", options: ["Siyah", "Beyaz", "Gri", "Açık mavi", "Sarı"] },
+        { text: "_______ renkli cisimler ışığı çok yansıtır.", ans: "Beyaz", options: ["Beyaz", "Siyah", "Koyu mavi", "Kahverengi", "Kırmızı"] },
+        { text: "Yansıma kanununda gelen ışın, yansıyan ışın ve _______ aynı düzlemdedir.", ans: "normal", options: ["normal", "ayna", "cisim", "ışık kaynağı", "göz"] },
+        { text: "Aynalar ışığı _______ , yansıtır.", ans: "yansıtır", options: ["yansıtır", "soğurur", "kırar", "geçirir", "dağıtır"] },
+        { text: "Güneş panelleri _______ enerjisini elektrik enerjisine dönüştürür.", ans: "güneş", options: ["güneş", "rüzgar", "su", "nükleer", "kimyasal"] },
+        { text: "Gelme açısı 30° ise yansıma açısı _______° olur.", ans: "30", options: ["30", "60", "90", "0", "45"] },
+        { text: "Işık soğurulduğunda _______ enerjisine dönüşür.", ans: "ısı", options: ["ısı", "ses", "kimyasal", "nükleer", "hareket"] },
+        { text: "Düz ayna cisimlerin görüntüsünü _______ gösterir.", ans: "olduğu gibi", options: ["olduğu gibi", "ters", "büyük", "küçük", "bozuk"] }
+      ]
+    };
+
+    const FLOATING_POOL = {
+      1: [
+        { q: "Güneş sistemindeki en büyük gezegen?", correct: "Jüpiter", words: ["Jüpiter", "Mars", "Venüs", "Dünya", "Satürn", "Uranüs", "Neptün", "Merkür"] },
+        { q: "Halkasıyla ünlü gezegen?", correct: "Satürn", words: ["Satürn", "Mars", "Venüs", "Dünya", "Jüpiter", "Uranüs", "Neptün", "Merkür"] },
+        { q: "Güneş'e en yakın gezegen?", correct: "Merkür", words: ["Merkür", "Venüs", "Dünya", "Mars", "Jüpiter", "Satürn", "Uranüs", "Neptün"] },
+        { q: "Kızıl Gezegen olarak bilinen?", correct: "Mars", words: ["Mars", "Jüpiter", "Venüs", "Merkür", "Satürn", "Uranüs", "Neptün", "Dünya"] },
+        { q: "Dünya'nın tek doğal uydusu?", correct: "Ay", words: ["Ay", "Güneş", "Mars", "Venüs", "Jüpiter", "Satürn", "Merkür", "Yıldız"] },
+        { q: "Dünya'nın ikizi olarak bilinen gezegen?", correct: "Venüs", words: ["Venüs", "Mars", "Merkür", "Jüpiter", "Satürn", "Uranüs", "Neptün", "Dünya"] },
+        { q: "Güneş sisteminin merkezindeki yıldız?", correct: "Güneş", words: ["Güneş", "Ay", "Sirius", "Kutup Yıldızı", "Vega", "Mars", "Jüpiter", "Dünya"] },
+        { q: "Buz devi olarak bilinen gezegen?", correct: "Uranüs", words: ["Uranüs", "Jüpiter", "Satürn", "Neptün", "Mars", "Dünya", "Venüs", "Merkür"] }
+      ],
+      2: [
+        { q: "Kuvvetin birimi?", correct: "Newton", words: ["Newton", "Joule", "Watt", "Pascal", "Volt", "Amper", "Ohm", "Metre"] },
+        { q: "Birim zamanda alınan yol?", correct: "Sürat", words: ["Sürat", "Hız", "İvme", "Kuvvet", "Enerji", "İş", "Güç", "Momentum"] },
+        { q: "Yönü belirtilen sürat?", correct: "Hız", words: ["Hız", "Sürat", "İvme", "Kuvvet", "Enerji", "İş", "Güç", "Momentum"] },
+        { q: "Bileşkesi sıfır olan kuvvetler?", correct: "Dengelenmiş", words: ["Dengelenmiş", "Dengelenmemiş", "Zıt", "Aynı yönlü", "Sıfır", "Büyük", "Küçük", "Eşit"] },
+        { q: "Cismin hızını değiştiren kuvvetler?", correct: "Dengelenmemiş", words: ["Dengelenmemiş", "Dengelenmiş", "Zıt", "Aynı yönlü", "Sıfır", "Büyük", "Küçük", "Eşit"] },
+        { q: "Aynı yöndeki iki kuvvetin bileşkesi nasıl bulunur?", correct: "Toplanarak", words: ["Toplanarak", "Çıkarılarak", "Çarpılarak", "Bölünerek", "Kıyaslanarak", "Ortalanarak", "Katlanarak", "Azaltılarak"] },
+        { q: "Zıt yöndeki kuvvetlerin bileşkesi nasıl bulunur?", correct: "Çıkarılarak", words: ["Çıkarılarak", "Toplanarak", "Çarpılarak", "Bölünerek", "Kıyaslanarak", "Ortalanarak", "Katlanarak", "Azaltılarak"] },
+        { q: "Sabit süratli hareket nasıl bir harekettir?", correct: "Dengelenmiş", words: ["Dengelenmiş", "Dengelenmemiş", "Hızlanan", "Yavaşlayan", "Durağan", "Değişken", "İvmeli", "Dairesel"] }
+      ],
+      3: [
+        { q: "İki ata gerek duyulan üreme?", correct: "Eşeyli", words: ["Eşeyli", "Eşeysiz", "Bitkisel", "Vejetatif", "Rejenerasyon", "Tomurcuklanma", "Bölünme", "Sporla"] },
+        { q: "Tek ata ile gerçekleşen üreme?", correct: "Eşeysiz", words: ["Eşeysiz", "Eşeyli", "Cinsel", "Tohumlu", "Döllenmeli", "Çiftleşmeli", "Bölünmeli", "Tomurcuklu"] },
+        { q: "Dişi üreme hücresi?", correct: "Yumurta", words: ["Yumurta", "Sperm", "Zigot", "Embriyo", "Fetüs", "Hücre", "Döl", "Yavru"] },
+        { q: "Erkek üreme hücresi?", correct: "Sperm", words: ["Sperm", "Yumurta", "Zigot", "Embriyo", "Fetüs", "Hücre", "Döl", "Yavru"] },
+        { q: "Döllenmiş yumurta?", correct: "Zigot", words: ["Zigot", "Embriyo", "Fetüs", "Yumurta", "Sperm", "Yavru", "Döl", "Tohum"] },
+        { q: "İç salgı bezlerinin salgıladığı madde?", correct: "Hormon", words: ["Hormon", "Enzim", "Safra", "Tükürük", "Mide özü", "Kan", "Lenf", "Serum"] },
+        { q: "Bitkilerin çoğu neyle ürer?", correct: "Tohum", words: ["Tohum", "Yumurta", "Sperm", "Spor", "Rejenerasyon", "Tomurcuk", "Sürgün", "Kök"] },
+        { q: "Vücudu yöneten ve düzenleyen sistem?", correct: "Sinir", words: ["Sinir", "Sindirim", "Solunum", "Dolaşım", "Boşaltım", "Hareket", "Destek", "Salgı"] }
+      ],
+      4: [
+        { q: "Işığın yansıma açısı gelme açısına nasıldır?", correct: "Eşit", words: ["Eşit", "Büyük", "Küçük", "Zıt", "Dik", "Paralel", "Ters", "Farklı"] },
+        { q: "Işığı çok soğuran renk?", correct: "Siyah", words: ["Siyah", "Beyaz", "Gri", "Açık mavi", "Sarı", "Kırmızı", "Turuncu", "Yeşil"] },
+        { q: "Işığı çok yansıtan renk?", correct: "Beyaz", words: ["Beyaz", "Siyah", "Koyu mavi", "Kahverengi", "Kırmızı", "Yeşil", "Turuncu", "Mor"] },
+        { q: "Işığın madde tarafından emilmesi?", correct: "Soğurulma", words: ["Soğurulma", "Yansıma", "Kırılma", "Dağılma", "Geçme", "Saçılma", "Kırınım", "Girişim"] },
+        { q: "Işığı en iyi yansıtan cisim?", correct: "Ayna", words: ["Ayna", "Tahta", "Kumaş", "Duvar", "Kağıt", "Beton", "Cam", "Toprak"] },
+        { q: "Pürüzsüz yüzeyde ışık nasıl yansır?", correct: "Düzenli", words: ["Düzenli", "Dağınık", "Rastgele", "Eğik", "Karışık", "Ters", "Farklı", "Bozuk"] },
+        { q: "Pürüzlü yüzeyde ışık nasıl yansır?", correct: "Dağınık", words: ["Dağınık", "Düzenli", "Düz", "Tam", "Eşit", "Paralel", "Simetrik", "Aynı"] },
+        { q: "Güneş panelleri hangi enerjiyi kullanır?", correct: "Güneş", words: ["Güneş", "Rüzgar", "Su", "Nükleer", "Kimyasal", "Jeotermal", "Biyokütle", "Dalga"] }
+      ]
+    };
+
+    // KELİMEYİ BUL: Açıklama + kavram. Oyuncu harflere basarak kavramı bulur.
+    const WORDFIND_POOL = {
+      1: [
+        { desc: "Dünya'nın tek doğal uydusu", word: "AY" },
+        { desc: "Güneş'e en yakın gezegen", word: "MERKÜR" },
+        { desc: "Halkasıyla ünlü gezegen", word: "SATÜRN" },
+        { desc: "Kızıl Gezegen", word: "MARS" },
+        { desc: "Güneş sistemindeki en büyük gezegen", word: "JÜPİTER" },
+        { desc: "Güneş'in etrafında dolanan gök cismi", word: "GEZEGEN" },
+        { desc: "Dünya'nın ikizi olan gezegen", word: "VENÜS" },
+        { desc: "Buz devi olarak bilinen uzak gezegen", word: "URANÜS" },
+        { desc: "Güneş sisteminin merkezindeki yıldız", word: "GÜNEŞ" },
+        { desc: "Dünya'nın etrafında dolanan gök cismi", word: "UYDU" }
+      ],
+      2: [
+        { desc: "Kuvvetin birimi", word: "NEWTON" },
+        { desc: "Birim zamanda alınan yol", word: "SÜRAT" },
+        { desc: "Yönü belirtilen sürat", word: "HIZ" },
+        { desc: "Bileşkesi sıfır olan kuvvetler", word: "DENGELENMİŞ" },
+        { desc: "Cismin hızını değiştiren kuvvetler", word: "DENGELENMEMİŞ" },
+        { desc: "Kuvvetlerin toplam etkisi", word: "BİLEŞKE" },
+        { desc: "Hareket eden cismin yön değiştirmesi", word: "HAREKET" },
+        { desc: "Bir cismin konumunun değişmesi", word: "HAREKET" },
+        { desc: "İki kuvvetin aynı yönde toplanması", word: "TOPLAM" },
+        { desc: "Sabit hızlı hareket", word: "SABİT" }
+      ],
+      3: [
+        { desc: "İki ata gerek duyulan üreme", word: "EŞEYLİ" },
+        { desc: "Tek ata ile gerçekleşen üreme", word: "EŞEYSİZ" },
+        { desc: "Dişi üreme hücresi", word: "YUMURTA" },
+        { desc: "Erkek üreme hücresi", word: "SPERM" },
+        { desc: "Döllenmiş yumurta", word: "ZİGOT" },
+        { desc: "İç salgı bezlerinin salgıladığı madde", word: "HORMON" },
+        { desc: "Bitkilerin çoğu neyle ürer", word: "TOHUM" },
+        { desc: "Vücudu yöneten sistem", word: "SİNİR" },
+        { desc: "Çocukluktan yetişkinliğe geçiş", word: "ERGENLİK" },
+        { desc: "Yeni canlının oluşması", word: "ÜREME" }
+      ],
+      4: [
+        { desc: "Işığın madde tarafından emilmesi", word: "SOĞURULMA" },
+        { desc: "Işığın yüzeyden geri dönmesi", word: "YANSIMA" },
+        { desc: "Işığı en iyi yansıtan cisim", word: "AYNA" },
+        { desc: "Işığı çok soğuran renk", word: "SİYAH" },
+        { desc: "Işığı çok yansıtan renk", word: "BEYAZ" },
+        { desc: "Pürüzsüz yüzeyde ışığın yansıması", word: "DÜZENLİ" },
+        { desc: "Pürüzlü yüzeyde ışığın yansıması", word: "DAĞINIK" },
+        { desc: "Güneş enerjisini elektriğe çeviren sistem", word: "PANEL" },
+        { desc: "Işığın doğrultusunu gösteren çizgi", word: "IŞIN" },
+        { desc: "Aynaya dik gelen hayali çizgi", word: "NORMAL" }
+      ]
+    };
+
+    // =========================================================
+    // OYUN DURUMU
+    // =========================================================
+    let p1ScoreVal = 0, p2ScoreVal = 0;
+    let arenaTimer = null, arenaTimeLeft = 45;
+    let p1Queue = [], p2Queue = [];
+    let p1CurrentQ = null, p2CurrentQ = null;
+
+    function showMainMenu() {
+      clearInterval(arenaTimer);
+      document.getElementById('view-arena').classList.add('hidden');
+      document.getElementById('view-menu').classList.remove('hidden');
+      document.getElementById('winnerModal').classList.add('hidden');
+    }
+
+    function startDualGame(mode) {
+      activeGameMode = mode;
+      p1ScoreVal = 0; p2ScoreVal = 0;
+      updateScores();
+      document.getElementById('view-menu').classList.add('hidden');
+      document.getElementById('view-arena').classList.remove('hidden');
+      document.getElementById('winnerModal').classList.add('hidden');
+      initQueuesForMode(mode);
+      startArenaTimer();
+      loadPlayerQuestion(1);
+      loadPlayerQuestion(2);
+    }
+
+    function rematchGame() { startDualGame(activeGameMode); }
+    function updateScores() {
+      document.getElementById('p1Score').textContent = p1ScoreVal;
+      document.getElementById('p2Score').textContent = p2ScoreVal;
+    }
+
+    function startArenaTimer() {
+      clearInterval(arenaTimer);
+      arenaTimeLeft = selectedDuration;
+      document.getElementById('centerTimerDisplay').textContent = arenaTimeLeft;
+      arenaTimer = setInterval(() => {
+        arenaTimeLeft--;
+        document.getElementById('centerTimerDisplay').textContent = arenaTimeLeft;
+        if (arenaTimeLeft <= 0) { clearInterval(arenaTimer); finishArenaMatch(); }
+      }, 1000);
+    }
+
+    function initQueuesForMode(mode) {
+      const unit = selectedUnitId;
+      let pool = [];
+      if (mode === 'swipe') pool = SWIPE_POOL[unit] || [];
+      else if (mode === 'cloze') pool = CLOZE_POOL[unit] || [];
+      else if (mode === 'floating') pool = FLOATING_POOL[unit] || [];
+      else if (mode === 'wordfind') pool = WORDFIND_POOL[unit] || [];
+
+      let filteredPool = pool;
+      if (selectedSubtopicId !== null) {
+        // Soruları alt konuya göre filtrele
+        const subFiltered = pool.filter(item => item.sub === selectedSubtopicId);
+        if (subFiltered.length >= 4) {
+          filteredPool = subFiltered;
+        } else {
+          // Eğer soru havuzunda sub etiketi henüz yoksa veya azsa, o ünitedeki soruların ilgili dilimini al
+          const totalSubs = (UNIT_SUBTOPICS[unit] || []).length;
+          const sliceSize = Math.max(3, Math.floor(pool.length / totalSubs));
+          const startIdx = (selectedSubtopicId * sliceSize) % pool.length;
+          filteredPool = pool.slice(startIdx, startIdx + sliceSize);
+          if (filteredPool.length < 3) filteredPool = pool;
+        }
+      }
+
+      const shuffled = [...filteredPool].sort(() => Math.random() - 0.5);
+      const half = Math.ceil(shuffled.length / 2);
+      p1Queue = shuffled.slice(0, half);
+      p2Queue = shuffled.slice(half);
+
+      if (p1Queue.length < 3) p1Queue = [...shuffled];
+      if (p2Queue.length < 3) p2Queue = [...shuffled].reverse();
+    }
+
+    // =========================================================
+    // SORU YÜKLEME
+    // =========================================================
+    function loadPlayerQuestion(playerNum) {
+      const queue = (playerNum === 1) ? p1Queue : p2Queue;
+      const playArea = document.getElementById(playerNum === 1 ? 'p1PlayArea' : 'p2PlayArea');
+
+      if (queue.length === 0) {
+        playArea.innerHTML = `
+          <div class="text-center p-6 bg-zinc-900 border border-zinc-800 rounded-3xl">
+            <span class="text-4xl block mb-2">🎉</span>
+            <h4 class="text-base font-black text-white">Tüm Sorular Bitti!</h4>
+            <p class="text-xs text-zinc-400 mt-1">Sürenin dolmasını veya diğer oyuncuyu bekle.</p>
+          </div>
+        `;
+        return;
+      }
+
+      const qObj = queue.pop();
+      if (playerNum === 1) p1CurrentQ = qObj; else p2CurrentQ = qObj;
+
+      // 1. DOĞRU / YANLIŞ
+      if (activeGameMode === 'swipe') {
+        playArea.innerHTML = `
+          <div class="flex flex-col items-center justify-center gap-6 h-full">
+            <div class="w-full max-w-sm bg-zinc-900 border-2 border-zinc-800 rounded-3xl p-6 text-center shadow-xl">
+              <span class="text-4xl mb-3 block">🔬</span>
+              <p class="text-base font-bold text-white leading-relaxed">${qObj.q}</p>
+            </div>
+            <div class="grid grid-cols-2 gap-4 w-full max-w-sm">
+              <button onclick="answerSwipe(${playerNum}, false)" class="py-5 rounded-2xl bg-rose-600 hover:bg-rose-500 active:scale-95 text-white font-black text-lg shadow-xl transition flex items-center justify-center gap-2">
+                <span>❌</span> <span>YANLIŞ</span>
+              </button>
+              <button onclick="answerSwipe(${playerNum}, true)" class="py-5 rounded-2xl bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-black text-lg shadow-xl transition flex items-center justify-center gap-2">
+                <span>✔️</span> <span>DOĞRU</span>
+              </button>
+            </div>
+          </div>
+        `;
+      }
+
+      // 2. BOŞLUK DOLDURMA
+      else if (activeGameMode === 'cloze') {
+        const shuffledOpts = [...qObj.options].sort(() => Math.random() - 0.5);
+        let optsHtml = '';
+        shuffledOpts.forEach(opt => {
+          optsHtml += `
+            <button onclick='answerCloze(${playerNum}, ${JSON.stringify(opt)})' class="py-3 px-4 rounded-xl bg-zinc-900 border-2 border-zinc-800 hover:border-emerald-500 text-sm font-bold text-white active:scale-95 transition shadow">
+              ${opt}
+            </button>
+          `;
+        });
+
+        playArea.innerHTML = `
+          <div class="flex flex-col items-center justify-center gap-5 h-full">
+            <div class="w-full max-w-md bg-zinc-900 border-2 border-zinc-800 rounded-3xl p-6 text-center shadow-xl">
+              <span class="text-3xl mb-2 block">📝</span>
+              <p class="text-sm font-bold text-zinc-200 leading-relaxed">${qObj.text}</p>
+            </div>
+            <div class="w-full max-w-md">
+              <span class="text-[11px] font-bold text-zinc-400 block mb-2 text-center">Boşluğa gelmesi gereken kelimeyi seç (1 Doğru, 4 Yanlış):</span>
+              <div class="grid grid-cols-2 gap-2.5">${optsHtml}</div>
+            </div>
+          </div>
+        `;
+      }
+
+      // 3. NOKTA SEÇME
+      else if (activeGameMode === 'floating') {
+        let wordsHtml = '';
+        const shuffled = [...qObj.words].sort(() => Math.random() - 0.5);
+        shuffled.forEach((w) => {
+          wordsHtml += `
+            <button onclick='answerFloating(${playerNum}, ${JSON.stringify(w)})' class="py-2.5 px-4 rounded-2xl bg-zinc-900 border border-zinc-700 hover:border-purple-500 active:scale-95 text-xs font-black text-zinc-200 shadow transition">
+              📍 ${w}
+            </button>
+          `;
+        });
+
+        playArea.innerHTML = `
+          <div class="flex flex-col items-center justify-center gap-4 h-full">
+            <div class="w-full max-w-md bg-zinc-900 border-2 border-zinc-800 rounded-3xl p-5 text-center shadow">
+              <span class="text-2xl mb-1 block">🎯</span>
+              <p class="text-sm font-black text-purple-300">${qObj.q}</p>
+            </div>
+            <div class="w-full max-w-md bg-zinc-950/80 border-2 border-dashed border-zinc-800 rounded-3xl p-4 min-h-[160px] flex flex-wrap gap-2.5 items-center justify-center">
+              ${wordsHtml}
+            </div>
+          </div>
+        `;
+      }
+
+      // 4. KELİMEYİ BUL
+      else if (activeGameMode === 'wordfind') {
+        const word = qObj.word;
+        const letters = "ABCÇDEFGĞHIİJKLMNOÖPRSŞTUÜVYZ".split('');
+        let lettersHtml = '';
+        letters.forEach(l => {
+          lettersHtml += `
+            <button onclick='answerWordFind(${playerNum}, "${l}")' class="w-10 h-10 rounded-xl bg-zinc-900 border-2 border-zinc-800 hover:border-amber-500 active:scale-95 text-sm font-black text-white transition shadow">
+              ${l}
+            </button>
+          `;
+        });
+
+        playArea.innerHTML = `
+          <div class="flex flex-col items-center justify-center gap-4 h-full">
+            <div class="w-full max-w-md bg-zinc-900 border-2 border-zinc-800 rounded-3xl p-5 text-center shadow">
+              <span class="text-2xl mb-1 block">🔤</span>
+              <p class="text-sm font-black text-amber-300 leading-relaxed">${qObj.desc}</p>
+              <p class="text-[10px] text-zinc-500 mt-2">${word.length} harfli</p>
+            </div>
+            <div class="w-full max-w-md bg-zinc-950/80 border-2 border-dashed border-amber-500/40 rounded-3xl p-4 min-h-[70px] flex flex-wrap gap-2 items-center justify-center" id="wfBuilt-${playerNum}">
+              <span class="text-xs text-zinc-500 italic">Harflere basarak kelimeyi diz...</span>
+            </div>
+            <div class="flex flex-wrap gap-1.5 justify-center max-w-md">
+              ${lettersHtml}
+            </div>
+          </div>
+        `;
+        if (playerNum === 1) p1BuiltLetters = []; else p2BuiltLetters = [];
+      }
+    }
+
+    // =========================================================
+    // CEVAP KONTROLLERİ
+    // =========================================================
+    function answerSwipe(playerNum, choice) {
+      const currentQ = (playerNum === 1) ? p1CurrentQ : p2CurrentQ;
+      const feedback = document.getElementById(playerNum === 1 ? 'p1Feedback' : 'p2Feedback');
+      if (choice === currentQ.a) {
+        playSfx('correct');
+        if (playerNum === 1) p1ScoreVal += 20; else p2ScoreVal += 20;
+        feedback.innerHTML = "<span class='text-emerald-400 font-bold'>🎉 DOĞRU CEVAP! (+20)</span>";
+      } else {
+        playSfx('wrong');
+        feedback.innerHTML = "<span class='text-rose-400 font-bold'>❌ YANLIŞ CEVAP!</span>";
+      }
+      updateScores();
+      setTimeout(() => loadPlayerQuestion(playerNum), 400);
+    }
+
+    function answerCloze(playerNum, choice) {
+      const currentQ = (playerNum === 1) ? p1CurrentQ : p2CurrentQ;
+      const feedback = document.getElementById(playerNum === 1 ? 'p1Feedback' : 'p2Feedback');
+      if (choice === currentQ.ans) {
+        playSfx('correct');
+        if (playerNum === 1) p1ScoreVal += 30; else p2ScoreVal += 30;
+        feedback.innerHTML = `<span class='text-emerald-400 font-bold'>🎉 HARİKA! (${choice}) (+30)</span>`;
+      } else {
+        playSfx('wrong');
+        feedback.innerHTML = "<span class='text-rose-400 font-bold'>❌ HATALI KELİME!</span>";
+      }
+      updateScores();
+      setTimeout(() => loadPlayerQuestion(playerNum), 400);
+    }
+
+    function answerFloating(playerNum, choice) {
+      const currentQ = (playerNum === 1) ? p1CurrentQ : p2CurrentQ;
+      const feedback = document.getElementById(playerNum === 1 ? 'p1Feedback' : 'p2Feedback');
+      if (choice === currentQ.correct) {
+        playSfx('correct');
+        if (playerNum === 1) p1ScoreVal += 25; else p2ScoreVal += 25;
+        feedback.innerHTML = `<span class='text-emerald-400 font-bold'>🎯 TAM İSABET! (+25)</span>`;
+      } else {
+        playSfx('wrong');
+        feedback.innerHTML = "<span class='text-rose-400 font-bold'>❌ YANLIŞ NOKTA!</span>";
+      }
+      updateScores();
+      setTimeout(() => loadPlayerQuestion(playerNum), 400);
+    }
+
+    // Kelimeyi Bul: harf harf biriktirme
+    let p1BuiltLetters = [];
+    let p2BuiltLetters = [];
+
+    function answerWordFind(playerNum, letter) {
+      playSfx('click');
+      const arr = (playerNum === 1) ? p1BuiltLetters : p2BuiltLetters;
+      arr.push(letter);
+
+      const builtBox = document.getElementById(`wfBuilt-${playerNum}`);
+      builtBox.innerHTML = '';
+      arr.forEach(l => {
+        const span = document.createElement('span');
+        span.className = "px-3 py-1 bg-amber-500 text-black font-black text-xs rounded-lg";
+        span.textContent = l;
+        builtBox.appendChild(span);
+      });
+
+      const currentQ = (playerNum === 1) ? p1CurrentQ : p2CurrentQ;
+      const target = currentQ.word;
+      const typed = arr.join('');
+
+      // Yanlış giriş kontrolü
+      if (!target.startsWith(typed)) {
+        // Yanlış harf — sıfırla ve ceza
+        playSfx('wrong');
+        arr.length = 0;
+        builtBox.innerHTML = "<span class='text-xs text-rose-400 italic'>Yanlış harf! Sıfırlandı.</span>";
+        const feedback = document.getElementById(playerNum === 1 ? 'p1Feedback' : 'p2Feedback');
+        feedback.innerHTML = "<span class='text-rose-400 font-bold'>❌ YANLIŞ HARF!</span>";
+        return;
+      }
+
+      // Doğru tamamlandı mı?
+      if (typed === target) {
+        playSfx('correct');
+        if (playerNum === 1) p1ScoreVal += 40; else p2ScoreVal += 40;
+        const feedback = document.getElementById(playerNum === 1 ? 'p1Feedback' : 'p2Feedback');
+        feedback.innerHTML = `<span class='text-emerald-400 font-bold'>🎉 KELİMEYİ BULDUN! (${target}) (+40)</span>`;
+        updateScores();
+        setTimeout(() => loadPlayerQuestion(playerNum), 600);
+      }
+    }
+
+    // =========================================================
+    // MAÇ SONU
+    // =========================================================
+    function finishArenaMatch() {
+      playSfx('victory');
+      document.getElementById('winnerModal').classList.remove('hidden');
+      document.getElementById('finalP1Score').textContent = `${p1ScoreVal} Puan`;
+      document.getElementById('finalP2Score').textContent = `${p2ScoreVal} Puan`;
+
+      const title = document.getElementById('winnerTitleText');
+      const sub = document.getElementById('winnerSubText');
+
+      if (p1ScoreVal > p2ScoreVal) {
+        title.textContent = "🏆 1. OYUNCU KAZANDI!";
+        title.className = "text-3xl font-black text-blue-400 mt-1";
+        sub.textContent = "Tebrikler Sol Masaüstü! Müthiş bir Fen bilgisi gösterisi!";
+      } else if (p2ScoreVal > p1ScoreVal) {
+        title.textContent = "🏆 2. OYUNCU KAZANDI!";
+        title.className = "text-3xl font-black text-emerald-400 mt-1";
+        sub.textContent = "Tebrikler Sağ Masaüstü! Müthiş bir Fen bilgisi gösterisi!";
+      } else {
+        title.textContent = "🤝 BERABERE BİTTİ!";
+        title.className = "text-3xl font-black text-purple-400 mt-1";
+        sub.textContent = "İki oyuncu da eşit derecede mükemmel performans sergiledi!";
+      }
+
+      const box = document.getElementById('confettiBoxArena');
+      box.innerHTML = '';
+      const colors = ['#3b82f6', '#10b981', '#f59e0b', '#ec4899', '#8b5cf6', '#14b8a6'];
+      for (let i = 0; i < 45; i++) {
+        const p = document.createElement('div');
+        p.className = 'confetti-piece absolute w-3 h-3 rounded-xs';
+        p.style.backgroundColor = colors[i % colors.length];
+        p.style.left = (Math.random() * 95) + '%';
+        p.style.top = (Math.random() * 20) + '%';
+        p.style.animationDelay = (Math.random() * 0.5) + 's';
+        p.style.animationDuration = (1.8 + Math.random() * 1.2) + 's';
+        box.appendChild(p);
+      }
+    }
+
+    // İlk açılışta 1. üniteyi ve alt konularını aktifleştir
+    selectUnit(1);
+  </script>
+</body>
+</html>

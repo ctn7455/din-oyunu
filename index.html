@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kuvvetli Fen & İnanç Pusulası - 6. Sınıf Eğitim Portalı</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ═══════════════════════════════════════════════════
+       TEMEL STİLLER
+       ═══════════════════════════════════════════════════ */
+    body { background-color: #09090b; color: #fff; }
+    .selection-text::selection { background: #3b82f6; color: #000; }
+
+    /* ═══════════════════════════════════════════════════
+       NAVBAR EK STİLLER
+       ═══════════════════════════════════════════════════ */
+    .nav-author { font-size: 11px; color: #71717a; text-align: right; }
+    .nav-author strong { display: block; font-weight: 800; }
+
+    /* ═══════════════════════════════════════════════════
+       HERO ROZETİ
+       ═══════════════════════════════════════════════════ */
+    .hero-badge-blue {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 16px; border-radius: 999px;
+      background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.3);
+      color: #60a5fa; font-size: 12px; font-weight: 800; margin-bottom: 16px;
+    }
+
+    /* ═══════════════════════════════════════════════════
+       KART EK STİLLER
+       ═══════════════════════════════════════════════════ */
+    .card-subtitle { font-size: 10px; color: #52525b; margin-top: 12px; }
+
+    /* ═══════════════════════════════════════════════════
+       🌞 AYDINLIK TEMA (theme-light) — TÜM OVERRIDE'LAR
+       ═══════════════════════════════════════════════════ */
+    body.theme-light {
+      background-color: #f1f5f9 !important;
+      color: #0f172a !important;
+    }
+    body.theme-light .hero-title {
+      color: #0f172a !important;
+    }
+    body.theme-light .hero-title-gradient {
+      background: linear-gradient(to right, #1d4ed8, #0891b2, #b45309) !important;
+      -webkit-background-clip: text !important;
+      background-clip: text !important;
+      -webkit-text-fill-color: transparent !important;
+    }
+    body.theme-light .hero-badge-blue {
+      background: rgba(29,78,216,0.1) !important;
+      border-color: rgba(29,78,216,0.3) !important;
+      color: #1d4ed8 !important;
+    }
+    body.theme-light .hero-desc {
+      color: #475569 !important;
+    }
+    body.theme-light .card-subtitle {
+      color: #94a3b8 !important;
+    }
+    body.theme-light .footer-brand {
+      color: #334155 !important;
+    }
+    body.theme-light .footer-deepseek {
+      color: #1d4ed8 !important;
+    }
+    body.theme-light .nav-title { color: #0f172a !important; }
+    body.theme-light .nav-subtitle { color: #64748b !important; }
+    body.theme-light .subject-title { color: #0f172a !important; }
+    body.theme-light .subject-desc { color: #475569 !important; }
+    body.theme-light .subject-card { background: #ffffff !important; border-color: #e2e8f0 !important; }
+    body.theme-light .navbar { background-color: rgba(255,255,255,0.9) !important; border-bottom-color: #e2e8f0 !important; }
+    body.theme-light .footer { background-color: #f8fafc !important; border-top-color: #e2e8f0 !important; color: #64748b !important; }
+    body.theme-light .lamp-wire {
+      background: linear-gradient(to bottom, #cbd5e1, #94a3b8) !important;
+    }
+
+    /* ═══════════════════════════════════════════════════
+       🌙 GECE TEMASI (theme-dark) — VARSAYILAN ZATEN KOYU
+       ═══════════════════════════════════════════════════ */
+    body.theme-dark {
+      background-color: #09090b !important;
+      color: #ffffff !important;
+    }
+    body.theme-dark .hero-title {
+      color: #ffffff !important;
+    }
+    body.theme-dark .hero-desc {
+      color: #71717a !important;
+    }
+    body.theme-dark .lamp-wire {
+      background: linear-gradient(to bottom, #52525b, #71717a) !important;
+    }
+</style>
+</head>
+<body class="theme-light selection-text">
+
+  <!-- LAMBA TEMA DEĞİŞTİRİCİ -->
+  <div class="lamp-container">
+    <div class="lamp-wire"></div>
+    <button class="lamp-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Tema Değiştir">
+      <span class="lamp-glow"></span>
+      <span class="lamp-bulb">💡</span>
+    </button>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-logo">
+      <div class="nav-logo-icon">🏫</div>
+      <div>
+        <div class="nav-title">KUVVETLİ FEN & İNANÇ PUSULASI</div>
+        <div class="nav-subtitle">6. Sınıf Eğitim Portalı</div>
+      </div>
+    </div>
+    <div class="nav-author" style="display:none" id="authorBadge">
+      <strong>Yasin Demirtaş</strong>
+      <span>Fen Bilimleri Öğretmeni</span>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <span class="hero-badge-blue">✨ 6. Sınıf Eğitim Platformu</span>
+
+    <h1 class="hero-title">
+      Hangi Dersin<br>
+      <span class="hero-title-gradient">Oyunlarını Oynamak İstersin?</span>
+    </h1>
+    <p class="hero-desc">
+      Aşağıdaki derslerden birini seçerek başla. Her ders kendi konularına özel oyunlar içerir.
+    </p>
+
+    <div class="card-grid" style="margin-top: 40px;">
+
+      <!-- FEN KARTI -->
+      <a href="fen-giris.html" class="subject-card fen">
+        <div class="subject-icon fen">🧪</div>
+        <h2 class="subject-title">FEN BİLİMLERİ</h2>
+        <p class="subject-desc">
+          Kuvvet, hareket, madde, ısı, ses, ışık, elektrik, canlılar...
+          Tüm konuları eğlenceli oyunlarla pekiştir.
+        </p>
+        <span class="btn btn-primary btn-large" style="width:100%; justify-content:center;">
+          <span>Başla</span><span>➔</span>
+        </span>
+        <span class="card-subtitle">10+ Oyun Türü • 4+ Ünite</span>
+      </a>
+
+      <!-- DİN KARTI -->
+      <a href="din-giris.html" class="subject-card din">
+        <div class="subject-icon din">🧭</div>
+        <h2 class="subject-title">DİN KÜLTÜRÜ</h2>
+        <p class="subject-desc">
+          İnanç Pusulası — 6. Sınıf Din Kültürü ve Ahlak Bilgisi oyunları.
+          Dualar, peygamberler, ibadetler...
+        </p>
+        <span class="btn btn-success btn-large" style="width:100%; justify-content:center;">
+          <span>Başla</span><span>➔</span>
+        </span>
+        <span class="card-subtitle">9 Oyun • 5 Ünite • 10 Rozet</span>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="flex items-center gap-2">
+        <span>🏫</span>
+        <span class="font-bold footer-brand">Kuvvetli Fen & İnanç Pusulası</span>
+      </div>
+      <div>
+        Hazırlayan: <strong style="color:#10b981">Yasin Demirtaş</strong>
+        • Yazılım: <strong class="footer-deepseek">Antigravity & DeepSeek</strong>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Ekrana göre yazar rozeti göster
+    if (window.innerWidth >= 768) document.getElementById('authorBadge').style.display = 'block';
+
+    function toggleTheme() {
+      const body = document.body;
+      const toggle = document.getElementById('themeToggle');
+      toggle.classList.add('animating');
+      setTimeout(() => toggle.classList.remove('animating'), 850);
+      if (body.classList.contains('theme-dark')) {
+        body.classList.remove('theme-dark');
+        body.classList.add('theme-light');
+        localStorage.setItem('theme', 'light');
+      } else {
+        body.classList.remove('theme-light');
+        body.classList.add('theme-dark');
+        localStorage.setItem('theme', 'dark');
+      }
+    }
+
+    // Tema tercihini hatırla
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.body.classList.remove('theme-light', 'theme-dark');
+    document.body.classList.add('theme-' + savedTheme);
+  </script>
+
+</body>
+</html>

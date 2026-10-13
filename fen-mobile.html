@@ -1,0 +1,3737 @@
+﻿<html lang="tr"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0284c7">
+<meta name="description" content="6. Sınıf Fen Bilimleri icin etkilesimli egitici oyunlar ve konu anlatimlari.">
+<title>Kuvvetli Fen - 6. Sınıf Fen Bilimleri</title>
+<style>
+  /* ============================================================
+     FEN PUSULASI - 6. SINIF FEN BİLİMLERİ
+     Tek dosya, bağımsız (offline çalışır). Harici CDN/kütüphane yok.
+     ============================================================ */
+
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  html, body { margin: 0; padding: 0; }
+
+  /* ---------------- TEMA DEĞİŞKENLERİ ---------------- */
+  .mode-day {
+    --bg-app: #ffffff;
+    --bg-card: #ffffff;
+    --bg-sub: #f1f5f9;
+    --text: #0f172a;
+    --text-sub: #475569;
+    --line: #e2e8f0;
+    --accent: #0284c7;
+    --accent-2: #0d9488;
+    --accent-soft: rgba(2, 132, 199, 0.12);
+    --ok: #059669;
+    --ok-soft: rgba(5, 150, 105, 0.12);
+    --bad: #dc2626;
+    --bad-soft: rgba(220, 38, 38, 0.12);
+    --warn: #d97706;
+    --warn-soft: rgba(217, 119, 6, 0.12);
+    --nav-bg: #ffffff;
+    --btn-bg: #f1f5f9;
+    --btn-text: #0f172a;
+    --modal-bg: #ffffff;
+    --outside-bg: #eef2f7;
+    --outside-text: #0f172a;
+    --stage-bg: #f8fafc;
+    --sky: #e0f2fe;
+    --shadow: 0 10px 30px rgba(15, 23, 42, 0.10);
+  }
+  .mode-night {
+    --bg-app: #05070d;
+    --bg-card: #0b1220;
+    --bg-sub: #111827;
+    --text: #e5e7eb;
+    --text-sub: #94a3b8;
+    --line: #1f2937;
+    --accent: #38bdf8;
+    --accent-2: #2dd4bf;
+    --accent-soft: rgba(56, 189, 248, 0.15);
+    --ok: #34d399;
+    --ok-soft: rgba(52, 211, 153, 0.15);
+    --bad: #f87171;
+    --bad-soft: rgba(248, 113, 113, 0.15);
+    --warn: #fbbf24;
+    --warn-soft: rgba(251, 191, 36, 0.15);
+    --nav-bg: #05070d;
+    --btn-bg: #111827;
+    --btn-text: #e5e7eb;
+    --modal-bg: #0b1220;
+    --outside-bg: #000000;
+    --outside-text: #e5e7eb;
+    --stage-bg: #050b16;
+    --sky: #071a2b;
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  }
+
+body {
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg-app);
+    color: var(--text);
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    display: block;
+    transition: background-color .3s, color .3s;
+    overflow: hidden;
+  }
+  /* ---------------- TELEFON ÇERÇEVESİ ---------------- */
+.phone {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    background: var(--bg-app);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: background-color .3s;
+  }
+  /* ---------------- ÜST BAR ---------------- */
+  .top-bar {
+    flex: 0 0 auto;
+    height: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 14px;
+    background: var(--bg-app);
+    border-bottom: 1px solid var(--line);
+    z-index: 30;
+  }
+  .icon-btn {
+    width: 36px; height: 36px;
+    border-radius: 12px;
+    border: 1px solid var(--line);
+    background: var(--btn-bg);
+    color: var(--btn-text);
+    font-weight: 900;
+    font-size: 15px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: transform .12s, opacity .2s;
+  }
+  .icon-btn:active { transform: scale(.92); }
+  .invisible { visibility: hidden; pointer-events: none; }
+  .title-wrap { text-align: center; flex: 1 1 auto; padding: 0 6px; min-width: 0; }
+  .top-title {
+    margin: 0;
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: .6px;
+    text-transform: uppercase;
+    color: var(--text);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .top-sub { margin: 1px 0 0; font-size: 9px; font-weight: 600; color: var(--text-sub); }
+
+  .lamp-wrap { display: flex; flex-direction: column; align-items: center; }
+  .lamp-wire { width: 2px; height: 8px; background: #b45309; opacity: .7; }
+  .lamp {
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    background: radial-gradient(circle at 35% 30%, #fde68a, #f59e0b 65%, #b45309);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px;
+    box-shadow: 0 0 14px rgba(245, 158, 11, .55);
+    animation: lamp-swing 3.5s infinite ease-in-out;
+    transform-origin: top center;
+    transition: transform .15s;
+  }
+  .lamp:active { transform: scale(.9); }
+  @keyframes lamp-swing { 0%,100% { transform: rotate(-5deg); } 50% { transform: rotate(5deg); } }
+
+  /* ---------------- EKRAN ALANI ---------------- */
+  .views { position: relative; flex: 1 1 auto; overflow: hidden; }
+  .screen {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    padding: 14px;
+    overflow-y: auto;
+    animation: fade-in .25s ease;
+    -ms-overflow-style: none; scrollbar-width: none;
+  }
+  .screen::-webkit-scrollbar { display: none; }
+  @keyframes fade-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  .hidden { display: none !important; }
+
+  /* ---------------- GENEL BİLEŞENLER ---------------- */
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 13px;
+  }
+  .subcard { background: var(--bg-sub); border: 1px solid var(--line); border-radius: 14px; padding: 10px; }
+  .pill {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 3px 11px; border-radius: 999px;
+    font-size: 10px; font-weight: 800;
+    background: var(--accent-soft); color: var(--accent);
+    border: 1px solid transparent;
+  }
+  .btn {
+    border: none; cursor: pointer;
+    border-radius: 14px;
+    font-weight: 800;
+    font-size: 12px;
+    padding: 11px 14px;
+    background: var(--btn-bg);
+    color: var(--btn-text);
+    border: 1px solid var(--line);
+    transition: transform .12s, filter .2s;
+  }
+  .btn:active { transform: scale(.96); }
+  .btn-primary {
+    background: linear-gradient(120deg, var(--accent), var(--accent-2));
+    color: #fff; border: none;
+    font-weight: 900;
+    box-shadow: 0 8px 20px -8px var(--accent);
+  }
+  .btn-block { width: 100%; }
+  .btn-ghost { background: var(--bg-card); }
+  .btn:disabled { opacity: .5; cursor: default; transform: none; filter: grayscale(.4); }
+  .row { display: flex; align-items: center; gap: 8px; }
+  .between { justify-content: space-between; }
+  .center { text-align: center; }
+  .muted { color: var(--text-sub); }
+  .xs { font-size: 10px; line-height: 1.5; }
+  .sm { font-size: 11px; line-height: 1.55; }
+  .grow { flex: 1 1 auto; }
+
+  .section-note { font-size: 9px; font-weight: 800; color: var(--text-sub); text-transform: uppercase; letter-spacing: .5px; margin: 0 0 6px 2px; }
+
+  /* ---------------- HOŞ GELDİN ---------------- */
+  #v-welcome { justify-content: space-between; text-align: center; }
+  .hero-logo {
+    width: 86px; height: 86px; margin: 6px auto 0;
+    border-radius: 26px; padding: 3px;
+    background: linear-gradient(140deg, var(--accent), var(--accent-2), #f59e0b);
+    box-shadow: 0 12px 26px -12px var(--accent);
+  }
+  .hero-logo > div {
+    width: 100%; height: 100%;
+    border-radius: 23px;
+    background: var(--bg-card);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 40px;
+  }
+  .hero-title { font-size: 21px; font-weight: 900; margin: 8px 0 2px; letter-spacing: .5px; }
+  .hero-sub { font-size: 12px; font-weight: 800; color: var(--accent); margin: 0; }
+  .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+  .stat { background: var(--bg-sub); border: 1px solid var(--line); border-radius: 12px; padding: 7px; font-size: 10px; font-weight: 800; }
+  .pulse { animation: pulse-btn 2.4s infinite ease-in-out; }
+  @keyframes pulse-btn {
+    0%,100% { box-shadow: 0 8px 20px -8px var(--accent), 0 0 0 0 var(--accent-soft); }
+    50% { box-shadow: 0 8px 20px -8px var(--accent), 0 0 0 12px transparent; }
+  }
+
+  /* ---------------- LİSTE / IZGARALAR ---------------- */
+  .unit-card {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 10px; cursor: pointer;
+    background: var(--bg-card); border: 1px solid var(--line);
+    border-radius: 18px; padding: 12px; margin-bottom: 9px;
+    transition: transform .12s, border-color .2s;
+  }
+  .unit-card:active { transform: scale(.985); }
+  .unit-ico {
+    width: 42px; height: 42px; flex: 0 0 auto;
+    border-radius: 14px; display: flex; align-items: center; justify-content: center;
+    font-size: 21px; background: var(--accent-soft);
+  }
+  .unit-name { font-size: 12px; font-weight: 900; color: var(--text); margin: 0; line-height: 1.3; }
+  .unit-meta { font-size: 9px; color: var(--text-sub); margin: 3px 0 0; font-weight: 600; }
+  .arrow { color: var(--accent); font-weight: 900; font-size: 15px; padding-right: 3px; }
+
+  .games-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+  .game-card {
+    position: relative;
+    background: var(--bg-card); border: 1px solid var(--line);
+    border-radius: 18px; padding: 11px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    cursor: pointer; transition: transform .12s, border-color .2s;
+    min-height: 118px;
+  }
+  .game-card:active { transform: scale(.96); }
+  .game-card .g-ico { font-size: 23px; line-height: 1; }
+  .game-card h4 { font-size: 11px; font-weight: 800; margin: 6px 0 3px; color: var(--text); line-height: 1.25; }
+  .game-card p { font-size: 9px; color: var(--text-sub); margin: 0; line-height: 1.45; }
+  .play-tag {
+    margin-top: 8px; text-align: center;
+    font-size: 9px; font-weight: 900; padding: 4px;
+    border-radius: 9px; background: var(--accent-soft); color: var(--accent);
+  }
+  .best-tag { position: absolute; top: 8px; right: 9px; font-size: 8px; font-weight: 900; color: var(--warn); }
+
+  .chip-row { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip {
+    font-size: 9px; font-weight: 700;
+    padding: 5px 9px; border-radius: 999px;
+    background: var(--bg-card); border: 1px solid var(--line); color: var(--text-sub);
+  }
+  .chip-btn { cursor: pointer; font-family: inherit; line-height: 1.3; user-select: none; -webkit-user-select: none; transition: transform .12s, background .2s, color .2s, border-color .2s; }
+  .chip-btn:active { transform: scale(.94); }
+  .chip-btn.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .filter-note {
+    display: flex; align-items: center; justify-content: space-between; gap: 8px;
+    font-size: 9.5px; font-weight: 800; color: var(--accent);
+    background: var(--accent-soft); border: 1px solid var(--accent);
+    border-radius: 12px; padding: 7px 10px; margin-bottom: 9px;
+  }
+  .filter-note button {
+    flex: 0 0 auto; background: transparent; border: none; color: var(--accent);
+    font-weight: 900; font-size: 9.5px; cursor: pointer; text-decoration: underline; padding: 2px;
+  }
+  .q-count { font-size: 8px; font-weight: 900; color: var(--accent); }
+
+  /* ---------------- SESLI KONU ANLATIMI ---------------- */
+  .narrator {
+    background: var(--bg-card); border: 1px solid var(--line);
+    border-radius: 16px; padding: 10px; margin-bottom: 9px;
+  }
+  .narrator-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 7px; }
+  .narrator-title { font-size: 11px; font-weight: 900; color: var(--text); }
+  .narrator-prog { font-size: 9px; font-weight: 800; color: var(--text-sub); }
+  .narrator-ctrl { display: flex; align-items: center; gap: 6px; }
+  .narrator-ctrl + .narrator-ctrl { margin-top: 6px; }
+  .nbtn {
+    flex: 0 0 auto; min-width: 38px; font-size: 11px; font-weight: 800;
+    padding: 8px 10px; border-radius: 11px;
+    background: var(--btn-bg); color: var(--btn-text); border: 1px solid var(--line); cursor: pointer;
+  }
+  .nbtn:active { transform: scale(.95); }
+  .nbtn-play { flex: 1 1 auto; background: var(--accent); color: #fff; border-color: var(--accent); }
+  .narr-rate .nbtn { font-size: 9.5px; padding: 6px 8px; }
+  .rate-lbl { font-size: 10px; font-weight: 900; color: var(--accent); min-width: 34px; text-align: center; }
+  .narr-msg { font-size: 9px; color: var(--text-sub); margin-top: 6px; line-height: 1.5; }
+  .lesson-item { position: relative; }
+  .lesson-item.focus { border-left-color: var(--warn); box-shadow: 0 0 0 2px var(--warn-soft); }
+  .ncard-play {
+    position: absolute; top: 8px; right: 8px;
+    background: var(--bg-sub); border: 1px solid var(--line); color: var(--accent);
+    border-radius: 9px; font-size: 11px; padding: 3px 7px; cursor: pointer;
+  }
+  .ncard-play:active { transform: scale(.92); }
+
+  /* ---------------- DERS / KONU ANLATIMI ---------------- */
+  .lesson-item { border-left: 3px solid var(--accent); background: var(--bg-card); border-radius: 0 14px 14px 0; padding: 10px 12px; margin-bottom: 9px; border-top: 1px solid var(--line); border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .lesson-item h4 { margin: 0 0 4px; font-size: 11px; font-weight: 900; color: var(--accent); }
+  .lesson-item p { margin: 0; font-size: 10.5px; line-height: 1.6; color: var(--text-sub); }
+  .lesson-item b { color: var(--text); }
+  .keybox { display: grid; gap: 5px; margin-top: 7px; }
+  .keybox span { font-size: 10px; color: var(--text); background: var(--bg-sub); border-radius: 9px; padding: 5px 8px; }
+
+  /* ---------------- OYUN EKRANI ---------------- */
+  #v-play { padding: 12px; }
+  .play-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 9px; gap: 8px; }
+  .score-chip, .timer-chip {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 11px; font-weight: 800; padding: 4px 11px;
+    border-radius: 999px; border: 1px solid transparent;
+  }
+  .score-chip { background: var(--warn-soft); color: var(--warn); }
+  .timer-chip { background: var(--bad-soft); color: var(--bad); }
+  .timer-chip.warn { animation: pulse-btn 1s infinite; }
+
+  .game-stage { flex: 1 1 auto; display: flex; flex-direction: column; gap: 9px; overflow-y: auto; -ms-overflow-style: none; scrollbar-width: none; }
+  .game-stage::-webkit-scrollbar { display: none; }
+  .g-hint { text-align: center; font-size: 9.5px; font-weight: 700; color: var(--text-sub); }
+
+  /* Ortak büyük görev kartı */
+  .task-card {
+    background: var(--bg-card); border: 1px solid var(--line);
+    border-radius: 18px; padding: 13px; text-align: center;
+  }
+  .task-card h3 { margin: 0 0 4px; font-size: 12px; font-weight: 900; color: var(--text); }
+  .task-card .q { font-size: 12px; font-weight: 800; color: var(--text); line-height: 1.55; margin: 0; }
+  .task-visual { margin: 9px auto 0; }
+
+  /* Şıklar */
+  .opt-list { display: grid; gap: 8px; }
+  .opt {
+    text-align: left; cursor: pointer;
+    background: var(--bg-card); border: 1.5px solid var(--line);
+    border-radius: 14px; padding: 11px 12px;
+    font-size: 11px; font-weight: 700; color: var(--text);
+    display: flex; align-items: center; gap: 9px;
+    transition: transform .12s, border-color .2s, background .2s;
+  }
+  .opt:active { transform: scale(.98); }
+  .opt .badge-letter {
+    flex: 0 0 auto; width: 22px; height: 22px; border-radius: 8px;
+    background: var(--bg-sub); color: var(--text);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 900;
+  }
+  .opt.correct { border-color: var(--ok); background: var(--ok-soft); }
+  .opt.correct .badge-letter { background: var(--ok); color: #fff; }
+  .opt.wrong { border-color: var(--bad); background: var(--bad-soft); }
+  .opt.wrong .badge-letter { background: var(--bad); color: #fff; }
+  .opt.dim { opacity: .45; }
+
+  /* Feedback */
+  .feedback {
+    border-radius: 13px; padding: 9px 11px; font-size: 10.5px; font-weight: 600;
+    line-height: 1.5; border: 1px solid transparent; min-height: 34px;
+    background: var(--bg-sub); color: var(--text-sub);
+  }
+  .feedback.ok { background: var(--ok-soft); border-color: var(--ok); color: var(--ok); }
+  .feedback.bad { background: var(--bad-soft); border-color: var(--bad); color: var(--bad); }
+  .feedback.info { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+  .feedback b { color: inherit; }
+
+  /* Swipe kartı */
+  .swipe-area { flex: 1 1 auto; min-height: 300px; display: flex; align-items: center; justify-content: center; position: relative; touch-action: none; }
+  .swipe-card {
+    width: 100%; max-width: 320px; min-height: 250px;
+    background: var(--bg-card); border: 2px solid var(--line);
+    border-radius: 24px; padding: 20px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; box-shadow: var(--shadow);
+    cursor: grab; position: relative; user-select: none;
+  }
+  .swipe-card:active { cursor: grabbing; }
+  .swipe-card p { font-size: 12.5px; font-weight: 800; color: var(--text); line-height: 1.6; margin: 10px 0 0; }
+  .stamp {
+    position: absolute; top: 14px; font-size: 11px; font-weight: 900;
+    padding: 4px 10px; border-radius: 10px; color: #fff; opacity: 0; transition: opacity .15s;
+  }
+  .stamp.right { right: 14px; background: var(--ok); }
+  .stamp.left { left: 14px; background: var(--bad); }
+  .swipe-legend { display: flex; justify-content: space-between; font-size: 9px; font-weight: 800; color: var(--text-sub); }
+
+  /* Kelime dizme */
+  .dropzone {
+    min-height: 72px; border: 2px dashed var(--accent);
+    border-radius: 16px; padding: 10px;
+    display: flex; flex-wrap: wrap; gap: 6px; align-items: center; justify-content: center;
+    background: var(--bg-card);
+  }
+  .dropzone.empty::before { content: "Kelimelere dokunarak cümleyi oluştur"; font-size: 9.5px; color: var(--text-sub); font-weight: 700; }
+  .word-pool { display: flex; flex-wrap: wrap; gap: 7px; justify-content: center; }
+  .word {
+    cursor: pointer; border: 1.5px solid var(--line); background: var(--bg-card);
+    color: var(--text); font-size: 11px; font-weight: 800;
+    padding: 8px 12px; border-radius: 12px; transition: transform .12s, opacity .2s;
+  }
+  .word:active { transform: scale(.94); }
+  .word.used { opacity: .25; pointer-events: none; }
+  .built-word {
+    font-size: 11px; font-weight: 800; color: #fff;
+    background: var(--accent); padding: 7px 11px; border-radius: 11px;
+  }
+
+  /* Memory */
+  .mem-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .mem-card {
+    min-height: 62px; border-radius: 13px;
+    border: 1.5px solid var(--line); background: var(--bg-card);
+    color: var(--text); font-size: 9px; font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+    text-align: center; padding: 4px; cursor: pointer; line-height: 1.25;
+    transition: transform .12s, background .2s;
+  }
+  .mem-card:active { transform: scale(.95); }
+  .mem-card.open { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+  .mem-card.done { background: var(--ok); border-color: var(--ok); color: #fff; }
+
+  /* Sıralama */
+  .order-pool { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .order-item {
+    cursor: pointer; background: var(--bg-card); border: 1.5px solid var(--line);
+    border-radius: 13px; padding: 10px; font-size: 10px; font-weight: 800; color: var(--text);
+    text-align: center; transition: transform .12s, opacity .2s;
+  }
+  .order-item:active { transform: scale(.95); }
+  .order-item.used { opacity: .2; pointer-events: none; }
+  .order-track { display: flex; flex-wrap: wrap; gap: 6px; min-height: 40px; align-items: center; padding: 8px; border-radius: 13px; background: var(--bg-sub); border: 1px solid var(--line); }
+  .order-slot { font-size: 9.5px; font-weight: 800; background: var(--accent); color: #fff; border-radius: 10px; padding: 6px 9px; display: flex; align-items: center; gap: 5px; }
+  .order-slot .n { opacity: .8; }
+
+  /* Hotspot */
+  .stage {
+    position: relative; width: 100%; border-radius: 18px;
+    border: 1.5px solid var(--line); background: var(--stage-bg);
+    overflow: hidden;
+  }
+  .pin {
+    position: absolute; transform: translate(-50%, -50%);
+    cursor: pointer; font-size: 9px; font-weight: 800;
+    padding: 5px 8px; border-radius: 10px;
+    background: var(--bg-card); color: var(--text);
+    border: 1.5px solid var(--line); box-shadow: 0 4px 10px rgba(0,0,0,.14);
+    transition: transform .12s, border-color .2s;
+    white-space: nowrap;
+  }
+  .pin:active { transform: translate(-50%, -50%) scale(.94); }
+  .pin.correct { border-color: var(--ok); background: var(--ok); color: #fff; }
+  .pin.wrong { border-color: var(--bad); background: var(--bad); color: #fff; }
+
+  /* Sürükle-bırak */
+  .dd-items { display: flex; flex-wrap: wrap; gap: 7px; justify-content: center; }
+  .dd-item {
+    cursor: pointer; font-size: 10px; font-weight: 800;
+    padding: 8px 11px; border-radius: 12px;
+    background: var(--bg-card); border: 1.5px solid var(--line); color: var(--text);
+    transition: transform .12s, border-color .2s;
+  }
+  .dd-item:active { transform: scale(.95); }
+  .dd-item.selected { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); }
+  .dd-item.used { opacity: .22; pointer-events: none; }
+  .dd-targets { display: grid; gap: 8px; }
+  .dd-target {
+    min-height: 44px; border-radius: 13px; padding: 8px 10px;
+    border: 1.5px dashed var(--line); background: var(--bg-card);
+    display: flex; align-items: center; gap: 8px; font-size: 10px; font-weight: 800; color: var(--text);
+    transition: border-color .2s, background .2s;
+  }
+  .dd-target .tlabel { flex: 0 0 auto; color: var(--text-sub); }
+  .dd-target .slotbox { flex: 1 1 auto; display: flex; flex-wrap: wrap; gap: 5px; }
+  .dd-target.over { border-color: var(--accent); background: var(--accent-soft); }
+  .dd-target.correct { border-style: solid; border-color: var(--ok); background: var(--ok-soft); }
+  .dd-target.wrong { border-color: var(--bad); background: var(--bad-soft); }
+  .slot-chip { font-size: 10px; font-weight: 800; background: var(--accent); color: #fff; padding: 5px 9px; border-radius: 10px; }
+  .dd-target.correct .slot-chip { background: var(--ok); }
+
+  /* Sınıflandırma (sepet) */
+  .sort-bins { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .sort-bin {
+    cursor: pointer; text-align: center; font-size: 10.5px; font-weight: 900;
+    padding: 13px 8px; border-radius: 15px;
+    border: 1.5px solid var(--line); background: var(--bg-card); color: var(--text);
+    transition: transform .12s, border-color .2s, background .2s;
+  }
+  .sort-bin:active { transform: scale(.96); }
+  .sort-bin.a { border-color: rgba(2,132,199,.5); }
+  .sort-bin.b { border-color: rgba(217,119,6,.5); }
+  .sort-bin .cnt { display: block; font-size: 9px; color: var(--text-sub); margin-top: 3px; }
+  .sort-item {
+    cursor: pointer; font-size: 11px; font-weight: 800;
+    padding: 10px 12px; border-radius: 13px;
+    background: var(--bg-card); border: 1.5px solid var(--line); color: var(--text);
+    transition: transform .12s, border-color .2s;
+  }
+  .sort-item:active { transform: scale(.97); }
+  .sort-item.selected { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); }
+
+  /* Yakalama (catcher) */
+  .catch-field {
+    position: relative; flex: 1 1 auto; min-height: 300px;
+    border-radius: 18px; border: 1.5px solid var(--line); background: var(--stage-bg);
+    overflow: hidden; touch-action: none; cursor: ew-resize;
+  }
+  .falling {
+    position: absolute; top: 0; transform: translateX(-50%);
+    font-size: 11px; font-weight: 900; color: var(--text);
+    background: var(--bg-card); border: 1.5px solid var(--line);
+    border-radius: 12px; padding: 6px 10px; white-space: nowrap;
+    box-shadow: 0 4px 10px rgba(0,0,0,.14);
+  }
+  .basket {
+    position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%);
+    width: 112px; height: 40px; border-radius: 16px;
+    background: linear-gradient(180deg, #f59e0b, #b45309);
+    border: 2px solid #fbbf24; color: #fff; font-weight: 900; font-size: 11px;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 8px 18px -8px #b45309; pointer-events: none;
+  }
+
+  /* Simülasyon */
+  .sim-panel { background: var(--bg-card); border: 1px solid var(--line); border-radius: 16px; padding: 12px; }
+  .sim-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 10.5px; font-weight: 700; color: var(--text); margin: 7px 0; }
+  .sim-row input[type=range] { flex: 1 1 auto; }
+  input[type=range] { -webkit-appearance: none; appearance: none; height: 20px; background: transparent; }
+  input[type=range]::-webkit-slider-runnable-track { height: 6px; border-radius: 999px; background: var(--line); }
+  input[type=range]::-moz-range-track { height: 6px; border-radius: 999px; background: var(--line); }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none; margin-top: -8px;
+    width: 22px; height: 22px; border-radius: 50%;
+    background: var(--accent); border: 3px solid var(--bg-card);
+    box-shadow: 0 0 10px var(--accent-soft);
+  }
+  input[type=range]::-moz-range-thumb {
+    width: 20px; height: 20px; border-radius: 50%;
+    background: var(--accent); border: 3px solid var(--bg-card);
+  }
+  .sim-btn { cursor: pointer; font-size: 10px; font-weight: 900; padding: 8px 12px; border-radius: 12px; border: 1.5px solid var(--line); background: var(--bg-sub); color: var(--text); }
+  .sim-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .sim-btn:active { transform: scale(.95); }
+  .step-badge { display: inline-flex; gap: 5px; align-items: center; font-size: 9px; font-weight: 900; padding: 3px 9px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+
+  /* Renk kutuları */
+  .swatch { width: 100%; height: 46px; border-radius: 12px; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 800; }
+
+  /* ---------------- ROZETLER ---------------- */
+  .badge-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .badge-card {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--bg-card); border: 1px solid var(--line);
+    border-radius: 15px; padding: 10px; opacity: .5;
+    transition: opacity .3s, border-color .3s;
+  }
+  .badge-card.on { opacity: 1; border-color: var(--warn); box-shadow: 0 6px 16px -12px var(--warn); }
+  .badge-card .b-ico { font-size: 22px; }
+  .badge-card h4 { margin: 0; font-size: 10px; font-weight: 900; color: var(--text); line-height: 1.2; }
+  .badge-card p { margin: 2px 0 0; font-size: 8px; color: var(--text-sub); line-height: 1.3; }
+
+  /* ---------------- ALT MENÜ ---------------- */
+  .bottom-nav {
+    flex: 0 0 auto; height: 58px;
+    display: flex; align-items: center; justify-content: space-around;
+    background: var(--nav-bg); border-top: 1px solid var(--line);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .nav-btn {
+    border: none; background: none; cursor: pointer;
+    display: flex; flex-direction: column; align-items: center; gap: 2px;
+    font-size: 9px; font-weight: 700; color: var(--text-sub);
+    transition: color .2s, transform .12s;
+  }
+  .nav-btn span:first-child { font-size: 17px; }
+  .nav-btn:active { transform: scale(.92); }
+  .nav-btn.active { color: var(--accent); }
+
+  /* ---------------- MODALLER ---------------- */
+  .modal {
+    position: absolute; inset: 0; z-index: 60;
+    background: rgba(0, 0, 0, .75);
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px;
+    backdrop-filter: blur(3px);
+  }
+  .modal-card {
+    width: 100%; max-width: 330px;
+    background: var(--modal-bg); border: 1.5px solid var(--line);
+    border-radius: 24px; padding: 20px; text-align: center;
+    box-shadow: var(--shadow); animation: pop .3s cubic-bezier(.34,1.56,.64,1);
+    position: relative; overflow: hidden;
+  }
+  @keyframes pop { from { transform: scale(.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  .modal-card h3 { margin: 6px 0 4px; font-size: 14px; font-weight: 900; color: var(--text); }
+  .modal-card p { margin: 0; font-size: 10.5px; color: var(--text-sub); line-height: 1.5; }
+  .modal-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 16px; }
+  .modal-actions.single { grid-template-columns: 1fr; }
+  .slider-value { display: inline-flex; align-items: center; gap: 6px; font-size: 15px; font-weight: 900; color: var(--accent); background: var(--accent-soft); padding: 6px 16px; border-radius: 999px; margin: 10px 0; }
+  .slider-scale { display: flex; justify-content: space-between; font-size: 9px; font-weight: 800; color: var(--text-sub); margin-top: 2px; }
+
+  .finish-icon { width: 62px; height: 62px; margin: 0 auto; border-radius: 50%; background: var(--ok-soft); border: 2px solid var(--ok); display: flex; align-items: center; justify-content: center; font-size: 30px; animation: bounce 1.2s infinite; }
+  @keyframes bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+  .finish-stats { display: flex; justify-content: space-around; align-items: center; margin: 14px 0; background: var(--bg-sub); border-radius: 16px; padding: 11px; }
+  .finish-stats .fs-val { font-size: 16px; font-weight: 900; }
+  .finish-stats .fs-lbl { font-size: 8.5px; font-weight: 800; text-transform: uppercase; color: var(--text-sub); }
+  .divider-v { width: 1px; height: 30px; background: var(--line); }
+
+  .badge-pop { font-size: 44px; animation: badge-pop .7s cubic-bezier(.34,1.56,.64,1); }
+  @keyframes badge-pop { 0% { transform: scale(.2) rotate(-15deg); opacity: 0; } 70% { transform: scale(1.15) rotate(5deg); opacity: 1; } 100% { transform: scale(1) rotate(0); opacity: 1; } }
+
+  .confetti-box { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+  .confetti { position: absolute; width: 8px; height: 8px; border-radius: 2px; animation: confetti-fall 2.2s ease-in forwards; }
+  @keyframes confetti-fall { 0% { transform: translateY(-24px) rotate(0); opacity: 1; } 100% { transform: translateY(400px) rotate(720deg); opacity: 0; } }
+
+  .toast {
+    position: absolute; left: 50%; bottom: 74px; transform: translateX(-50%);
+    z-index: 70; font-size: 10.5px; font-weight: 800;
+    padding: 9px 15px; border-radius: 999px;
+    background: var(--text); color: var(--bg-app);
+    opacity: 0; pointer-events: none; transition: opacity .25s, transform .25s;
+    white-space: nowrap; max-width: 90%;
+  }
+  .toast.show { opacity: .95; transform: translateX(-50%) translateY(-6px); }
+
+  /* Yatay taşma koruması */
+  .screen, .game-stage { max-width: 100%; }
+  img, svg { max-width: 100%; }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+  }
+</style>
+</head>
+<body id="pageBody" class="mode-day">
+<main class="phone">
+
+  <header class="top-bar">
+    <button id="backBtn" class="icon-btn invisible" onclick="smartBack()" aria-label="Geri git">❮</button>
+    <div class="title-wrap">
+      <h1 id="topTitle" class="top-title">KUVVETLİ FEN</h1>
+      <p id="topSub" class="top-sub">6. Sınıf Fen Bilimleri</p>
+    </div>
+    <div class="lamp-wrap">
+      <div class="lamp-wire"></div>
+      <button id="themeBtn" class="lamp" onclick="toggleTheme()" aria-label="Gece gündüz modu">💡</button>
+    </div>
+  </header>
+
+  <div class="views">
+
+    <!-- 1. HOŞ GELDİN -->
+    <section id="v-welcome" class="screen">
+      <div>
+        <span class="pill">✨ 6. Sınıf MEB Müfredatı</span>
+        <div class="hero-logo"><div>🔭</div></div>
+        <h2 class="hero-title">KUVVETLİ FEN</h2>
+        <p class="hero-sub">Eğitici Oyunlar &amp; Konu Anlatımları</p>
+      </div>
+
+      <div class="card">
+        <p style="margin:0;font-size:12px;font-weight:900;color:var(--accent)">Hoş geldin sevgili öğrenci! 👋</p>
+        <p class="xs muted" style="margin:6px 0 0">
+          4 ünite, konu anlatımları ve <strong style="color:var(--text)">üniteye özel oyunlar</strong> seni bekliyor.
+          Sorular karışık gelir, her doğru cevapta nedenini öğrenir ve <strong style="color:var(--text)">10 başarı rozeti</strong> kazanırsın.
+        </p>
+        <div class="stat-grid">
+          <div class="stat">📚 4 MEB Ünitesi</div>
+          <div class="stat">🎮 20+ Oyun</div>
+          <div class="stat">📝 Konu Anlatımı</div>
+          <div class="stat">🏆 10 Rozet</div>
+        </div>
+      </div>
+
+      <div class="center" style="margin-bottom:6px">
+        <button class="btn btn-primary btn-block pulse" onclick="startApp()" style="padding:14px;font-size:13px">
+          Maceraya Başla ➔
+        </button>
+        <p class="xs muted" style="margin:7px 0 0">Üniteleri keşfet, oyunlarla öğren, puan topla!</p>
+      </div>
+    </section>
+
+    <!-- 2. ÜNİTELER -->
+    <section id="v-units" class="screen hidden">
+      <div class="center" style="margin-bottom:10px">
+        <span class="pill">6. Sınıf Fen Bilimleri</span>
+        <h3 style="font-size:13px;font-weight:900;margin:8px 0 2px">Ders Üniteni Seç</h3>
+        <p class="xs muted" style="margin:0">Her ünitede konu anlatımı ve oyunlar bulunur.</p>
+      </div>
+      <div id="unitsList"><div class="unit-card" role="button" tabindex="0"><div class="row grow"><div class="unit-ico">🌞</div><div class="grow"><h4 class="unit-name">1. Ünite: Güneş Sistemi ve Tutulmalar</h4><p class="unit-meta">4 alt konu • 6 oyun • 0 oynandı</p></div></div><span class="arrow">❯</span></div><div class="unit-card" role="button" tabindex="0"><div class="row grow"><div class="unit-ico">🧲</div><div class="grow"><h4 class="unit-name">2. Ünite: Kuvvetin Etkisinde Hareket</h4><p class="unit-meta">5 alt konu • 6 oyun • 0 oynandı</p></div></div><span class="arrow">❯</span></div><div class="unit-card" role="button" tabindex="0"><div class="row grow"><div class="unit-ico">🌱</div><div class="grow"><h4 class="unit-name">3. Ünite: Canlılarda Sistemler</h4><p class="unit-meta">8 alt konu • 7 oyun • 0 oynandı</p></div></div><span class="arrow">❯</span></div><div class="unit-card" role="button" tabindex="0"><div class="row grow"><div class="unit-ico">🪞</div><div class="grow"><h4 class="unit-name">4. Ünite: Işığın Yansıtılması ve Renkler</h4><p class="unit-meta">5 alt konu • 7 oyun • 0 oynandı</p></div></div><span class="arrow">❯</span></div></div>
+    </section>
+
+    <!-- 3. ÜNİTE DETAY / OYUNLAR -->
+    <section id="v-games" class="screen hidden">
+      <div class="center" style="margin-bottom:8px">
+        <span id="gamesUnitBadge" class="pill">Ünite</span>
+        <h3 id="gamesUnitTitle" style="font-size:13px;font-weight:900;margin:8px 0 0">Ünite Adı</h3>
+      </div>
+
+      <div class="subcard" style="margin-bottom:9px">
+        <p class="section-note" style="margin-bottom:6px">📌 Alt Konuya Dokun — Sorular Seçtiğin Konudan Gelir</p>
+        <div id="gamesSubtopics" class="chip-row"></div>
+      </div>
+      <div id="filterNote" class="filter-note hidden">
+        <span id="filterNoteText">Seçili konu</span>
+        <button type="button" onclick="clearTopicFilter()">Tümünü göster</button>
+      </div>
+
+      <button class="btn btn-ghost btn-block" onclick="openLesson()" style="margin-bottom:11px;border-color:var(--accent);color:var(--accent)">
+        📖 Konu Anlatımını Aç
+      </button>
+
+      <p class="section-note">🎮 Üniteye Özel Oyunlar</p>
+      <div id="gamesGrid" class="games-grid"></div>
+    </section>
+
+    <!-- 4. KONU ANLATIMI -->
+    <section id="v-lesson" class="screen hidden">
+      <div class="center" style="margin-bottom:9px">
+        <span id="lessonUnitBadge" class="pill">Ünite</span>
+        <h3 id="lessonTitle" style="font-size:13px;font-weight:900;margin:8px 0 2px">Konu Anlatımı</h3>
+        <p class="xs muted" style="margin:0">Kısa özet ve önemli noktalar</p>
+      </div>
+      <div id="narrator" class="narrator hidden">
+        <div class="narrator-head">
+          <span class="narrator-title">🔊 Sesli Konu Anlatımı</span>
+          <span id="narrProg" class="narrator-prog">0 / 0</span>
+        </div>
+        <div class="narrator-ctrl">
+          <button type="button" class="nbtn" onclick="narrPrev()" title="Geri sar" aria-label="Geri sar">⏮️</button>
+          <button type="button" class="nbtn nbtn-play" id="narrPlay" onclick="narrToggle()">▶️ Oynat</button>
+          <button type="button" class="nbtn" onclick="narrNext()" title="İleri sar" aria-label="İleri sar">⏭️</button>
+          <button type="button" class="nbtn" onclick="narrStop()" title="Durdur" aria-label="Durdur">⏹️</button>
+        </div>
+        <div class="narrator-ctrl narr-rate">
+          <button type="button" class="nbtn" onclick="narrSlower()">🐢 Yavaşlat</button>
+          <span id="narrRate" class="rate-lbl">1.0×</span>
+          <button type="button" class="nbtn" onclick="narrFaster()">Hızlandır 🐇</button>
+        </div>
+        <div id="narrMsg" class="narr-msg"></div>
+      </div>
+      <div id="lessonBody"></div>
+      <button class="btn btn-primary btn-block" onclick="navigateTo('games')" style="margin:8px 0 4px">🎮 Oyunlara Geç</button>
+    </section>
+
+    <!-- 5. OYUN ALANI -->
+    <section id="v-play" class="screen hidden">
+      <div class="play-top">
+        <span class="score-chip">⭐ <span id="scoreVal">Puan: 0</span></span>
+        <span id="streakChip" class="pill">🔥 Seri: 0</span>
+        <span id="timerChip" class="timer-chip">⏱️ <span id="timerVal">45s</span></span>
+      </div>
+      <div id="gameStage" class="game-stage"></div>
+    </section>
+
+    <!-- 6. ROZETLER -->
+    <section id="v-badges" class="screen hidden">
+      <div class="center" style="margin-bottom:11px">
+        <h3 style="font-size:14px;font-weight:900;margin:0">🏆 10 Başarı Rozeti</h3>
+        <p class="xs muted" style="margin:5px 0 0"><span id="badgeCount">0</span> / 10 rozet kazanıldı</p>
+      </div>
+      <div class="card" style="margin-bottom:11px">
+        <div class="row between" style="margin-bottom:6px">
+          <span class="xs" style="font-weight:900">Toplam Puan</span>
+          <span id="totalScore" class="xs" style="font-weight:900;color:var(--warn)">0</span>
+        </div>
+        <div style="height:8px;border-radius:999px;background:var(--bg-sub);overflow:hidden">
+          <div id="badgeProgress" style="height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent-2));transition:width .4s"></div>
+        </div>
+      </div>
+      <div id="badgesGrid" class="badge-grid"><div class="badge-card"><span class="b-ico">🔒</span><div><h4>İlk Adım</h4><p>İlk oyununu tamamla</p></div></div><div class="badge-card"><span class="b-ico">🔒</span><div><h4>Keskin Gözlemci</h4><p>Doğru / Yanlış oyununu bitir</p></div></div><div class="badge-card"><span class="b-ico">🔒</span><div><h4>Bilim Dedektifi</h4><p>Test oyununu tamamla</p></div></div><div class="badge-card"><span class="b-ico">🔒</span><div><h4>Kavram Ustası</h4><p>Kelimeleri doğru diz</p></div></div><div class="badge-card"><span class="b-ico">🔒</span><div><h4>Hafıza Dehası</h4><p>Kartları eşleştir</p></div></div><div class="badge-card"><span class="b-ico">🔒</span><div><h4>Sıralama Şampiyonu</h4><p>Aşamaları doğru sırala</p></div></div><div class="badge-card"><span class="b-ico">🔒</span><div><h4>Şema Uzmanı</h4><p>Şemada doğru yeri bul</p></div></div><div class="badge-card"><span class="b-ico">🔒</span><div><h4>Doğru Eşleştirici</h4><p>Sürükle-bırak oyununu bitir</p></div></div><div class="badge-card"><span class="b-ico">🔒</span><div><h4>Sınıflandırma Ustası</h4><p>Kavramları doğru ayır</p></div></div><div class="badge-card"><span class="b-ico">🔒</span><div><h4>Deney Ustası</h4><p>Simülasyon ve yakalama oyunu</p></div></div></div>
+      <button class="btn btn-ghost btn-block" onclick="resetProgress()" style="margin-top:12px">♻️ İlerlemeyi Sıfırla</button>
+    </section>
+
+  </div>
+
+  <nav class="bottom-nav">
+    <button class="nav-btn active" id="nav-welcome" onclick="navigateTo('welcome')"><span>🏠</span><span>Ana Sayfa</span></button>
+    <button class="nav-btn" id="nav-units" onclick="navigateTo('units')"><span>📚</span><span>Üniteler</span></button>
+    <button class="nav-btn" id="nav-games" onclick="navigateTo('games')"><span>🎮</span><span>Oyunlar</span></button>
+    <button class="nav-btn" id="nav-badges" onclick="navigateTo('badges')"><span>🏆</span><span>Rozetler</span></button>
+  </nav>
+
+  <div id="toast" class="toast"></div>
+
+<!-- SÜRE MODALİ -->
+<div id="timeModal" class="modal hidden">
+  <div class="modal-card">
+    <div style="font-size:30px">⏱️</div>
+    <h3 id="timeGameTitle">Oyun</h3>
+    <p id="timeGameDesc"></p>
+    <div class="slider-value">⏳ <span id="sliderVal">45 Saniye</span></div>
+    <input type="range" id="durationSlider" min="30" max="180" step="15" value="45" oninput="updateSliderValue(this.value)" style="width:100%">
+    <div class="slider-scale"><span>30 sn</span><span>90 sn</span><span>180 sn</span></div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeTimeModal()">Vazgeç</button>
+      <button class="btn btn-primary" onclick="confirmStart()">Başlat ➔</button>
+    </div>
+  </div>
+</div>
+
+<!-- ÇIKIŞ ONAY MODALİ -->
+<div id="exitModal" class="modal hidden">
+  <div class="modal-card">
+    <div style="width:52px;height:52px;border-radius:50%;background:var(--warn-soft);color:var(--warn);display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 8px">⚠️</div>
+    <h3>Oyundan çıkmak istiyor musun?</h3>
+    <p>Oyunun ortasındasın. Şimdi çıkarsan bu turdaki puanın kaybolur.</p>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeExit(false)">Hayır, Devam Et</button>
+      <button class="btn" style="background:var(--bad);color:#fff;border:none" onclick="closeExit(true)">Evet, Çık</button>
+    </div>
+  </div>
+</div>
+
+<!-- OYUN BİTTİ MODALİ -->
+<div id="finishModal" class="modal hidden">
+  <div class="modal-card">
+    <div class="finish-icon">🎉</div>
+    <h3>Tebrikler!</h3>
+    <p id="finishMsg">Oyun başarıyla tamamlandı.</p>
+    <div class="finish-stats">
+      <div>
+        <div class="fs-val" id="finishScore" style="color:var(--warn)">+0</div>
+        <div class="fs-lbl">Puan</div>
+      </div>
+      <div class="divider-v"></div>
+      <div>
+        <div class="fs-val" id="finishCorrect" style="color:var(--ok)">0</div>
+        <div class="fs-lbl">Doğru</div>
+      </div>
+      <div class="divider-v"></div>
+      <div>
+        <div class="fs-val" id="finishBest" style="color:var(--accent)">0</div>
+        <div class="fs-lbl">En İyi Seri</div>
+      </div>
+    </div>
+    <div class="modal-actions single">
+      <button class="btn btn-primary" onclick="restartGame()">🔁 Tekrar Oyna</button>
+      <button class="btn btn-ghost" onclick="closeFinish()">📋 Oyun Listesine Dön</button>
+    </div>
+  </div>
+</div>
+
+<!-- ROZET KUTLAMA MODALİ -->
+<div id="badgeModal" class="modal hidden">
+  <div class="modal-card">
+    <div id="confettiBox" class="confetti-box"></div>
+    <div id="badgeIcon" class="badge-pop">🌟</div>
+    <p style="font-size:10px;font-weight:900;letter-spacing:1px;color:var(--warn);text-transform:uppercase">🎉 Yeni Başarı Kazanıldı!</p>
+    <h3 id="badgeTitle">Rozet</h3>
+    <p id="badgeDesc"></p>
+    <div class="modal-actions single" style="margin-top:14px">
+      <button class="btn btn-primary" onclick="closeBadgeModal()">Harika! Devam Et ✨</button>
+    </div>
+  </div>
+</div>
+</main>
+
+<script>
+/* ==========================================================================
+   FEN PUSULASI - 6. SINIF FEN BİLİMLERİ
+   Çekirdek motor: ses, tema, veri, gezinme, puanlama, rozetler
+   ========================================================================== */
+"use strict";
+
+/* ---------------------------------------------------------------
+   1) SES MOTORU (Web Audio API) - harici dosya gerekmez
+   --------------------------------------------------------------- */
+var soundEnabled = true;
+var audioCtx = null;
+
+function initAudio() {
+  if (!audioCtx) {
+    try {
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if (AC) audioCtx = new AC();
+    } catch (e) { audioCtx = null; }
+  }
+}
+
+function playAudio(type) {
+  if (!soundEnabled) return;
+  try {
+    initAudio();
+    if (!audioCtx) return;
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    var now = audioCtx.currentTime;
+    var osc = audioCtx.createOscillator();
+    var gain = audioCtx.createGain();
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+
+    if (type === 'click') {
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(520, now);
+      osc.frequency.exponentialRampToValueAtTime(760, now + 0.06);
+      gain.gain.setValueAtTime(0.09, now);
+      gain.gain.linearRampToValueAtTime(0.001, now + 0.06);
+      osc.start(now); osc.stop(now + 0.07);
+    } else if (type === 'correct') {
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(523.25, now);
+      osc.frequency.setValueAtTime(659.25, now + 0.08);
+      osc.frequency.setValueAtTime(783.99, now + 0.16);
+      gain.gain.setValueAtTime(0.14, now);
+      gain.gain.linearRampToValueAtTime(0.001, now + 0.3);
+      osc.start(now); osc.stop(now + 0.3);
+    } else if (type === 'wrong') {
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(240, now);
+      osc.frequency.linearRampToValueAtTime(120, now + 0.22);
+      gain.gain.setValueAtTime(0.1, now);
+      gain.gain.linearRampToValueAtTime(0.001, now + 0.22);
+      osc.start(now); osc.stop(now + 0.22);
+    } else if (type === 'start') {
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(340, now);
+      osc.frequency.exponentialRampToValueAtTime(680, now + 0.2);
+      gain.gain.setValueAtTime(0.12, now);
+      gain.gain.linearRampToValueAtTime(0.001, now + 0.25);
+      osc.start(now); osc.stop(now + 0.25);
+    } else if (type === 'badge') {
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(523.25, now);
+      osc.frequency.setValueAtTime(783.99, now + 0.12);
+      osc.frequency.setValueAtTime(1046.5, now + 0.24);
+      gain.gain.setValueAtTime(0.14, now);
+      gain.gain.linearRampToValueAtTime(0.001, now + 0.5);
+      osc.start(now); osc.stop(now + 0.5);
+    }
+  } catch (e) { /* ses desteklenmiyorsa sessizce devam */ }
+}
+
+/* ---------------------------------------------------------------
+   2) KALICI İLERLEME (localStorage, yoksa bellek içi)
+   --------------------------------------------------------------- */
+var Progress = (function () {
+  var KEY = 'fenPusulasi_v1';
+  var data = { badges: {}, totalScore: 0, best: {} };
+  var canStore = true;
+
+  function load() {
+    try {
+      var raw = window.localStorage.getItem(KEY);
+      if (raw) {
+        var parsed = JSON.parse(raw);
+        if (parsed && typeof parsed === 'object') {
+          data.badges = parsed.badges || {};
+          data.totalScore = parsed.totalScore || 0;
+          data.best = parsed.best || {};
+        }
+      }
+    } catch (e) { canStore = false; }
+  }
+  function save() {
+    if (!canStore) return;
+    try { window.localStorage.setItem(KEY, JSON.stringify(data)); } catch (e) { canStore = false; }
+  }
+  function reset() { data = { badges: {}, totalScore: 0, best: {} }; save(); }
+
+  load();
+  return {
+    isUnlocked: function (id) { return !!data.badges[id]; },
+    unlock: function (id) { data.badges[id] = true; save(); },
+    countUnlocked: function () { var n = 0; for (var k in data.badges) { if (data.badges[k]) n++; } return n; },
+    addScore: function (n) { data.totalScore += n; save(); },
+    getTotal: function () { return data.totalScore; },
+    setBest: function (key, val) { if (!data.best[key] || val > data.best[key]) { data.best[key] = val; save(); } },
+    getBest: function (key) { return data.best[key] || 0; },
+    reset: reset
+  };
+})();
+
+/* ---------------------------------------------------------------
+   3) MÜFREDAT: 4 ÜNİTE ve OYUNLARI
+   --------------------------------------------------------------- */
+var UNITS = [
+  {
+    id: 1,
+    title: "1. Ünite: Güneş Sistemi ve Tutulmalar",
+    short: "Güneş Sistemi ve Tutulmalar",
+    icon: "🌞",
+    subtopics: [
+      "Güneş Sistemi ve Gezegenler",
+      "Güneş Tutulması",
+      "Ay Tutulması",
+      "Tutulmaların Oluşumu ve Farkları"
+    ],
+    games: [
+      { id: 'g1a', type: 'order', icon: '🪐', title: 'Gezegenleri Sırala', desc: 'Gezegenleri Güneş’e yakınlıklarına göre diz.' },
+      { id: 'g1b', type: 'choice', icon: '🕵️', title: 'Gezegen Dedektifi', desc: 'İpuçlarından doğru gezegeni bul.' },
+      { id: 'g1c', type: 'sim', sim: 'eclipse', icon: '🌑', title: 'Tutulma Simülatörü', desc: 'Gök cisimlerini kaydır, tutulmayı oluştur.' },
+      { id: 'g1d', type: 'hotspot', icon: '🔭', title: 'Tutulma Şeması', desc: 'Şemada doğru konumu ve tutulmayı seç.' },
+      { id: 'g1e', type: 'catcher', icon: '🧺', title: 'Kavramı Yakala', desc: 'Sepeti kaydır, doğru gök bilgisini yakala.' },
+      { id: 'g1f', type: 'swipe', icon: '⚡', title: 'Doğru / Yanlış', desc: 'Sağa kaydır: doğru, sola kaydır: yanlış.' }
+    ]
+  },
+  {
+    id: 2,
+    title: "2. Ünite: Kuvvetin Etkisinde Hareket",
+    short: "Kuvvetin Etkisinde Hareket",
+    icon: "🧲",
+    subtopics: [
+      "Bileşke Kuvvet",
+      "Dengelenmiş Kuvvetler",
+      "Dengelenmemiş Kuvvetler",
+      "Sürat ve Hız",
+      "Alınan Yol ve Yer Değiştirme"
+    ],
+    games: [
+      { id: 'g2a', type: 'sim', sim: 'force', icon: '🧲', title: 'Kuvvet Laboratuvarı', desc: 'Kuvvet oklarını ayarla, bileşkeyi bul.' },
+      { id: 'g2b', type: 'sort', icon: '⚖️', title: 'Dengeyi Kur', desc: 'Olayları dengelenmiş / dengelenmemiş ayır.' },
+      { id: 'g2c', type: 'choice', icon: '🏃', title: 'Hareket Dedektifi', desc: 'Sürat, hız ve hareket sorularını çöz.' },
+      { id: 'g2d', type: 'sim', sim: 'graph', icon: '📈', title: 'Hareket Grafiği', desc: 'Yol-zaman grafiğini oku ve yorumla.' },
+      { id: 'g2e', type: 'wordbuild', icon: '✍️', title: 'Kavramı Tamamla', desc: 'Kelimeleri dizerek tanımı oluştur.' },
+      { id: 'g2f', type: 'swipe', icon: '⚡', title: 'Doğru / Yanlış', desc: 'Sağa kaydır: doğru, sola kaydır: yanlış.' }
+    ]
+  },
+  {
+    id: 3,
+    title: "3. Ünite: Canlılarda Sistemler",
+    short: "Canlılarda Sistemler",
+    icon: "🌱",
+    subtopics: [
+      "Eşeyli ve Eşeysiz Üreme",
+      "Bitkilerde Üreme, Büyüme ve Gelişme",
+      "Tohumun Çimlenmesi",
+      "Hayvanlarda Üreme ve Gelişme",
+      "İnsanda Üreme Organları",
+      "Sinir Sistemi",
+      "İç Salgı Bezleri",
+      "Çocukluktan Ergenliğe Geçiş"
+    ],
+    games: [
+      { id: 'g3a', type: 'order', icon: '🌱', title: 'Yaşam Döngüsü', desc: 'Canlıların gelişim aşamalarını sırala.' },
+      { id: 'g3b', type: 'sim', sim: 'germination', icon: '🌰', title: 'Çimlenme Deneyi', desc: 'Koşulları değiştir, çimlenmeyi gözlemle.' },
+      { id: 'g3c', type: 'sort', icon: '🔄', title: 'Üreme Türünü Eşleştir', desc: 'Eşeyli / eşeysiz üreme örneklerini ayır.' },
+      { id: 'g3d', type: 'hotspot', icon: '🧠', title: 'Sinir Sistemi Haritası', desc: 'Yapıları ve görevlerini şemada bul.' },
+      { id: 'g3e', type: 'choice', icon: '💧', title: 'İç Salgı Bezlerini Tanı', desc: 'Bezleri salgıladıkları hormonla eşleştir.' },
+      { id: 'g3f', type: 'memory', icon: '🃏', title: 'Eşleştirme Kartları', desc: 'Kavram ile tanımını eşleştir.' },
+      { id: 'g3g', type: 'swipe', icon: '⚡', title: 'Doğru / Yanlış', desc: 'Sağa kaydır: doğru, sola kaydır: yanlış.' }
+    ]
+  },
+  {
+    id: 4,
+    title: "4. Ünite: Işığın Yansıtılması ve Renkler",
+    short: "Işığın Yansıtılması ve Renkler",
+    icon: "🪞",
+    subtopics: [
+      "Işığın Yansıması",
+      "Düzlem Ayna",
+      "Çukur Ayna ve Tümsek Ayna",
+      "Işığın Soğurulması",
+      "Renkler ve Işığın Maddelerle Etkileşimi"
+    ],
+    games: [
+      { id: 'g4a', type: 'sim', sim: 'reflection', icon: '🪞', title: 'Yansıma Laboratuvarı', desc: 'Işın açısını değiştir, yansımayı izle.' },
+      { id: 'g4b', type: 'choice', icon: '🔍', title: 'Ayna Dedektifi', desc: 'Ayna türlerini özelliklerinden tanı.' },
+      { id: 'g4c', type: 'dragdrop', icon: '🎯', title: 'Doğru Aynayı Seç', desc: 'Kullanım amacına uygun aynayı yerleştir.' },
+      { id: 'g4d', type: 'hotspot', icon: '💡', title: 'Işığın Yolculuğu', desc: 'Işığın maddelerle etkileşimini şemada bul.' },
+      { id: 'g4e', type: 'sort', icon: '🎨', title: 'Renk ve Soğurulma', desc: 'Renkleri soğurur / yansıtır olarak ayır.' },
+      { id: 'g4f', type: 'memory', icon: '🃏', title: 'Eşleştirme Kartları', desc: 'Ayna ve kavramları tanımlarıyla eşleştir.' },
+      { id: 'g4g', type: 'swipe', icon: '⚡', title: 'Doğru / Yanlış', desc: 'Sağa kaydır: doğru, sola kaydır: yanlış.' }
+    ]
+  }
+];
+
+/* Oyun tipine göre rozet eşlemesi */
+var BADGE_TRIGGER = {
+  swipe: 'b_swipe',
+  choice: 'b_choice',
+  wordbuild: 'b_word',
+  memory: 'b_memory',
+  order: 'b_order',
+  hotspot: 'b_hotspot',
+  dragdrop: 'b_drag',
+  sort: 'b_sort',
+  catcher: 'b_catch',
+  sim: 'b_sim'
+};
+
+/* 10 rozet */
+var BADGES = [
+  { id: 'b_first', icon: '🌟', title: 'İlk Adım', desc: 'İlk oyununu tamamla' },
+  { id: 'b_swipe', icon: '👁️', title: 'Keskin Gözlemci', desc: 'Doğru / Yanlış oyununu bitir' },
+  { id: 'b_choice', icon: '🔬', title: 'Bilim Dedektifi', desc: 'Test oyununu tamamla' },
+  { id: 'b_word', icon: '📖', title: 'Kavram Ustası', desc: 'Kelimeleri doğru diz' },
+  { id: 'b_memory', icon: '🃏', title: 'Hafıza Dehası', desc: 'Kartları eşleştir' },
+  { id: 'b_order', icon: '🧭', title: 'Sıralama Şampiyonu', desc: 'Aşamaları doğru sırala' },
+  { id: 'b_hotspot', icon: '🗺️', title: 'Şema Uzmanı', desc: 'Şemada doğru yeri bul' },
+  { id: 'b_drag', icon: '🧩', title: 'Doğru Eşleştirici', desc: 'Sürükle-bırak oyununu bitir' },
+  { id: 'b_sort', icon: '🗂️', title: 'Sınıflandırma Ustası', desc: 'Kavramları doğru ayır' },
+  { id: 'b_sim', icon: '🧪', title: 'Deney Ustası', desc: 'Simülasyon ve yakalama oyunu' }
+];
+
+/* ---------------------------------------------------------------
+   4) OYUN DURUMU
+   --------------------------------------------------------------- */
+var state = {
+  unit: UNITS[0],
+  screen: 'welcome',
+  game: null,
+  duration: 45,
+  timeLeft: 0,
+  score: 0,
+  correct: 0,
+  streak: 0,
+  bestStreak: 0,
+  active: false,
+  playing: false,
+  queue: {},
+  timerId: null,
+  loops: [],
+  pendingGameId: null,
+  topicFilter: null
+};
+
+var HIERARCHY = {
+  welcome: null,
+  units: 'welcome',
+  games: 'units',
+  lesson: 'games',
+  play: 'games',
+  badges: 'welcome'
+};
+
+/* ---------------------------------------------------------------
+   5) YARDIMCI FONKSİYONLAR
+   --------------------------------------------------------------- */
+function $(id) { return document.getElementById(id); }
+
+function shuffle(arr) {
+  var a = arr.slice();
+  for (var i = a.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var t = a[i]; a[i] = a[j]; a[j] = t;
+  }
+  return a;
+}
+
+function shuffleWords(arr) {
+  if (arr.length < 2) return arr.slice();
+  var out = shuffle(arr);
+  var same = out.every(function (w, i) { return w === arr[i]; });
+  if (same) {
+    var tmp = out[0]; out[0] = out[1]; out[1] = tmp;
+  }
+  return out;
+}
+
+function showToast(msg) {
+  var t = $('toast');
+  if (!t) return;
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._tid);
+  t._tid = setTimeout(function () { t.classList.remove('show'); }, 1600);
+}
+
+/* Kayıtlı zamanlayıcıları güvenle temizle */
+function regLoop(id) { state.loops.push(id); return id; }
+function clearLoops() {
+  for (var i = 0; i < state.loops.length; i++) {
+    clearInterval(state.loops[i]);
+    clearTimeout(state.loops[i]);
+  }
+  state.loops = [];
+}
+
+/* ---------------------------------------------------------------
+   6) TEMA (Gece / Gündüz)
+   --------------------------------------------------------------- */
+var isNight = false;
+function toggleTheme() {
+  isNight = !isNight;
+  playAudio('click');
+  var body = $('pageBody');
+  var icon = $('themeBtn');
+  if (isNight) {
+    body.classList.remove('mode-day'); body.classList.add('mode-night');
+    if (icon) icon.textContent = '🌙';
+  } else {
+    body.classList.remove('mode-night'); body.classList.add('mode-day');
+    if (icon) icon.textContent = '💡';
+  }
+  try { window.localStorage.setItem('fenPusulasi_theme', isNight ? 'night' : 'day'); } catch (e) {}
+}
+
+function loadTheme() {
+  try {
+    if (window.localStorage.getItem('fenPusulasi_theme') === 'night') {
+      isNight = false; toggleTheme();
+    }
+  } catch (e) {}
+}
+
+/* ---------------------------------------------------------------
+   7) GEZİNME
+   --------------------------------------------------------------- */
+function startApp() { navigateTo('units'); }
+
+function navigateTo(screen) {
+  if (state.playing && screen !== 'play') { stopGameLoops(); }
+  state.screen = screen;
+  if (screen !== 'play') { state.playing = false; }
+  if (screen !== 'lesson') { try { Narration.stopVoice(); } catch (e) {} }
+  playAudio('click');
+
+  var screens = document.querySelectorAll('.screen');
+  for (var i = 0; i < screens.length; i++) screens[i].classList.add('hidden');
+  var target = $('v-' + screen);
+  if (target) target.classList.remove('hidden');
+
+  var back = $('backBtn');
+  if (back) back.classList.toggle('invisible', screen === 'welcome');
+
+  var titles = {
+    welcome: ['KUVVETLİ FEN', '6. Sınıf Fen Bilimleri'],
+    units: ['ÜNİTELER', '6. Sınıf MEB Müfredatı'],
+    games: [state.unit.short.toUpperCase(), 'Oyunlar ve Konu Anlatımı'],
+    lesson: [state.unit.short.toUpperCase(), 'Konu Anlatımı'],
+    play: ['CANLI OYUN', state.game ? (state.game.title + (activeFilter() ? ' • 🎯 ' + activeFilter().label : '')) : 'Oyun'],
+    badges: ['BAŞARI ROZETLERİ', 'Kazanılan Başarılar']
+  };
+  var tv = titles[screen] || titles.welcome;
+  if ($('topTitle')) $('topTitle').textContent = tv[0];
+  if ($('topSub')) $('topSub').textContent = tv[1];
+
+  if (screen === 'units') renderUnits();
+  if (screen === 'games') renderGames();
+  if (screen === 'lesson') renderLesson();
+  if (screen === 'badges') renderBadges();
+
+  var navBtns = document.querySelectorAll('.nav-btn');
+  for (var j = 0; j < navBtns.length; j++) navBtns[j].classList.remove('active');
+  var navId = (screen === 'play' || screen === 'lesson') ? 'games' : screen;
+  var active = $('nav-' + navId);
+  if (active) active.classList.add('active');
+}
+
+function smartBack() {
+  playAudio('click');
+  if (state.screen === 'play' && state.playing) {
+    pauseTimer();
+    $('exitModal').classList.remove('hidden');
+    return;
+  }
+  var prev = HIERARCHY[state.screen];
+  navigateTo(prev === null ? 'welcome' : (prev || 'welcome'));
+}
+
+/* ---------------------------------------------------------------
+   8) ÜNİTE ve OYUN LİSTELERİ
+   --------------------------------------------------------------- */
+function renderUnits() {
+  var box = $('unitsList');
+  if (!box) return;
+  box.innerHTML = '';
+  UNITS.forEach(function (u) {
+    var done = 0;
+    u.games.forEach(function (g) { if (Progress.getBest(g.id) > 0) done++; });
+    var card = document.createElement('div');
+    card.className = 'unit-card';
+    card.setAttribute('role', 'button');
+    card.setAttribute('tabindex', '0');
+    card.onclick = function () { selectUnit(u); };
+    card.innerHTML =
+      '<div class="row grow">' +
+        '<div class="unit-ico">' + u.icon + '</div>' +
+        '<div class="grow">' +
+          '<h4 class="unit-name">' + u.title + '</h4>' +
+          '<p class="unit-meta">' + u.subtopics.length + ' alt konu &bull; ' + u.games.length + ' oyun &bull; ' + done + ' oynandı</p>' +
+        '</div>' +
+      '</div>' +
+      '<span class="arrow">&#10095;</span>';
+    box.appendChild(card);
+  });
+}
+
+function selectUnit(u) {
+  playAudio('click');
+  state.unit = u;
+  state.topicFilter = null;
+  state.queue = {};
+  navigateTo('games');
+}
+
+function renderGames() {
+  var u = state.unit;
+  $('gamesUnitBadge').textContent = u.id + '. Ünite';
+  $('gamesUnitTitle').textContent = u.title;
+  $('gamesGrid').setAttribute('style', '');
+
+  /* Alt konu seçenekleri: dokununca o konunun soruları oyunlara gelir */
+  var f = activeFilter();
+  var sub = $('gamesSubtopics');
+  sub.innerHTML = '';
+  u.subtopics.forEach(function (s, i) {
+    var on = !!(f && f.index === i);
+    var c = document.createElement('button');
+    c.type = 'button';
+    c.className = 'chip chip-btn' + (on ? ' on' : '');
+    c.setAttribute('aria-pressed', on ? 'true' : 'false');
+    c.textContent = s;
+    c.onclick = function () { setTopicFilter(i); };
+    sub.appendChild(c);
+  });
+
+  var note = $('filterNote');
+  if (note) {
+    if (f) {
+      note.classList.remove('hidden');
+      $('filterNoteText').textContent = '🎯 Aktif konu: ' + f.label;
+    } else {
+      note.classList.add('hidden');
+    }
+  }
+
+  var grid = $('gamesGrid');
+  grid.innerHTML = '';
+  u.games.forEach(function (g) {
+    var best = Progress.getBest(g.id);
+    var n = topicCount(g.id);
+    var countTag = (f && n !== null) ? '<div style="margin-top:5px"><span class="q-count">🎯 ' + n + ' soru</span></div>' : '';
+    var card = document.createElement('div');
+    card.className = 'game-card';
+    card.setAttribute('role', 'button');
+    card.setAttribute('tabindex', '0');
+    card.onclick = function () { openTimeModal(g.id); };
+    card.innerHTML =
+      (best > 0 ? '<span class="best-tag">★ ' + best + '</span>' : '') +
+      '<div>' +
+        '<div class="g-ico">' + g.icon + '</div>' +
+        '<h4>' + g.title + '</h4>' +
+        '<p>' + g.desc + '</p>' +
+        countTag +
+      '</div>' +
+      '<span class="play-tag">Oyna &#10142;</span>';
+    grid.appendChild(card);
+  });
+}
+
+function openLesson() {
+  playAudio('click');
+  navigateTo('lesson');
+}
+
+function renderLesson() {
+  var u = state.unit;
+  $('lessonUnitBadge').textContent = u.id + '. Ünite';
+  $('lessonTitle').textContent = u.title.replace(/^\d+\.\s*Ünite:\s*/, '');
+  var body = $('lessonBody');
+  body.innerHTML = '';
+  var items = (typeof LESSONS !== 'undefined' && LESSONS[u.id]) ? LESSONS[u.id] : [];
+  if (!items.length) {
+    body.innerHTML = '<div class="subcard xs">Bu ünite için konu anlatımı hazırlanıyor.</div>';
+    Narration.setItems([]);
+    return;
+  }
+  items.forEach(function (it, i) {
+    var div = document.createElement('div');
+    div.className = 'lesson-item';
+    div.setAttribute('data-lesson', i);
+    var keys = '';
+    if (it.keys && it.keys.length) {
+      keys = '<div class="keybox">' + it.keys.map(function (k) { return '<span>• ' + k + '</span>'; }).join('') + '</div>';
+    }
+    div.innerHTML =
+      '<button type="button" class="ncard-play" onclick="narrPlayFrom(' + i + ')" title="Bu konuyu dinle" aria-label="Bu konuyu dinle">🔈</button>' +
+      '<h4>' + it.t + '</h4><p>' + it.p + '</p>' + keys;
+    body.appendChild(div);
+  });
+  Narration.setItems(items, u.short);
+}
+
+/* ---------------------------------------------------------------
+   9) ROZETLER
+   --------------------------------------------------------------- */
+function renderBadges() {
+  var grid = $('badgesGrid');
+  grid.innerHTML = '';
+  BADGES.forEach(function (b) {
+    var on = Progress.isUnlocked(b.id);
+    var card = document.createElement('div');
+    card.className = 'badge-card' + (on ? ' on' : '');
+    card.innerHTML =
+      '<span class="b-ico">' + (on ? b.icon : '🔒') + '</span>' +
+      '<div><h4>' + b.title + '</h4><p>' + (on ? '✅ Kazanıldı' : b.desc) + '</p></div>';
+    grid.appendChild(card);
+  });
+  var n = Progress.countUnlocked();
+  $('badgeCount').textContent = n;
+  $('totalScore').textContent = Progress.getTotal();
+  $('badgeProgress').style.width = (n / BADGES.length * 100) + '%';
+}
+
+function unlockBadge(id) {
+  if (Progress.isUnlocked(id)) return;
+  var badge = null;
+  for (var i = 0; i < BADGES.length; i++) { if (BADGES[i].id === id) badge = BADGES[i]; }
+  if (!badge) return;
+  Progress.unlock(id);
+  renderBadges();
+  showBadgeCelebration(badge);
+}
+
+function showBadgeCelebration(badge) {
+  playAudio('badge');
+  $('badgeIcon').textContent = badge.icon;
+  $('badgeTitle').textContent = badge.title;
+  $('badgeDesc').textContent = badge.desc;
+  var box = $('confettiBox');
+  box.innerHTML = '';
+  var colors = ['#0284c7', '#0d9488', '#f59e0b', '#ec4899', '#8b5cf6', '#22c55e'];
+  for (var i = 0; i < 32; i++) {
+    var p = document.createElement('div');
+    p.className = 'confetti';
+    p.style.background = colors[i % colors.length];
+    p.style.left = Math.round(Math.random() * 95) + '%';
+    p.style.top = Math.round(Math.random() * 18) + '%';
+    p.style.animationDelay = (Math.random() * 0.4) + 's';
+    p.style.animationDuration = (1.4 + Math.random() * 1.0) + 's';
+    box.appendChild(p);
+  }
+  $('badgeModal').classList.remove('hidden');
+}
+
+function closeBadgeModal() {
+  playAudio('click');
+  $('badgeModal').classList.add('hidden');
+}
+
+function resetProgress() {
+  Progress.reset();
+  renderBadges();
+  renderUnits();
+  showToast('İlerleme sıfırlandı');
+}
+
+/* ---------------------------------------------------------------
+   10) ALT KONU FİLTRESİ ve SORU HAVUZU (karışık, tekrarsız tur)
+   Alt konuya dokunulunca oyunlar yalnızca o konunun sorularını kullanır.
+   TOPIC_MAP[gameId][i] -> sorunun ait olduğu alt konu indeksi (dizi ise birden fazla).
+   --------------------------------------------------------------- */
+var TOPIC_MAP = {
+  /* 1. Ünite: 0 Güneş Sistemi ve Gezegenler | 1 Güneş Tutulması | 2 Ay Tutulması | 3 Tutulmaların Oluşumu ve Farkları */
+  g1a: [0, 0, 0, 0, 1, 2],
+  g1b: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  g1d: [1, 2, 1, 2, 1],
+  g1e: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 3, 0],
+  g1f: [0, 0, 1, 2, 1, 0, 0, 0, 0, 2, 1, 0],
+  /* 2. Ünite: 0 Bileşke Kuvvet | 1 Dengelenmiş | 2 Dengelenmemiş | 3 Sürat ve Hız | 4 Alınan Yol ve Yer Değiştirme */
+  g2b: [[0, 1, 2]],
+  g2c: [3, 3, 3, 3, 4, 3, 3, 3, 3, 3],
+  g2d: [3, 3, 3, 3, 3, 3, 3],
+  g2e: [3, 1, 0, 0, 0, 0, 2, 4, 3, 3],
+  g2f: [1, 0, 0, 3, 3, 2, 0, 3, 4, 3],
+  /* 3. Ünite: 0 Eşeyli/Eşeysiz Üreme | 1 Bitkilerde Üreme | 2 Çimlenme | 3 Hayvanlarda Gelişme | 4 İnsanda Üreme | 5 Sinir Sistemi | 6 İç Salgı Bezleri | 7 Ergenlik */
+  g3a: [3, 3, 1, 2, 4],
+  g3c: [[0]],
+  g3d: [5, 5, 5, 5],
+  g3e: [6, 6, 6, 6, 6, 6, [5, 6], 5],
+  g3f: [5, 5, 6, 6, 6, 0, 0, 1, 2, 0],
+  g3g: [2, 2, 0, 0, 0, 3, 5, 6, 7, 5, 0, 4],
+  /* 4. Ünite: 0 Işığın Yansıması | 1 Düzlem Ayna | 2 Çukur/Tümsek Ayna | 3 Işığın Soğırulması | 4 Renkler ve Etkileşim */
+  g4b: [1, 2, 2, 2, 2, 0, 2, 1, 0, 0],
+  g4c: [[1, 2], [1, 2], [1, 2]],
+  g4d: [4, 4, 4, 3],
+  g4e: [[3]],
+  g4f: [1, 2, 2, 0, 0, 0, 3, 3, 3, 3],
+  g4g: [0, 1, 2, 2, 3, 4, 2, 4, 3, 1, 2, 3]
+};
+
+function activeFilter() {
+  if (!state.topicFilter || !state.unit) return null;
+  if (state.topicFilter.unitId !== state.unit.id) return null;
+  return state.topicFilter;
+}
+
+function itemSubs(gameId, index) {
+  var map = TOPIC_MAP[gameId];
+  if (!map || map[index] === undefined || map[index] === null) return [];
+  var v = map[index];
+  return Array.isArray(v) ? v.slice() : [v];
+}
+
+/* Seçili alt konuya uyan sorular (filtre yoksa null). */
+function subtopicBank(gameId) {
+  var f = activeFilter();
+  if (!f) return null;
+  var bank = (typeof BANKS !== 'undefined' && BANKS[gameId]) ? BANKS[gameId] : [];
+  var out = [];
+  for (var i = 0; i < bank.length; i++) {
+    if (itemSubs(gameId, i).indexOf(f.index) > -1) out.push(bank[i]);
+  }
+  return out;
+}
+
+/* Oyunun kullanacağı havuz: eşleşen soru varsa filtreli, yoksa tüm banka (oyun boş kalmasın). */
+function playBank(gameId) {
+  var filtered = subtopicBank(gameId);
+  if (filtered && filtered.length) return filtered;
+  return (typeof BANKS !== 'undefined' && BANKS[gameId]) ? BANKS[gameId] : [];
+}
+
+/* Seçili konuya uyan soru sayısı (filtre yoksa null). */
+function topicCount(gameId) {
+  var filtered = subtopicBank(gameId);
+  return filtered ? filtered.length : null;
+}
+
+function setTopicFilter(index) {
+  if (index === null || index === undefined) { clearTopicFilter(); return; }
+  var already = state.topicFilter && state.topicFilter.unitId === state.unit.id && state.topicFilter.index === index;
+  if (already) { clearTopicFilter(); return; }
+  playAudio('click');
+  state.topicFilter = { unitId: state.unit.id, index: index, label: state.unit.subtopics[index] };
+  state.queue = {};
+  renderGames();
+  showToast('🎯 Konu: ' + state.topicFilter.label);
+}
+
+function clearTopicFilter() {
+  playAudio('click');
+  state.topicFilter = null;
+  state.queue = {};
+  renderGames();
+}
+
+function nextItem(gameId) {
+  var f = activeFilter();
+  var key = gameId + '#' + (f ? f.index : 'all');
+  if (!state.queue[key] || state.queue[key].length === 0) {
+    var bank = playBank(gameId);
+    if (!bank.length) return null;
+    state.queue[key] = shuffle(bank);
+  }
+  return state.queue[key].pop();
+}
+
+/* ---------------------------------------------------------------
+   11) SÜRE MODALİ
+   --------------------------------------------------------------- */
+function openTimeModal(gameId) {
+  playAudio('click');
+  state.pendingGameId = gameId;
+  var game = findGame(gameId);
+  if (!game) return;
+  $('timeGameTitle').textContent = game.title;
+  $('timeGameDesc').textContent = game.desc;
+  $('durationSlider').value = 45;
+  updateSliderValue(45);
+  $('timeModal').classList.remove('hidden');
+}
+
+function findGame(id) {
+  for (var i = 0; i < UNITS.length; i++) {
+    for (var j = 0; j < UNITS[i].games.length; j++) {
+      if (UNITS[i].games[j].id === id) return UNITS[i].games[j];
+    }
+  }
+  return null;
+}
+
+function updateSliderValue(val) {
+  state.duration = parseInt(val, 10);
+  $('sliderVal').textContent = val + ' Saniye';
+}
+
+function closeTimeModal() {
+  playAudio('click');
+  $('timeModal').classList.add('hidden');
+}
+
+function confirmStart() {
+  $('timeModal').classList.add('hidden');
+  launchGame(state.pendingGameId, state.duration);
+}
+
+/* ---------------------------------------------------------------
+   12) OYUN MOTORU
+   --------------------------------------------------------------- */
+function launchGame(gameId, duration) {
+  var game = findGame(gameId);
+  if (!game || typeof ENGINES === 'undefined') { showToast('Oyun yüklenemedi'); return; }
+
+  clearLoops();
+  if (state.timerId) clearInterval(state.timerId);
+
+  state.game = game;
+  state.duration = duration;
+  state.timeLeft = duration;
+  state.score = 0;
+  state.correct = 0;
+  state.streak = 0;
+  state.bestStreak = 0;
+  state.active = true;
+  state.playing = true;
+
+  navigateTo('play');
+  updateScoreUI();
+  updateTimerUI();
+
+  var stage = $('gameStage');
+  stage.innerHTML = '';
+
+  var engine = ENGINES[game.type];
+  if (!engine) { showToast('Bu oyun tipi bulunamadı'); return; }
+  try {
+    engine(game, stage);
+  } catch (e) {
+    stage.innerHTML = '<div class="feedback bad">Oyun yüklenirken bir sorun oluştu. Lütfen tekrar dene.</div>';
+    state.active = false; state.playing = false;
+    return;
+  }
+
+  startTimer();
+}
+
+function startTimer() {
+  if (state.timerId) clearInterval(state.timerId);
+  state.timerId = setInterval(function () {
+    if (!state.playing) return;
+    state.timeLeft--;
+    updateTimerUI();
+    if (state.timeLeft <= 0) {
+      clearInterval(state.timerId);
+      finishGame();
+    }
+  }, 1000);
+}
+
+function pauseTimer() { if (state.timerId) clearInterval(state.timerId); }
+function resumeTimer() { if (state.playing && state.timeLeft > 0) startTimer(); }
+
+function updateTimerUI() {
+  $('timerVal').textContent = state.timeLeft + 's';
+  var chip = $('timerChip');
+  if (state.timeLeft <= 10) chip.classList.add('warn'); else chip.classList.remove('warn');
+}
+
+function updateScoreUI() {
+  $('scoreVal').textContent = 'Puan: ' + state.score;
+  $('streakChip').textContent = '🔥 Seri: ' + state.streak;
+}
+
+/* Puanlama yardımcıları - motorlar bunları çağırır */
+function awardCorrect(points) {
+  state.score += points;
+  state.correct++;
+  state.streak++;
+  if (state.streak > state.bestStreak) state.bestStreak = state.streak;
+  updateScoreUI();
+  playAudio('correct');
+}
+function registerWrong() {
+  state.streak = 0;
+  updateScoreUI();
+  playAudio('wrong');
+}
+
+function finishGame() {
+  clearLoops();
+  if (state.timerId) clearInterval(state.timerId);
+  state.active = false;
+  state.playing = false;
+  playAudio('start');
+
+  // En iyi puanı kaydet (oynanan oyun rozet sayılır)
+  if (state.game) {
+    Progress.setBest(state.game.id, Math.max(1, state.score));
+    Progress.addScore(state.score);
+  }
+
+  $('finishScore').textContent = '+' + state.score;
+  $('finishCorrect').textContent = state.correct;
+  $('finishBest').textContent = state.bestStreak;
+  $('finishMsg').textContent = state.correct > 0
+    ? 'Harika iş! ' + state.correct + ' doğru cevap verdin.'
+    : 'Süre doldu. Açıklamaları okuyup tekrar dene!';
+  $('finishModal').classList.remove('hidden');
+
+  var firstBadge = false;
+  if (!Progress.isUnlocked('b_first')) { firstBadge = true; }
+
+  if (state.game) {
+    var tb = BADGE_TRIGGER[state.game.type];
+    if (tb) {
+      setTimeout(function () { unlockBadge(tb); }, firstBadge ? 1400 : 500);
+    }
+  }
+  if (firstBadge) setTimeout(function () { unlockBadge('b_first'); }, 2600);
+
+  setTimeout(renderUnits, 100);
+}
+
+function restartGame() {
+  $('finishModal').classList.add('hidden');
+  if (state.game) launchGame(state.game.id, state.duration);
+}
+
+function closeFinish() {
+  playAudio('click');
+  $('finishModal').classList.add('hidden');
+  navigateTo('games');
+}
+
+function closeExit(shouldExit) {
+  playAudio('click');
+  $('exitModal').classList.add('hidden');
+  if (shouldExit) {
+    stopGameLoops();
+    $('finishModal').classList.add('hidden');
+    navigateTo('games');
+  } else {
+    resumeTimer();
+  }
+}
+
+function stopGameLoops() {
+  state.playing = false;
+  state.active = false;
+  pauseTimer();
+  clearLoops();
+}
+/* ==========================================================================
+   OYUN MOTORLARI
+   Her motor: function(game, stage) - oyunu kurar ve nextItem ile ilerler.
+   ========================================================================== */
+var ENGINES = {};
+
+/* Yardımcılar ------------------------------------------------------------ */
+function makeEl(tag, cls, html) {
+  var e = document.createElement(tag);
+  if (cls) e.className = cls;
+  if (html !== undefined && html !== null) e.innerHTML = html;
+  return e;
+}
+function mkFb(initial, cls) {
+  var e = makeEl('div', 'feedback' + (cls ? ' ' + cls : ''), initial || '');
+  return e;
+}
+function setFb(el, cls, html) {
+  if (!el) return;
+  el.className = 'feedback' + (cls ? ' ' + cls : '');
+  el.innerHTML = html;
+}
+function afterDelay(ms, fn) {
+  var id = setTimeout(function () { if (state.playing) fn(); }, ms);
+  state.loops.push(id);
+  return id;
+}
+function hintRow(item, label) {
+  var wrap = makeEl('div', 'center');
+  var btn = makeEl('button', 'btn', '💡 ' + (label || 'İpucu Gör'));
+  btn.style.cssText = 'font-size:9.5px;padding:6px 12px;border-radius:999px';
+  var box = makeEl('div', 'feedback info hidden');
+  box.style.marginTop = '7px';
+  box.textContent = item.hint || 'Küçük ipucu: Soruyu dikkatlice oku ve bilgileri karşılaştır.';
+  btn.onclick = function () {
+    playAudio('click');
+    box.classList.toggle('hidden');
+  };
+  wrap.appendChild(btn);
+  wrap.appendChild(box);
+  return wrap;
+}
+function shuffleUnique(n, pool) {
+  return shuffle(pool).slice(0, n);
+}
+
+/* ==========================================================================
+   OYUN 1: DOĞRU / YANLIŞ (tüm ekran swipe)
+   ========================================================================== */
+ENGINES.swipe = function (game, stage) {
+  var item = null;
+  var locked = false;
+
+  var legend = makeEl('div', 'swipe-legend', '<span>&#8592; Sola kaydır: YANLIŞ</span><span>Sağa kaydır: DOĞRU &#8594;</span>');
+  var area = makeEl('div', 'swipe-area');
+  var card = makeEl('div', 'swipe-card',
+    '<div class="stamp left">&#10060; YANLIŞ</div>' +
+    '<div class="stamp right">DOĞRU &#10004;</div>' +
+    '<div class="swipe-ico" style="font-size:36px">🔎</div>' +
+    '<p id="swipeQ">Yükleniyor...</p>');
+  area.appendChild(card);
+
+  var fb = mkFb('Kartı sağa ya da sola kaydır.', 'info');
+  var btnRow = makeEl('div', 'row');
+  btnRow.style.cssText = 'gap:8px;margin-top:2px';
+  var noBtn = makeEl('button', 'btn', '&#10060; Yanlış');
+  var yesBtn = makeEl('button', 'btn', 'Doğru &#10004;');
+  noBtn.style.flex = '1'; yesBtn.style.flex = '1';
+  yesBtn.style.cssText += ';background:var(--ok);color:#fff;border:none';
+  noBtn.style.cssText += ';background:var(--bad);color:#fff;border:none';
+  btnRow.appendChild(noBtn);
+  btnRow.appendChild(yesBtn);
+
+  stage.appendChild(legend);
+  stage.appendChild(area);
+  stage.appendChild(btnRow);
+  stage.appendChild(fb);
+
+  var stampL = card.querySelector('.stamp.left');
+  var stampR = card.querySelector('.stamp.right');
+  var qEl = card.querySelector('#swipeQ');
+  var icoEl = card.querySelector('.swipe-ico');
+  var icos = ['🔎', '🧪', '🪐', '🌍', '🪞', '🌱', '🧲', '📊'];
+
+  function load() {
+    item = nextItem(game.id);
+    if (!item) return;
+    locked = false;
+    qEl.textContent = item.q;
+    icoEl.textContent = icos[Math.floor(Math.random() * icos.length)];
+    card.style.transform = 'translate(0px) rotate(0deg)';
+    card.style.opacity = '1';
+    stampL.style.opacity = '0';
+    stampR.style.opacity = '0';
+    setFb(fb, 'info', item.konu ? '🎯 Konu: ' + item.konu : 'Kartı değerlendir ve kaydır.');
+  }
+
+  function decide(userSaysTrue) {
+    if (locked || !item || !state.playing) return;
+    locked = true;
+    var correct = (userSaysTrue === item.a);
+    if (correct) {
+      awardCorrect(20);
+      setFb(fb, 'ok', '✅ Doğru! ' + (item.exp || ''));
+    } else {
+      registerWrong();
+      setFb(fb, 'bad', '❌ Yanlış. Doğrusu: <b>' + (item.a ? 'DOĞRU' : 'YANLIŞ') + '</b>. ' + (item.exp || ''));
+    }
+    afterDelay(1100, load);
+  }
+
+  function fly(dir) {
+    card.style.transition = 'transform .3s, opacity .3s';
+    card.style.transform = 'translate(' + (dir * 340) + 'px) rotate(' + (dir * 22) + 'deg)';
+    card.style.opacity = '0';
+    afterDelay(320, function () { card.style.transition = 'none'; });
+  }
+
+  /* Sürükleme fiziği */
+  var startX = 0, curX = 0, dragging = false;
+  function onStart(x) {
+    if (locked || !state.playing) return;
+    dragging = true; startX = x; curX = x;
+    card.style.transition = 'none';
+  }
+  function onMove(x) {
+    if (!dragging || !state.playing) return;
+    curX = x;
+    var dx = curX - startX;
+    card.style.transform = 'translate(' + dx + 'px) rotate(' + (dx * 0.06) + 'deg)';
+    stampR.style.opacity = dx > 40 ? '1' : '0';
+    stampL.style.opacity = dx < -40 ? '1' : '0';
+  }
+  function onEnd() {
+    if (!dragging) return;
+    dragging = false;
+    var dx = curX - startX;
+    if (dx > 65) { fly(1); decide(true); }
+    else if (dx < -65) { fly(-1); decide(false); }
+    else {
+      card.style.transition = 'transform .2s';
+      card.style.transform = 'translate(0px) rotate(0deg)';
+      stampL.style.opacity = '0'; stampR.style.opacity = '0';
+    }
+  }
+  card.addEventListener('pointerdown', function (e) { onStart(e.clientX); });
+  card.addEventListener('pointermove', function (e) { onMove(e.clientX); });
+  card.addEventListener('pointerup', onEnd);
+  card.addEventListener('pointercancel', onEnd);
+  card.addEventListener('touchstart', function (e) { onStart(e.touches[0].clientX); }, { passive: true });
+  card.addEventListener('touchmove', function (e) { onMove(e.touches[0].clientX); }, { passive: true });
+  card.addEventListener('touchend', onEnd);
+
+  noBtn.onclick = function () { fly(-1); decide(false); };
+  yesBtn.onclick = function () { fly(1); decide(true); };
+
+  load();
+};
+
+/* ==========================================================================
+   OYUN 2: TEST (ipucu + açıklama + tekrar deneme)
+   ========================================================================== */
+ENGINES.choice = function (game, stage) {
+  var item = null;
+  var wrongTried = [];
+  var locked = false;
+
+  var card = makeEl('div', 'task-card');
+  var fb = mkFb('Doğru cevabı seç.', 'info');
+  var optList = makeEl('div', 'opt-list');
+  var hintWrap = makeEl('div');
+
+  stage.appendChild(card);
+  stage.appendChild(optList);
+  stage.appendChild(hintWrap);
+  stage.appendChild(fb);
+
+  function load() {
+    item = nextItem(game.id);
+    if (!item) return;
+    locked = false;
+    wrongTried = [];
+    card.innerHTML =
+      (item.konu ? '<span class="step-badge" style="margin-bottom:7px;display:inline-flex">🎯 ' + item.konu + '</span>' : '') +
+      (item.visual ? '<div class="task-visual">' + item.visual + '</div>' : '') +
+      '<p class="q">' + item.q + '</p>';
+    hintWrap.innerHTML = '';
+    hintWrap.appendChild(hintRow(item));
+    setFb(fb, 'info', 'Seçeneklerden birine dokun.');
+    renderOptions();
+  }
+
+  function renderOptions() {
+    optList.innerHTML = '';
+    item.opts.forEach(function (opt, idx) {
+      var btn = makeEl('div', 'opt');
+      var isWrongTried = wrongTried.indexOf(idx) > -1;
+      if (isWrongTried) btn.classList.add('wrong', 'dim');
+      btn.innerHTML = '<span class="badge-letter">' + String.fromCharCode(65 + idx) + '</span><span class="grow">' + opt + '</span>';
+      if (!isWrongTried) btn.onclick = function () { choose(idx, btn); };
+      optList.appendChild(btn);
+    });
+  }
+
+  function choose(idx, btn) {
+    if (locked || !item || !state.playing) return;
+    if (idx === item.best) {
+      locked = true;
+      btn.classList.add('correct');
+      awardCorrect(30);
+      setFb(fb, 'ok', '✅ Doğru! ' + (item.exp || ''));
+      afterDelay(1200, load);
+    } else {
+      wrongTried.push(idx);
+      registerWrong();
+      btn.classList.remove('wrong'); btn.classList.add('wrong', 'dim');
+      btn.onclick = null;
+      setFb(fb, 'bad', '❌ Bu değil. ' + (item.hint || 'İpucunu kullan ve tekrar dene.'));
+    }
+  }
+
+  load();
+};
+
+/* ==========================================================================
+   OYUN 3: KELİME DİZME (kavram cümlesi kurma)
+   ========================================================================== */
+ENGINES.wordbuild = function (game, stage) {
+  var item = null;
+  var built = [];   // {id, w}
+  var pool = [];    // {id, w, used}
+
+  var head = makeEl('div', 'g-hint', 'Kelimelere sırayla dokunarak doğru tanımı oluştur.');
+  var dropzone = makeEl('div', 'dropzone empty');
+  var poolArea = makeEl('div', 'word-pool');
+  var fb = mkFb('Her kelimeye sırayla dokun.', 'info');
+  var ctrl = makeEl('div', 'row');
+  ctrl.style.gap = '8px';
+  var resetBtn = makeEl('button', 'btn grow', '↺ Sıfırla');
+  ctrl.appendChild(resetBtn);
+
+  stage.appendChild(head);
+  stage.appendChild(dropzone);
+  stage.appendChild(poolArea);
+  stage.appendChild(ctrl);
+  stage.appendChild(fb);
+
+  function load() {
+    item = nextItem(game.id);
+    if (!item) return;
+    built = [];
+    pool = item.words.map(function (w, i) { return { id: i, w: w, used: false }; });
+    var display = shuffle(pool.map(function (p) { return { id: p.id, w: p.w }; }));
+    pool = display.map(function (d) { return { id: d.id, w: d.w, used: false }; });
+    setFb(fb, 'info', 'Her kelimeye sırayla dokun. Yanlış olursa sıfırlayabilirsin.');
+    render();
+  }
+
+  function render() {
+    dropzone.innerHTML = '';
+    if (built.length === 0) dropzone.classList.add('empty');
+    else dropzone.classList.remove('empty');
+    built.forEach(function (b, i) {
+      var chip = makeEl('span', 'built-word', b.w + ' <span style="opacity:.6">' + (i + 1) + '</span>');
+      chip.onclick = function () {
+        if (!state.playing) return;
+        playAudio('click');
+        // bu ve sonrasını geri al
+        var removed = built.splice(i, built.length - i);
+        removed.forEach(function (r) {
+          for (var k = 0; k < pool.length; k++) if (pool[k].id === r.id) pool[k].used = false;
+        });
+        render();
+      };
+      dropzone.appendChild(chip);
+    });
+
+    poolArea.innerHTML = '';
+    pool.forEach(function (p) {
+      var w = makeEl('div', 'word' + (p.used ? ' used' : ''), p.w);
+      w.onclick = function () { addWord(p); };
+      poolArea.appendChild(w);
+    });
+  }
+
+  function addWord(p) {
+    if (!state.playing || p.used) return;
+    playAudio('click');
+    p.used = true;
+    built.push({ id: p.id, w: p.w });
+    render();
+    if (built.length === item.words.length) check();
+  }
+
+  function check() {
+    var userWords = built.map(function (b) { return b.w; });
+    var ok = userWords.length === item.words.length &&
+      userWords.every(function (w, i) { return w === item.words[i]; });
+    if (ok) {
+      awardCorrect(40);
+      setFb(fb, 'ok', '🎉 Harika! ' + (item.exp || ''));
+      afterDelay(1200, load);
+    } else {
+      registerWrong();
+      setFb(fb, 'bad', '❌ Sıralama hatalı. ' + (item.hint || 'Tanımı yeniden düşün ve tekrar dene.'));
+    }
+  }
+
+  resetBtn.onclick = function () {
+    if (!state.playing) return;
+    playAudio('click');
+    built = [];
+    pool.forEach(function (p) { p.used = false; });
+    render();
+    setFb(fb, 'info', 'Sıfırlandı. Baştan diz.');
+  };
+
+  load();
+};
+
+/* ==========================================================================
+   OYUN 4: HAFIZA KARTLARI (kavram - tanım eşleştirme)
+   ========================================================================== */
+ENGINES.memory = function (game, stage) {
+  var grid = makeEl('div', 'mem-grid');
+  var fb = mkFb('Aynı kavram ile tanımını eşleştir.');
+  var flipped = [];
+  var matched = 0;
+  var busy = false;
+  var pairs = [];
+
+  stage.appendChild(grid);
+  stage.appendChild(fb);
+
+  function newRound() {
+    var bank = playBank(game.id);
+    if (bank.length < 4) bank = (typeof BANKS !== 'undefined' && BANKS[game.id]) ? BANKS[game.id] : [];
+    if (bank.length < 4) return;
+    pairs = shuffle(bank).slice(0, 4);
+    var cards = [];
+    pairs.forEach(function (p, i) {
+      cards.push({ pid: i, text: p.a, tip: 'kavram' });
+      cards.push({ pid: i, text: p.b, tip: 'tanım' });
+    });
+    var deck = shuffle(cards);
+    grid.innerHTML = '';
+    flipped = [];
+    matched = 0;
+    busy = false;
+    setFb(fb, 'info', 'Kartlara dokunarak eşleştir.');
+    deck.forEach(function (c) {
+      var el = makeEl('div', 'mem-card', '❓');
+      el.dataset.pid = c.pid;
+      el.dataset.text = c.text;
+      el.onclick = function () { flip(el); };
+      grid.appendChild(el);
+    });
+  }
+
+  function flip(el) {
+    if (!state.playing || busy) return;
+    if (el.classList.contains('done') || el.classList.contains('open')) return;
+    playAudio('click');
+    el.classList.add('open');
+    el.textContent = el.dataset.text;
+    flipped.push(el);
+    if (flipped.length === 2) {
+      var a = flipped[0], b = flipped[1];
+      if (a.dataset.pid === b.dataset.pid) {
+        a.classList.add('done'); b.classList.add('done');
+        a.classList.remove('open'); b.classList.remove('open');
+        awardCorrect(25);
+        matched += 2;
+        var p = pairs[parseInt(a.dataset.pid, 10)];
+        setFb(fb, 'ok', '✅ Eşleşti: ' + (p && p.exp ? p.exp : (a.dataset.text + ' ↔ ' + b.dataset.text)));
+        flipped = [];
+        if (matched >= 8) afterDelay(1000, newRound);
+      } else {
+        busy = true;
+        registerWrong();
+        setFb(fb, 'bad', '❌ Bunlar eşleşmedi. Tekrar dene.');
+        afterDelay(700, function () {
+          [a, b].forEach(function (x) {
+            x.classList.remove('open');
+            x.textContent = '❓';
+          });
+          flipped = [];
+          busy = false;
+        });
+      }
+    }
+  }
+
+  newRound();
+};
+
+/* ==========================================================================
+   OYUN 5: SIRALAMA (aşamaları doğru diz)
+   ========================================================================== */
+ENGINES.order = function (game, stage) {
+  var item = null;
+  var placed = [];  // labels
+
+  var head = makeEl('div', 'task-card');
+  var track = makeEl('div', 'order-track');
+  var poolWrap = makeEl('div', 'order-pool');
+  var fb = mkFb('Maddelere sırayla dokunarak doğru sırayı kur.', 'info');
+  var ctrl = makeEl('div', 'row');
+  ctrl.style.gap = '8px';
+  var resetBtn = makeEl('button', 'btn grow', '↺ Sıfırla');
+  ctrl.appendChild(resetBtn);
+
+  stage.appendChild(head);
+  stage.appendChild(track);
+  stage.appendChild(poolWrap);
+  stage.appendChild(ctrl);
+  stage.appendChild(fb);
+
+  function load() {
+    item = nextItem(game.id);
+    if (!item) return;
+    placed = [];
+    head.innerHTML = '<span class="step-badge">🔢 Sıralama</span><p class="q" style="margin-top:8px">' + item.prompt + '</p>';
+    setFb(fb, 'info', 'Maddelere sırayla dokun. Hepsini dizince kontrol edilir.');
+    renderPool();
+    renderTrack();
+  }
+
+  function renderPool() {
+    poolWrap.innerHTML = '';
+    var display = shuffle(item.items);
+    display.forEach(function (label) {
+      var used = placed.indexOf(label) > -1;
+      var b = makeEl('div', 'order-item' + (used ? ' used' : ''), label);
+      b.onclick = function () { place(label); };
+      poolWrap.appendChild(b);
+    });
+  }
+
+  function renderTrack() {
+    track.innerHTML = '';
+    if (placed.length === 0) {
+      track.innerHTML = '<span class="xs muted" style="font-style:italic">Sıralama burada görünecek...</span>';
+      return;
+    }
+    placed.forEach(function (label, i) {
+      var chip = makeEl('span', 'order-slot', '<span class="n">' + (i + 1) + '.</span><span>' + label + '</span>');
+      chip.onclick = function () {
+        if (!state.playing) return;
+        playAudio('click');
+        placed = placed.slice(0, i);
+        renderPool(); renderTrack();
+      };
+      track.appendChild(chip);
+    });
+  }
+
+  function place(label) {
+    if (!state.playing || placed.indexOf(label) > -1) return;
+    playAudio('click');
+    placed.push(label);
+    renderPool(); renderTrack();
+    if (placed.length === item.items.length) check();
+  }
+
+  function check() {
+    var ok = placed.length === item.items.length &&
+      placed.every(function (v, i) { return v === item.items[i]; });
+    if (ok) {
+      awardCorrect(40);
+      setFb(fb, 'ok', '✅ Mükemmel sıralama! ' + (item.exp || ''));
+      afterDelay(1300, load);
+    } else {
+      registerWrong();
+      setFb(fb, 'bad', '❌ Sıralama doğru değil. ' + (item.hint || 'Aşamaları baştan sona düşün.'));
+    }
+  }
+
+  resetBtn.onclick = function () {
+    if (!state.playing) return;
+    playAudio('click');
+    placed = [];
+    renderPool(); renderTrack();
+    setFb(fb, 'info', 'Sıfırlandı. Baştan diz.');
+  };
+
+  load();
+};
+/* ==========================================================================
+   OYUN 6: ŞEMA ÜZERİNDE SEÇ (hotspot)
+   ========================================================================== */
+ENGINES.hotspot = function (game, stage) {
+  var item = null;
+
+  var card = makeEl('div', 'task-card');
+  var stageBox = makeEl('div', 'stage');
+  var fb = mkFb('Şemadaki doğru noktaya dokun.', 'info');
+
+  stage.appendChild(card);
+  stage.appendChild(stageBox);
+  stage.appendChild(fb);
+
+  function load() {
+    item = nextItem(game.id);
+    if (!item) return;
+    card.innerHTML =
+      '<span class="step-badge" style="display:inline-flex">🧭 Şema</span>' +
+      '<p class="q" style="margin-top:8px">' + item.q + '</p>';
+    stageBox.style.height = (item.h || 210) + 'px';
+    stageBox.innerHTML = (item.svg || '');
+
+    item.pins.forEach(function (p) {
+      var pin = makeEl('div', 'pin', p.label);
+      pin.style.left = p.x + '%';
+      pin.style.top = p.y + '%';
+      pin.onclick = function () { pick(p, pin); };
+      stageBox.appendChild(pin);
+    });
+    setFb(fb, 'info', 'Doğru etikete dokun.');
+  }
+
+  function pick(p, pin) {
+    if (!item || !state.playing) return;
+    if (p.label === item.answer) {
+      pin.classList.add('correct');
+      awardCorrect(30);
+      setFb(fb, 'ok', '✅ Doğru! ' + (item.exp || ''));
+      afterDelay(1400, load);
+    } else {
+      pin.classList.add('wrong');
+      registerWrong();
+      setFb(fb, 'bad', '❌ Bu nokta değil. ' + (item.hint || 'Şemayı dikkatlice incele ve tekrar dene.'));
+    }
+  }
+
+  load();
+};
+
+/* ==========================================================================
+   OYUN 7: SÜRÜKLE - BIRAK / EŞLEŞTİR (dragdrop)
+   ========================================================================== */
+ENGINES.dragdrop = function (game, stage) {
+  var item = null;
+  var selected = null;
+  var placedCount = 0;
+
+  var card = makeEl('div', 'task-card');
+  var pool = makeEl('div', 'dd-items');
+  var targetsWrap = makeEl('div', 'dd-targets');
+  var fb = mkFb('Bir seçeneğe dokun, sonra uygun kutuya bırak. (Sürükleyebilirsin de)', 'info');
+
+  stage.appendChild(card);
+  stage.appendChild(pool);
+  stage.appendChild(targetsWrap);
+  stage.appendChild(fb);
+
+  function load() {
+    item = nextItem(game.id);
+    if (!item) return;
+    selected = null;
+    placedCount = 0;
+    card.innerHTML = '<span class="step-badge" style="display:inline-flex">🧩 Eşleştir</span><p class="q" style="margin-top:8px">' + item.prompt + '</p>';
+    setFb(fb, 'info', 'Bir seçeneğe dokun, sonra uygun kutuya bırak.');
+
+    pool.innerHTML = '';
+    shuffle(item.items).forEach(function (it) {
+      var el = makeEl('div', 'dd-item', it.label);
+      el.dataset.label = it.label;
+      el.dataset.target = it.target;
+      el.onclick = function () {
+        if (!state.playing || el.classList.contains('used')) return;
+        playAudio('click');
+        if (selected) selected.classList.remove('selected');
+        selected = el;
+        el.classList.add('selected');
+      };
+      enableDrag(el, function (targetEl) {
+        if (targetEl) place(el, targetEl);
+      });
+      pool.appendChild(el);
+    });
+
+    targetsWrap.innerHTML = '';
+    item.targets.forEach(function (t) {
+      var box = makeEl('div', 'dd-target');
+      box.dataset.id = t.id;
+      box.innerHTML = '<span class="tlabel">' + t.label + '</span><span class="slotbox"></span>';
+      box.onclick = function () {
+        if (selected) place(selected, box);
+      };
+      targetsWrap.appendChild(box);
+    });
+  }
+
+  function place(itemEl, targetEl) {
+    if (!state.playing || itemEl.classList.contains('used')) return;
+    if (itemEl.dataset.target === targetEl.dataset.id) {
+      itemEl.classList.remove('selected');
+      itemEl.classList.add('used');
+      selected = null;
+      var chip = makeEl('span', 'slot-chip', itemEl.dataset.label);
+      targetEl.querySelector('.slotbox').appendChild(chip);
+      targetEl.classList.add('correct');
+      placedCount++;
+      awardCorrect(15);
+      setFb(fb, 'ok', '✅ Doğru yerleştirdin!');
+      if (placedCount >= item.items.length) {
+        awardCorrect(30);
+        setFb(fb, 'ok', '🎉 Hepsi doğru! ' + (item.exp || ''));
+        afterDelay(1400, load);
+      }
+    } else {
+      registerWrong();
+      setFb(fb, 'bad', '❌ Bu kutu uygun değil. ' + (item.hint || 'Seçeneğin özelliğini tekrar düşün.'));
+      targetEl.classList.add('wrong');
+      afterDelay(600, function () { targetEl.classList.remove('wrong'); });
+    }
+  }
+
+  /* Basit pointer sürükleme (mobil + masaüstü) */
+  function enableDrag(el, onDrop) {
+    el.addEventListener('pointerdown', function (e) {
+      if (!state.playing || el.classList.contains('used')) return;
+      var startX = e.clientX, startY = e.clientY, moved = false;
+      var ghost = null;
+      function move(ev) {
+        var dx = Math.abs(ev.clientX - startX), dy = Math.abs(ev.clientY - startY);
+        if (!moved && (dx > 8 || dy > 8)) {
+          moved = true;
+          ghost = el.cloneNode(true);
+          ghost.style.cssText = 'position:fixed;pointer-events:none;z-index:999;opacity:.9;padding:8px 11px;border-radius:12px;background:var(--accent);color:#fff;font-weight:800;font-size:10px';
+          document.body.appendChild(ghost);
+        }
+        if (ghost) {
+          ghost.style.left = (ev.clientX - 30) + 'px';
+          ghost.style.top = (ev.clientY - 16) + 'px';
+        }
+      }
+      function up(ev) {
+        document.removeEventListener('pointermove', move);
+        document.removeEventListener('pointerup', up);
+        if (ghost) ghost.remove();
+        if (!moved) return; // dokunma -> click hallediyor
+        var under = document.elementFromPoint(ev.clientX, ev.clientY);
+        var targetEl = under && under.closest ? under.closest('.dd-target') : null;
+        onDrop(targetEl);
+      }
+      document.addEventListener('pointermove', move);
+      document.addEventListener('pointerup', up);
+    });
+  }
+
+  load();
+};
+
+/* ==========================================================================
+   OYUN 8: SINIFLANDIRMA / SEPET (sort)
+   ========================================================================== */
+ENGINES.sort = function (game, stage) {
+  var item = null;
+  var selected = null;
+  var remaining = [];
+
+  var card = makeEl('div', 'task-card');
+  var itemsWrap = makeEl('div', 'dd-items');
+  var binsWrap = makeEl('div', 'sort-bins');
+  var fb = mkFb('Bir kavrama dokun, sonra doğru kutuya yerleştir.', 'info');
+
+  stage.appendChild(card);
+  stage.appendChild(itemsWrap);
+  stage.appendChild(binsWrap);
+  stage.appendChild(fb);
+
+  function load() {
+    item = nextItem(game.id);
+    if (!item) return;
+    selected = null;
+    remaining = item.items.slice();
+    card.innerHTML = '<span class="step-badge" style="display:inline-flex">🗂️ Sınıflandır</span><p class="q" style="margin-top:8px">' + item.prompt + '</p>';
+    setFb(fb, 'info', 'Bir kavrama dokun, sonra doğru kutuya yerleştir.');
+    renderItems();
+    renderBins();
+  }
+
+  function renderItems() {
+    itemsWrap.innerHTML = '';
+    shuffle(remaining).forEach(function (it) {
+      var el = makeEl('div', 'sort-item', it.label);
+      el.onclick = function () {
+        if (!state.playing) return;
+        playAudio('click');
+        if (selected) selected.classList.remove('selected');
+        selected = el;
+        el.classList.add('selected');
+      };
+      el._data = it;
+      itemsWrap.appendChild(el);
+    });
+  }
+
+  function renderBins() {
+    binsWrap.innerHTML = '';
+    item.cats.forEach(function (c, idx) {
+      var b = makeEl('div', 'sort-bin ' + (idx === 0 ? 'a' : 'b'),
+        c.label + '<span class="cnt">0 yerleştirildi</span>');
+      b.dataset.id = c.id;
+      b._count = 0;
+      b.onclick = function () { place(b); };
+      binsWrap.appendChild(b);
+    });
+  }
+
+  function place(bin) {
+    if (!state.playing || !selected) {
+      if (!selected) setFb(fb, 'info', 'Önce bir kavrama dokun.');
+      return;
+    }
+    var data = selected._data;
+    if (data.cat === bin.dataset.id) {
+      bin._count++;
+      bin.querySelector('.cnt').textContent = bin._count + ' yerleştirildi';
+      selected.remove();
+      selected = null;
+      var idx = remaining.indexOf(data);
+      if (idx > -1) remaining.splice(idx, 1);
+      awardCorrect(15);
+      setFb(fb, 'ok', '✅ Doğru: ' + data.label + (data.exp ? ' — ' + data.exp : ''));
+      if (remaining.length === 0) {
+        awardCorrect(20);
+        setFb(fb, 'ok', '🎉 Hepsini doğru sınıflandırdın! ' + (item.exp || ''));
+        afterDelay(1400, load);
+      }
+    } else {
+      registerWrong();
+      var correctLabel = '';
+      item.cats.forEach(function (c) { if (c.id === data.cat) correctLabel = c.label; });
+      setFb(fb, 'bad', '❌ Yanlış kutu. ' + (item.hint || (data.label + ' aslında "' + correctLabel + '" grubuna girer.')));
+    }
+  }
+
+  load();
+};
+
+/* ==========================================================================
+   OYUN 9: KAVRAM YAKALA (catcher)
+   ========================================================================== */
+ENGINES.catcher = function (game, stage) {
+  var basketX = 50;
+  var speed = 2.6;
+  var falling = null;
+  var el = null;
+  var topPos = 0;
+  var itemLeft = 50;
+  var tick = null;
+  var speedUp = null;
+
+  var legend = makeEl('div', 'row between');
+  legend.innerHTML = '<span class="xs" style="font-weight:900">🧺 Sepeti kaydır: doğru kavramları yakala</span><span class="pill" id="speedLbl">Hız 1.0x</span>';
+
+  var field = makeEl('div', 'catch-field');
+  el = makeEl('div', 'falling', '');
+  var basket = makeEl('div', 'basket', '🧺 Sepet');
+  field.appendChild(el);
+  field.appendChild(basket);
+
+  var fb = mkFb('Doğru bilimsel ifadeleri yakala, yanlışlardan kaç!');
+
+  stage.appendChild(legend);
+  stage.appendChild(field);
+  stage.appendChild(fb);
+
+  function setBasket(pct) {
+    basketX = Math.max(12, Math.min(88, pct));
+    basket.style.left = basketX + '%';
+  }
+
+  function moveBasket(e) {
+    if (!state.playing) return;
+    var rect = field.getBoundingClientRect();
+    var x = (e.touches ? e.touches[0].clientX : e.clientX);
+    setBasket(((x - rect.left) / rect.width) * 100);
+  }
+  var dragging = false;
+  field.addEventListener('pointerdown', function (e) { dragging = true; moveBasket(e); });
+  field.addEventListener('pointermove', function (e) { if (dragging) moveBasket(e); });
+  field.addEventListener('pointerup', function () { dragging = false; });
+  field.addEventListener('touchstart', function (e) { moveBasket(e); }, { passive: true });
+  field.addEventListener('touchmove', function (e) { moveBasket(e); }, { passive: true });
+
+  function spawn() {
+    if (!state.playing) return;
+    falling = nextItem(game.id);
+    if (!falling) return;
+    el.textContent = falling.text;
+    el.style.display = 'block';
+    itemLeft = Math.round(Math.random() * 62) + 19;
+    el.style.left = itemLeft + '%';
+    topPos = 0;
+    el.style.top = '0px';
+
+    if (tick) clearInterval(tick);
+    tick = setInterval(function () {
+      if (!state.playing) { clearInterval(tick); return; }
+      topPos += speed;
+      el.style.top = topPos + 'px';
+      var H = field.offsetHeight;
+      var basketTop = H - 52;
+      var floorY = H - 22;
+
+      if (topPos >= basketTop && topPos <= floorY + 6) {
+        if (Math.abs(itemLeft - basketX) < 24) {
+          clearInterval(tick);
+          el.style.display = 'none';
+          if (falling.good) {
+            awardCorrect(25);
+            setFb(fb, 'ok', '✅ Doğru kavramı yakaladın! ' + (falling.exp || ''));
+          } else {
+            registerWrong();
+            state.score = Math.max(0, state.score - 15);
+            updateScoreUI();
+            setFb(fb, 'bad', '❌ Bu kavram yanlış! ' + (falling.exp || ''));
+          }
+          afterDelay(200, spawn);
+          return;
+        }
+      }
+      if (topPos >= floorY) {
+        clearInterval(tick);
+        el.style.display = 'none';
+        if (falling.good) setFb(fb, 'info', '😕 Doğru kavramı kaçırdın: ' + falling.text);
+        afterDelay(180, spawn);
+      }
+    }, 30);
+    state.loops.push(tick);
+  }
+
+  speedUp = setInterval(function () {
+    if (!state.playing) { clearInterval(speedUp); return; }
+    speed = Math.min(speed + 0.5, 12);
+    var lbl = $('speedLbl');
+    if (lbl) lbl.textContent = 'Hız ' + (speed / 2.6).toFixed(1) + 'x ⚡';
+  }, 3000);
+  state.loops.push(speedUp);
+
+  setBasket(50);
+  spawn();
+};
+
+/* ==========================================================================
+   OYUN 10: SİMÜLASYONLAR (sim)
+   ========================================================================== */
+ENGINES.sim = function (game, stage) {
+  if (game.sim === 'eclipse') simEclipse(stage);
+  else if (game.sim === 'force') simForce(stage);
+  else if (game.sim === 'graph') simGraph(game, stage);
+  else if (game.sim === 'germination') simGermination(stage);
+  else if (game.sim === 'reflection') simReflection(stage);
+  else stage.innerHTML = '<div class="feedback bad">Simülasyon bulunamadı.</div>';
+};
+
+/* ---- Simülasyon: Güneş/Ay Tutulması ---- */
+function simEclipse(stage) {
+  var tasks = [
+    { want: 'solar', prompt: '🌑 <b>Güneş tutulmasını</b> oluştur: Ay, Güneş ile Dünya arasında olmalı.',
+      exp: 'Güneş tutulmasında Ay, Güneş ile Dünya’nın arasına girer ve Ay’ın gölgesi Dünya’ya düşer.' },
+    { want: 'lunar', prompt: '🌕 <b>Ay tutulmasını</b> oluştur: Dünya, Güneş ile Ay arasında olmalı.',
+      exp: 'Ay tutulmasında Dünya, Güneş ile Ay’ın arasına girer ve Dünya’nın gölgesi Ay’a düşer.' }
+  ];
+  var ti = 0;
+  var placements = { s1: null, s2: null };
+  var sel = null;
+
+  var card = makeEl('div', 'task-card');
+  var board = makeEl('div', 'stage');
+  board.style.height = '170px';
+  var fb = mkFb('Gök cisimlerini doğru konuma yerleştir.', 'info');
+  var ctrl = makeEl('div', 'row');
+  ctrl.style.gap = '8px';
+  var checkBtn = makeEl('button', 'btn btn-primary grow', '✔️ Kontrol Et');
+  var resetBtn = makeEl('button', 'btn', '↺');
+  ctrl.appendChild(checkBtn);
+  ctrl.appendChild(resetBtn);
+
+  stage.appendChild(card);
+  stage.appendChild(board);
+  stage.appendChild(ctrl);
+  stage.appendChild(fb);
+
+  function buildBoard() {
+    board.innerHTML = '';
+    var sun = makeEl('div', '', '☀️');
+    sun.style.cssText = 'position:absolute;left:4%;top:50%;transform:translateY(-50%);font-size:34px;filter:drop-shadow(0 0 10px #f59e0b)';
+    board.appendChild(sun);
+    var sunLbl = makeEl('div', 'xs', 'Güneş');
+    sunLbl.style.cssText = 'position:absolute;left:3%;bottom:6px;font-weight:900';
+    board.appendChild(sunLbl);
+
+    ['s1', 's2'].forEach(function (key, i) {
+      var slot = makeEl('div', '');
+      slot.style.cssText = 'position:absolute;top:50%;transform:translate(-50%,-50%);width:74px;height:74px;border-radius:50%;border:2px dashed var(--line);display:flex;align-items:center;justify-content:center;font-size:26px;color:var(--text-sub)';
+      slot.style.left = (36 + i * 26) + '%';
+      slot.dataset.slot = key;
+      slot.textContent = placements[key] ? '' : (i === 0 ? '①' : '②');
+      if (placements[key]) slot.textContent = placements[key] === 'earth' ? '🌍' : '🌙';
+      slot.onclick = function () {
+        if (!state.playing) return;
+        playAudio('click');
+        if (sel) { placements[key] = sel; sel = null; buildBoard(); }
+        else if (placements[key]) { placements[key] = null; buildBoard(); }
+        else { setFb(fb, 'info', 'Önce bir gök cismine dokun (Dünya/Ay).'); }
+      };
+      board.appendChild(slot);
+    });
+
+    var chips = makeEl('div', 'dd-items');
+    chips.style.cssText = 'justify-content:center;margin-top:6px';
+    [['earth', '🌍 Dünya'], ['moon', '🌙 Ay']].forEach(function (c) {
+      var used = (placements.s1 === c[0] || placements.s2 === c[0]);
+      var ch = makeEl('div', 'dd-item' + (used ? ' used' : '') + (sel === c[0] ? ' selected' : ''), c[1]);
+      ch.onclick = function () {
+        if (!state.playing || used) return;
+        playAudio('click');
+        sel = c[0];
+        setFb(fb, 'info', 'Şimdi hangi konuma yerleştirmek istediğine dokun.');
+        buildBoard();
+      };
+      chips.appendChild(ch);
+    });
+    board.appendChild(chips);
+  }
+
+  function loadTask() {
+    placements = { s1: null, s2: null };
+    sel = null;
+    card.innerHTML = '<span class="step-badge" style="display:inline-flex">🌑 Tutulma Simülatörü</span><p class="q" style="margin-top:8px">' + tasks[ti % tasks.length].prompt + '</p>';
+    setFb(fb, 'info', 'Güneş sabittir. Dünya ve Ay’ı konumlandırıp kontrol et.');
+    buildBoard();
+  }
+
+  checkBtn.onclick = function () {
+    if (!state.playing) return;
+    if (!placements.s1 || !placements.s2) { setFb(fb, 'info', 'Önce iki gök cismini de yerleştir.'); return; }
+    var nearSun = placements.s1; // Güneş'e yakın konum
+    var result = (nearSun === 'moon') ? 'solar' : 'lunar';
+    var task = tasks[ti % tasks.length];
+    if (result === task.want) {
+      awardCorrect(40);
+      setFb(fb, 'ok', '✅ Doğru! ' + task.exp);
+      ti++;
+      afterDelay(1700, loadTask);
+    } else {
+      registerWrong();
+      setFb(fb, 'bad', '❌ Oluşan tutulma bu değil. ' + (task.want === 'solar'
+        ? 'Güneş tutulması için Güneş’e en yakın konumda Ay olmalı.'
+        : 'Ay tutulması için Güneş’e en yakın konumda Dünya olmalı.'));
+    }
+  };
+  resetBtn.onclick = function () { if (!state.playing) return; playAudio('click'); placements = { s1: null, s2: null }; sel = null; buildBoard(); };
+
+  loadTask();
+}
+
+/* ---- Simülasyon: Kuvvet Laboratuvarı ---- */
+function simForce(stage) {
+  var tasks = [
+    { net: 0, prompt: '⚖️ <b>Dengelenmiş kuvvet:</b> Bileşke kuvvet 0 N olacak şekilde ayarla.', exp: 'Eşit büyüklükteki zıt yönlü kuvvetlerin bileşkesi 0 N’dur; kuvvetler dengelenmiştir.' },
+    { net: 10, prompt: '➡️ Bileşke kuvvet <b>10 N sağa</b> olsun.', exp: 'Zıt yönlü kuvvetlerde bileşke = büyük − küçük, yön büyük olanın yönündedir (10 − 0 = 10 N sağa).' },
+    { net: -6, prompt: '⬅️ Bileşke kuvvet <b>6 N sola</b> olsun.', exp: 'Sağa 4 N, sola 10 N ise bileşke 6 N sola olur.' },
+    { net: 5, prompt: 'Bileşke kuvvet <b>5 N sağa</b> olsun (iki kuvveti de 0’dan farklı kullan).', exp: 'Örneğin sağa 12 N, sola 7 N → bileşke 5 N sağa.' }
+  ];
+  var ti = 0;
+
+  var card = makeEl('div', 'task-card');
+  var panel = makeEl('div', 'sim-panel');
+  var visual = makeEl('div');
+  var fb = mkFb('Kaydırıcılarla kuvvetleri ayarla.', 'info');
+  var checkBtn = makeEl('button', 'btn btn-primary btn-block', '✔️ Kontrol Et');
+
+  panel.innerHTML =
+    '<div class="sim-row"><span>➡️ Sağa doğru kuvvet</span></div>' +
+    '<input type="range" id="fRight" min="0" max="20" step="1" value="0" style="width:100%">' +
+    '<div class="sim-row"><span>⬅️ Sola doğru kuvvet</span></div>' +
+    '<input type="range" id="fLeft" min="0" max="20" step="1" value="0" style="width:100%">' +
+    '<div id="netLbl" class="center" style="font-size:11.5px;font-weight:900;margin-top:8px;color:var(--accent)">Bileşke: 0 N</div>';
+
+  stage.appendChild(card);
+  stage.appendChild(panel);
+  stage.appendChild(visual);
+  stage.appendChild(checkBtn);
+  stage.appendChild(fb);
+
+  function arrow(x1, x2, y, color) {
+    var dir = x2 > x1 ? 1 : -1;
+    var len = Math.abs(x2 - x1);
+    var head = len > 4 ? '<polygon points="' + x2 + ',' + y + ' ' + (x2 - dir * 12) + ',' + (y - 6) + ' ' + (x2 - dir * 12) + ',' + (y + 6) + '" fill="' + color + '"/>' : '';
+    return '<line x1="' + x1 + '" y1="' + y + '" x2="' + x2 + '" y2="' + y + '" stroke="' + color + '" stroke-width="6" stroke-linecap="round"/>' + head;
+  }
+
+  function draw() {
+    var R = parseInt($('fRight').value, 10);
+    var L = parseInt($('fLeft').value, 10);
+    var net = R - L;
+    $('netLbl').textContent = 'Bileşke: ' + Math.abs(net) + ' N ' + (net === 0 ? '(dengelenmiş)' : (net > 0 ? '→ sağa' : '← sola'));
+    var rlen = R * 6, llen = L * 6;
+    var svg = '<svg viewBox="0 0 320 120" width="100%" height="120" role="img" aria-label="Kuvvet okları">' +
+      '<rect x="130" y="42" width="60" height="40" rx="10" fill="var(--bg-sub)" stroke="var(--line)"/>' +
+      '<text x="160" y="68" text-anchor="middle" font-size="14">📦</text>' +
+      arrow(192, 192 + rlen, 62, 'var(--ok)') +
+      arrow(128, 128 - llen, 62, 'var(--bad)') +
+      '<text x="310" y="34" text-anchor="end" font-size="10" fill="var(--ok)">Sağ: ' + R + ' N</text>' +
+      '<text x="10" y="34" font-size="10" fill="var(--bad)">Sol: ' + L + ' N</text>' +
+      '</svg>';
+    visual.innerHTML = svg;
+  }
+
+  function load() {
+    $('fRight').value = 0; $('fLeft').value = 0;
+    card.innerHTML = '<span class="step-badge" style="display:inline-flex">🧲 Kuvvet Laboratuvarı</span><p class="q" style="margin-top:8px">' + tasks[ti % tasks.length].prompt + '</p>';
+    setFb(fb, 'info', 'Kuvvetleri ayarla ve kontrol et.');
+    draw();
+  }
+
+  $('fRight').oninput = draw;
+  $('fLeft').oninput = draw;
+
+  checkBtn.onclick = function () {
+    if (!state.playing) return;
+    var R = parseInt($('fRight').value, 10);
+    var L = parseInt($('fLeft').value, 10);
+    var net = R - L;
+    var task = tasks[ti % tasks.length];
+    if (net === task.net) {
+      awardCorrect(40);
+      setFb(fb, 'ok', '✅ Doğru! Bileşke = ' + Math.abs(net) + ' N. ' + task.exp);
+      ti++;
+      afterDelay(1700, load);
+    } else {
+      registerWrong();
+      setFb(fb, 'bad', '❌ Henüz olmadı. Zıt yönlü kuvvetlerde bileşke = büyük − küçük. Şu an ' + Math.abs(net) + ' N ' + (net === 0 ? '(dengelenmiş)' : (net > 0 ? 'sağa' : 'sola')) + '.');
+    }
+  };
+
+  load();
+}
+
+/* ---- Simülasyon: Hareket Grafiği ---- */
+function simGraph(game, stage) {
+  var item = null;
+
+  var chart = makeEl('div');
+  var card = makeEl('div', 'task-card');
+  var optList = makeEl('div', 'opt-list');
+  var fb = mkFb('Grafiği inceleyip doğru seçeneği işaretle.', 'info');
+
+  stage.appendChild(card);
+  stage.appendChild(chart);
+  stage.appendChild(optList);
+  stage.appendChild(fb);
+
+  function drawGraph(data, ylabel) {
+    var W = 320, H = 170, pad = 30;
+    var maxT = 0, maxY = 0;
+    data.forEach(function (p) { maxT = Math.max(maxT, p[0]); maxY = Math.max(maxY, p[1]); });
+    maxT = maxT || 1; maxY = maxY || 1;
+    function px(t) { return pad + (t / maxT) * (W - pad - 14); }
+    function py(y) { return H - pad - (y / maxY) * (H - pad - 14); }
+    var pts = data.map(function (p) { return px(p[0]) + ',' + py(p[1]); }).join(' ');
+    var grid = '';
+    for (var i = 0; i <= 4; i++) {
+      var gy = pad - 14 + (H - 2 * pad + 14) * (i / 4);
+      var gx = pad + (W - pad - 14) * (i / 4);
+      grid += '<line x1="' + pad + '" y1="' + gy.toFixed(1) + '" x2="' + (W - 14) + '" y2="' + gy.toFixed(1) + '" stroke="var(--line)" stroke-width="0.7"/>';
+      grid += '<line x1="' + gx.toFixed(1) + '" y1="' + (pad - 14) + '" x2="' + gx.toFixed(1) + '" y2="' + (H - pad) + '" stroke="var(--line)" stroke-width="0.7"/>';
+    }
+    var dots = data.map(function (p) {
+      return '<circle cx="' + px(p[0]) + '" cy="' + py(p[1]) + '" r="3.4" fill="var(--accent)"/>';
+    }).join('');
+    var labels = data.map(function (p) {
+      return '<text x="' + px(p[0]) + '" y="' + (H - pad + 12) + '" font-size="8" text-anchor="middle" fill="var(--text-sub)">' + p[0] + '</text>';
+    }).join('');
+    return '<svg viewBox="0 0 ' + W + ' ' + H + '" width="100%" height="170" role="img" aria-label="Yol zaman grafiği">' +
+      grid +
+      '<line x1="' + pad + '" y1="' + (H - pad) + '" x2="' + (W - 10) + '" y2="' + (H - pad) + '" stroke="var(--text-sub)" stroke-width="1.4"/>' +
+      '<line x1="' + pad + '" y1="' + (H - pad) + '" x2="' + pad + '" y2="10" stroke="var(--text-sub)" stroke-width="1.4"/>' +
+      '<polyline points="' + pts + '" fill="none" stroke="var(--accent)" stroke-width="2.6" stroke-linejoin="round"/>' +
+      dots + labels +
+      '<text x="6" y="16" font-size="9" fill="var(--text-sub)">' + ylabel + '</text>' +
+      '<text x="' + (W - 12) + '" y="' + (H - 4) + '" font-size="9" text-anchor="end" fill="var(--text-sub)">zaman (s)</text>' +
+      '</svg>';
+  }
+
+  function load() {
+    item = nextItem(game.id);
+    if (!item) return;
+    chart.innerHTML = '<div class="sim-panel">' + drawGraph(item.data, item.ylabel) + '</div>';
+    card.innerHTML = '<span class="step-badge" style="display:inline-flex">📈 Hareket Grafiği</span><p class="q" style="margin-top:8px">' + item.q + '</p>';
+    optList.innerHTML = '';
+    setFb(fb, 'info', 'Doğru seçeneğe dokun.');
+    item.opts.forEach(function (opt, idx) {
+      var btn = makeEl('div', 'opt', '<span class="badge-letter">' + String.fromCharCode(65 + idx) + '</span><span class="grow">' + opt + '</span>');
+      btn.onclick = function () { choose(idx, btn); };
+      optList.appendChild(btn);
+    });
+  }
+
+  function choose(idx, btn) {
+    if (!item || !state.playing) return;
+    if (idx === item.best) {
+      btn.classList.add('correct');
+      awardCorrect(30);
+      setFb(fb, 'ok', '✅ Doğru! ' + (item.exp || ''));
+      afterDelay(1500, load);
+    } else {
+      btn.classList.add('wrong', 'dim');
+      btn.onclick = null;
+      registerWrong();
+      setFb(fb, 'bad', '❌ Olmadı. ' + (item.hint || 'Grafikteki eksenleri ve noktaları tekrar oku.'));
+    }
+  }
+
+  load();
+}
+
+/* ---- Simülasyon: Çimlenme Deneyi ---- */
+function simGermination(stage) {
+  var cond = { su: false, hava: false, sicaklik: false, isik: false };
+  var tasks = [
+    { prompt: '🌰 Tohumun <b>çimlenmesi</b> için uygun koşulları ayarla.', exp: 'Çimlenme için su, uygun (ılık) sıcaklık ve oksijen (hava) gereklidir.',
+      check: function (c, g) { return g === true; } },
+    { prompt: '🔎 Bir deney kur: su ve sıcaklık uygun olsun, ancak <b>hava (oksijen) olmasın</b>. Sonucu gözlemle.', exp: 'Oksijen olmadan tohum solunum yapamaz, bu yüzden çimlenemez.',
+      check: function (c) { return c.su && c.sicaklik && !c.hava; } },
+    { prompt: '🔎 Işığın çimlenmeye etkisini test et: su, sıcaklık ve hava tam olsun, <b>ışık kapalı</b> olsun.', exp: 'Işık, çimlenme için gerekli değildir; tohum karanlıkta da çimlenir (su, sıcaklık ve oksijen yeterliyse).',
+      check: function (c) { return c.su && c.sicaklik && c.hava && !c.isik; } }
+  ];
+  var ti = 0;
+
+  var card = makeEl('div', 'task-card');
+  var panel = makeEl('div', 'sim-panel');
+  var vis = makeEl('div', 'center');
+  vis.style.cssText = 'font-size:52px;padding:10px';
+  var fb = mkFb('Koşulları aç/kapat ve kontrol et.', 'info');
+  var checkBtn = makeEl('button', 'btn btn-primary btn-block', '✔️ Kontrol Et');
+
+  var toggles = [
+    { key: 'su', label: '💧 Su' },
+    { key: 'hava', label: '🌬️ Hava (oksijen)' },
+    { key: 'sicaklik', label: '🌡️ Uygun sıcaklık' },
+    { key: 'isik', label: '🔆 Işık' }
+  ];
+  var rows = makeEl('div');
+  rows.style.cssText = 'display:grid;gap:7px;margin-top:8px';
+  toggles.forEach(function (t) {
+    var r = makeEl('div', 'row between', '<span class="xs" style="font-weight:800">' + t.label + '</span>');
+    var b = makeEl('button', 'sim-btn', 'Kapalı');
+    b.onclick = function () { if (!state.playing) return; playAudio('click'); cond[t.key] = !cond[t.key]; refresh(); };
+    b.dataset.key = t.key;
+    r.appendChild(b);
+    rows.appendChild(r);
+  });
+  panel.appendChild(rows);
+
+  stage.appendChild(card);
+  stage.appendChild(vis);
+  stage.appendChild(panel);
+  stage.appendChild(checkBtn);
+  stage.appendChild(fb);
+
+  function germinates() { return cond.su && cond.hava && cond.sicaklik; }
+
+  function refresh() {
+    var btns = rows.querySelectorAll('.sim-btn');
+    for (var i = 0; i < btns.length; i++) {
+      var k = btns[i].dataset.key;
+      btns[i].textContent = cond[k] ? 'Açık' : 'Kapalı';
+      btns[i].className = 'sim-btn' + (cond[k] ? ' active' : '');
+    }
+    vis.textContent = germinates() ? '🌱' : '🌰';
+  }
+
+  function load() {
+    cond = { su: false, hava: false, sicaklik: false, isik: false };
+    card.innerHTML = '<span class="step-badge" style="display:inline-flex">🌰 Çimlenme Deneyi</span><p class="q" style="margin-top:8px">' + tasks[ti % tasks.length].prompt + '</p>';
+    setFb(fb, 'info', 'Koşulları ayarla ve kontrol et.');
+    refresh();
+  }
+
+  checkBtn.onclick = function () {
+    if (!state.playing) return;
+    var task = tasks[ti % tasks.length];
+    if (task.check(cond, germinates())) {
+      awardCorrect(40);
+      var sonuc = germinates() ? 'Tohum çimlendi 🌱' : 'Tohum çimlenmedi 🌰';
+      setFb(fb, 'ok', '✅ Doğru! ' + sonuc + '. ' + task.exp);
+      ti++;
+      afterDelay(1700, load);
+    } else {
+      registerWrong();
+      var eksik = [];
+      if (!cond.su) eksik.push('su');
+      if (!cond.hava) eksik.push('hava (oksijen)');
+      if (!cond.sicaklik) eksik.push('uygun sıcaklık');
+      setFb(fb, 'bad', '❌ Henüz olmadı. ' + (germinates()
+        ? 'Tohum çimlendi ama istenen deney koşulu farklı.'
+        : 'Çimlenme için eksik: ' + eksik.join(', ') + '.'));
+    }
+  };
+
+  load();
+}
+
+/* ---- Simülasyon: Yansıma Laboratuvarı ---- */
+function simReflection(stage) {
+  var tasks = [
+    { angle: 30, prompt: '🪞 Gelme açısını <b>30°</b> yap.', exp: 'Yansıma Kanunu: gelme açısı = yansıma açısı. 30° gelme → 30° yansıma.' },
+    { angle: 50, prompt: '🪞 Gelme açısını <b>50°</b> yap.', exp: '50° gelme açısı → 50° yansıma açısı.' },
+    { angle: 0, prompt: '🪞 Işın aynaya <b>dik (0°)</b> gelsin.', exp: 'Dik gelen ışın (0° açı) kendi üzerinden geri yansır; gelme açısı da yansıma açısı da 0°’dir.' }
+  ];
+  var ti = 0;
+
+  var card = makeEl('div', 'task-card');
+  var panel = makeEl('div', 'sim-panel');
+  var fb = mkFb('Kaydırıcıyı ayarlayıp kontrol et.', 'info');
+  var checkBtn = makeEl('button', 'btn btn-primary btn-block', '✔️ Kontrol Et');
+
+  panel.innerHTML =
+    '<input type="range" id="angSlider" min="0" max="80" step="5" value="30" style="width:100%">' +
+    '<div class="center" style="font-size:10px;font-weight:800;margin-top:4px">Gelme açısı: <span id="angLbl" style="color:var(--accent)">30°</span>' +
+    ' &nbsp;|&nbsp; Yansıma açısı: <span id="refLbl" style="color:var(--ok)">30°</span></div>' +
+    '<div id="raySvg" style="margin-top:8px"></div>';
+
+  stage.appendChild(card);
+  stage.appendChild(panel);
+  stage.appendChild(checkBtn);
+  stage.appendChild(fb);
+
+  function drawRay(angle) {
+    var W = 320, H = 190;
+    var P = { x: W / 2, y: 120 };           // aynaya çarpma noktası
+    var L = 105;
+    var rad = angle * Math.PI / 180;
+    var inX = P.x - Math.sin(rad) * L, inY = P.y - Math.cos(rad) * L;
+    var outX = P.x + Math.sin(rad) * L, outY = P.y - Math.cos(rad) * L;
+    var arcR = 34;
+    function arcLabel(lx, ly, txt, color) {
+      return '<text x="' + lx + '" y="' + ly + '" font-size="10" font-weight="bold" fill="' + color + '">' + txt + '</text>';
+    }
+    var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" width="100%" height="190" role="img" aria-label="Yansıma şeması">' +
+      // ayna
+      '<rect x="30" y="120" width="260" height="12" rx="4" fill="var(--accent-soft)" stroke="var(--accent)"/>' +
+      '<text x="270" y="146" font-size="9" fill="var(--text-sub)">Ayna</text>' +
+      // normal
+      '<line x1="' + P.x + '" y1="' + P.y + '" x2="' + P.x + '" y2="14" stroke="var(--text-sub)" stroke-width="1" stroke-dasharray="4 4"/>' +
+      '<text x="' + (P.x + 4) + '" y="12" font-size="9" fill="var(--text-sub)">Normal</text>' +
+      // gelen ışın
+      '<line x1="' + inX + '" y1="' + inY + '" x2="' + P.x + '" y2="' + P.y + '" stroke="var(--warn)" stroke-width="2.6"/>' +
+      '<polygon points="' + P.x + ',' + P.y + ' ' + (P.x - 10 * Math.sin(rad) + 12 * Math.cos(rad)) + ',' + (P.y - 10 * Math.cos(rad) - 12 * Math.sin(rad)) + ' ' + (P.x - 10 * Math.sin(rad) - 12 * Math.cos(rad)) + ',' + (P.y - 10 * Math.cos(rad) + 12 * Math.sin(rad)) + '" fill="var(--warn)"/>' +
+      // yansıyan ışın
+      '<line x1="' + P.x + '" y1="' + P.y + '" x2="' + outX + '" y2="' + outY + '" stroke="var(--ok)" stroke-width="2.6"/>' +
+      // açı yayları
+      '<path d="M ' + P.x + ' ' + (P.y - arcR) + ' A ' + arcR + ' ' + arcR + ' 0 0 0 ' + (P.x - Math.sin(rad) * arcR) + ' ' + (P.y - Math.cos(rad) * arcR) + '" fill="none" stroke="var(--warn)" stroke-width="1.4"/>' +
+      '<path d="M ' + P.x + ' ' + (P.y - arcR) + ' A ' + arcR + ' ' + arcR + ' 0 0 1 ' + (P.x + Math.sin(rad) * arcR) + ' ' + (P.y - Math.cos(rad) * arcR) + '" fill="none" stroke="var(--ok)" stroke-width="1.4"/>' +
+      '</svg>';
+    $('raySvg').innerHTML = svg;
+  }
+
+  function onSlide() {
+    var a = parseInt($('angSlider').value, 10);
+    $('angLbl').textContent = a + '°';
+    $('refLbl').textContent = a + '°';
+    drawRay(a);
+  }
+
+  function load() {
+    $('angSlider').value = 30;
+    card.innerHTML = '<span class="step-badge" style="display:inline-flex">🪞 Yansıma Laboratuvarı</span><p class="q" style="margin-top:8px">' + tasks[ti % tasks.length].prompt + '</p>';
+    setFb(fb, 'info', 'Kaydırıcı ile gelme açısını değiştir.');
+    onSlide();
+  }
+
+  $('angSlider').oninput = onSlide;
+
+  checkBtn.onclick = function () {
+    if (!state.playing) return;
+    var a = parseInt($('angSlider').value, 10);
+    var task = tasks[ti % tasks.length];
+    if (a === task.angle) {
+      awardCorrect(40);
+      setFb(fb, 'ok', '✅ Doğru! ' + task.exp);
+      ti++;
+      afterDelay(1700, load);
+    } else {
+      registerWrong();
+      setFb(fb, 'bad', '❌ Kaydırıcıyı ' + task.angle + '°’ye getir. Şu an ' + a + '°. Unutma: gelme açısı = yansıma açısı.');
+    }
+  };
+
+  load();
+}
+/* ==========================================================================
+   SORU / İÇERİK BANKALARI  (her oyun için ayrı havuz)
+   Alıntı işareti olarak Türkçe kesme (’) kullanılır.
+   ========================================================================== */
+var BANKS = {};
+
+/* ---------- 1. ÜNİTE: Güneş Sistemi ve Tutulmalar ---------- */
+
+BANKS['g1a'] = [
+  {
+    prompt: 'Gezegenleri Güneş’e olan uzaklıklarına göre sırala (en yakından en uzağa):',
+    items: ['Merkür', 'Venüs', 'Dünya', 'Mars', 'Jüpiter', 'Satürn', 'Uranüs', 'Neptün'],
+    exp: 'Güneş’e uzaklık sırası: Merkür, Venüs, Dünya, Mars, Jüpiter, Satürn, Uranüs, Neptün.',
+    hint: 'Güneş’e en yakın gezegen Merkür’dür.'
+  },
+  {
+    prompt: 'Güneş’e en yakın 4 gezegeni sırala:',
+    items: ['Merkür', 'Venüs', 'Dünya', 'Mars'],
+    exp: 'İç gezegenler: Merkür, Venüs, Dünya, Mars.',
+    hint: 'Dünya üçüncü sıradadır.'
+  },
+  {
+    prompt: 'Güneş’ten en uzak 4 gezegeni yakından uzağa sırala:',
+    items: ['Jüpiter', 'Satürn', 'Uranüs', 'Neptün'],
+    exp: 'Dış gezegenler: Jüpiter, Satürn, Uranüs, Neptün.',
+    hint: 'En büyük gezegen Jüpiter’dir.'
+  },
+  {
+    prompt: 'Gezegenleri büyüklüklerine göre en büyükten en küçüğe sırala:',
+    items: ['Jüpiter', 'Satürn', 'Uranüs', 'Neptün', 'Dünya', 'Venüs', 'Mars', 'Merkür'],
+    exp: 'En büyük gezegen Jüpiter, en küçük gezegen Merkür’dür.',
+    hint: 'Gaz devleri katı gezegenlerden büyüktür.'
+  },
+  {
+    prompt: 'Güneş tutulmasının oluşumunu sırayla diz:',
+    items: ['Ay, Güneş ile Dünya arasına girer', 'Ay’ın gölgesi Dünya’ya düşer', 'Gündüz kısa süreli bir kararma olur'],
+    exp: 'Güneş tutulmasında Ay ortada olduğu için gölgesi Dünya’ya düşer ve gündüz kısa süre kararma olur.',
+    hint: 'Tutulmada önce Ay araya girer, sonra gölge düşer.'
+  },
+  {
+    prompt: 'Ay tutulmasının oluşumunu sırayla diz:',
+    items: ['Dünya, Güneş ile Ay arasına girer', 'Dünya’nın gölgesi Ay’a düşer', 'Ay kızıl renkte görünür'],
+    exp: 'Ay tutulmasında Dünya ortadadır; gölgesi Ay’a düşer ve Ay kızıl renkte görünebilir.',
+    hint: 'Bu kez ortada olan gök cismi Dünya’dır.'
+  }
+];
+
+BANKS['g1b'] = [
+  { konu: 'Güneş Sistemi', q: 'Güneş’e en yakın ve Güneş Sistemi’nin en küçük gezegeni hangisidir?', opts: ['Merkür', 'Venüs', 'Mars', 'Dünya'], best: 0, hint: 'Atmosferi çok incedir.', exp: 'Merkür, Güneş’e en yakın ve en küçük gezegendir.' },
+  { konu: 'Gezegenlerin Özellikleri', q: 'Yüzeyindeki demir oksit (pas) nedeniyle kızıl görünen gezegen hangisidir?', opts: ['Jüpiter', 'Mars', 'Venüs', 'Satürn'], best: 1, hint: 'Bu gezegene “Kızıl Gezegen” denir.', exp: 'Mars, yüzeyindeki demir oksit nedeniyle kızıl görünür.' },
+  { konu: 'Gezegenlerin Özellikleri', q: 'Kalın atmosferi ve sera etkisi nedeniyle Güneş Sistemi’nin en sıcak gezegeni hangisidir?', opts: ['Merkür', 'Venüs', 'Mars', 'Jüpiter'], best: 1, hint: 'Güneş’e en yakın gezegen değildir.', exp: 'Venüs, kalın atmosferi ve sera etkisiyle en sıcak gezegendir.' },
+  { konu: 'Gezegenlerin Özellikleri', q: 'Belirgin halkalarıyla tanınan gaz devi hangisidir?', opts: ['Satürn', 'Merkür', 'Mars', 'Dünya'], best: 0, hint: 'Halkaları teleskopla rahatça görülür.', exp: 'Satürn belirgin halkalarıyla tanınır.' },
+  { konu: 'Gezegenlerin Özellikleri', q: 'Güneş Sistemi’nin en büyük gezegeni hangisidir?', opts: ['Jüpiter', 'Neptün', 'Uranüs', 'Dünya'], best: 0, hint: 'Üzerinde büyük kırmızı bir leke vardır.', exp: 'Jüpiter en büyük gezegendir; büyük kırmızı lekesi bir fırtınadır.' },
+  { konu: 'Gezegenlerin Özellikleri', q: 'Eksen eğikliği çok büyük olduğu için adeta “yan yatmış” gibi dönen gezegen hangisidir?', opts: ['Uranüs', 'Satürn', 'Mars', 'Venüs'], best: 0, hint: 'Mavi-yeşil renktedir.', exp: 'Uranüs’ün ekseni yaklaşık 98° eğiktir; yan yatmış gibi döner.' },
+  { konu: 'Güneş Sistemi', q: 'Güneş için hangisi doğrudur?', opts: ['Bir yıldızdır ve sistemin kütlesinin büyük bölümünü oluşturur', 'Bir gezegendir', 'Sistemin en küçük cismidir', 'Dünya’nın uydusudur'], best: 0, hint: 'Kendi ışığını üretir.', exp: 'Güneş bir yıldızdır ve Güneş Sistemi’nin kütlesinin büyük kısmını oluşturur.' },
+  { konu: 'Güneş Sistemi', q: 'Mars ile Jüpiter’in yörüngeleri arasındaki bölgede bulunan kayaç gök cisimleri topluluğuna ne denir?', opts: ['Asteroit kuşağı', 'Kuiper kuşağı', 'Samanyolu', 'Uydu'], best: 0, hint: 'Bu bölgede binlerce kaya parçası dolanır.', exp: 'Asteroit kuşağı, Mars ile Jüpiter arasındadır.' },
+  { konu: 'Güneş Sistemi', q: 'Dünya’nın tek doğal uydusu hangisidir?', opts: ['Ay', 'Phobos', 'Titan', 'Europa'], best: 0, hint: 'Geceleri gökyüzünde görürüz.', exp: 'Dünya’nın tek doğal uydusu Ay’dır.' },
+  { konu: 'Güneş Sistemi', q: 'Bir gezegenin Güneş çevresinde izlediği yola ne denir?', opts: ['Yörünge', 'Eksen', 'Tutulma', 'Gölge'], best: 0, hint: 'Bu yol elips biçimindedir.', exp: 'Gezegenlerin Güneş çevresinde izlediği yola yörünge denir.' }
+];
+
+BANKS['g1d'] = [
+  {
+    q: 'Güneş tutulmasını gösteren şemada Ay’ın gölgesi hangi gök cisminin üzerine düşer? O cisme dokun.',
+    answer: 'Dünya', h: 200,
+    svg: '<svg viewBox="0 0 320 210" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%"><circle cx="46" cy="105" r="34" fill="#f59e0b"/><circle cx="158" cy="105" r="17" fill="#64748b"/><circle cx="272" cy="105" r="26" fill="#2563eb"/><polygon points="158,105 300,72 300,138" fill="rgba(15,23,42,0.35)"/><text x="8" y="196" font-size="9" fill="var(--text-sub)">Güneş tutulması şeması</text></svg>',
+    pins: [{ label: 'Güneş', x: 14, y: 50 }, { label: 'Ay', x: 49, y: 50 }, { label: 'Dünya', x: 85, y: 50 }],
+    exp: 'Güneş tutulmasında Ay ortadadır ve gölgesi Dünya’ya düşer.',
+    hint: 'Gölge, Güneş’ten uzakta olan cismin üzerine düşer.'
+  },
+  {
+    q: 'Ay tutulmasını gösteren şemada Dünya’nın gölgesi hangi gök cisminin üzerine düşer? O cisme dokun.',
+    answer: 'Ay', h: 200,
+    svg: '<svg viewBox="0 0 320 210" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%"><circle cx="46" cy="105" r="34" fill="#f59e0b"/><circle cx="162" cy="105" r="26" fill="#2563eb"/><circle cx="272" cy="105" r="15" fill="#94a3b8"/><polygon points="162,105 300,76 300,134" fill="rgba(15,23,42,0.35)"/><text x="8" y="196" font-size="9" fill="var(--text-sub)">Ay tutulması şeması</text></svg>',
+    pins: [{ label: 'Güneş', x: 14, y: 50 }, { label: 'Dünya', x: 51, y: 50 }, { label: 'Ay', x: 85, y: 50 }],
+    exp: 'Ay tutulmasında Dünya ortadadır ve gölgesi Ay’a düşer.',
+    hint: 'Ortadaki cisim gölgesini sağdaki cisme düşürür.'
+  },
+  {
+    q: 'Bu şemada Güneş ile Dünya’nın arasında bulunan gök cismi hangisidir? Ona dokun.',
+    answer: 'Ay', h: 200,
+    svg: '<svg viewBox="0 0 320 210" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%"><circle cx="46" cy="105" r="34" fill="#f59e0b"/><circle cx="158" cy="105" r="17" fill="#64748b"/><circle cx="272" cy="105" r="26" fill="#2563eb"/><polygon points="158,105 300,72 300,138" fill="rgba(15,23,42,0.35)"/></svg>',
+    pins: [{ label: 'Güneş', x: 14, y: 50 }, { label: 'Ay', x: 49, y: 50 }, { label: 'Dünya', x: 85, y: 50 }],
+    exp: 'Güneş tutulması şemasında ortada Ay bulunur.',
+    hint: 'Ortadaki küçük gri cisim.'
+  },
+  {
+    q: 'Şemadaki tutulma türünü seç ve üzerine dokun.',
+    answer: 'Ay tutulması', h: 200,
+    svg: '<svg viewBox="0 0 320 210" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%"><circle cx="46" cy="118" r="34" fill="#f59e0b"/><circle cx="162" cy="118" r="26" fill="#2563eb"/><circle cx="272" cy="118" r="15" fill="#94a3b8"/><polygon points="162,118 300,90 300,146" fill="rgba(15,23,42,0.35)"/></svg>',
+    pins: [{ label: 'Güneş tutulması', x: 26, y: 18 }, { label: 'Ay tutulması', x: 74, y: 18 }],
+    exp: 'Dünya, Güneş ile Ay arasına girdiği için bu bir Ay tutulmasıdır.',
+    hint: 'Ortada hangi cisim varsa tutulma ona göre adlandırılır.'
+  },
+  {
+    q: 'Bu şemadaki tutulma türünü belirle ve üzerine dokun.',
+    answer: 'Güneş tutulması', h: 200,
+    svg: '<svg viewBox="0 0 320 210" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%"><circle cx="46" cy="118" r="34" fill="#f59e0b"/><circle cx="158" cy="118" r="17" fill="#64748b"/><circle cx="272" cy="118" r="26" fill="#2563eb"/><polygon points="158,118 300,86 300,150" fill="rgba(15,23,42,0.35)"/></svg>',
+    pins: [{ label: 'Güneş tutulması', x: 26, y: 18 }, { label: 'Ay tutulması', x: 74, y: 18 }],
+    exp: 'Ay, Güneş ile Dünya arasına girdiği için bu bir Güneş tutulmasıdır.',
+    hint: 'Ortada Ay varsa tutulma Güneş tutulmasıdır.'
+  }
+];
+
+BANKS['g1e'] = [
+  { text: 'Güneş bir yıldızdır', good: true, exp: 'Güneş kendi ışığını üreten bir yıldızdır.' },
+  { text: 'Dünya’nın tek uydusu Ay’dır', good: true, exp: 'Ay, Dünya’nın tek doğal uydusudur.' },
+  { text: 'Mars’a Kızıl Gezegen denir', good: true, exp: 'Mars yüzeyindeki demir oksit nedeniyle kızıl görünür.' },
+  { text: 'Jüpiter en büyük gezegendir', good: true, exp: 'Jüpiter Güneş Sistemi’nin en büyük gezegenidir.' },
+  { text: 'Venüs en sıcak gezegendir', good: true, exp: 'Venüs’ün kalın atmosferi sera etkisi yapar.' },
+  { text: 'Asteroit kuşağı Mars ile Jüpiter arasındadır', good: true, exp: 'Asteroit kuşağı bu iki gezegen arasındadır.' },
+  { text: 'Satürn’ün belirgin halkaları vardır', good: true, exp: 'Satürn halkalarıyla tanınır.' },
+  { text: 'Güneş bir gezegendir', good: false, exp: 'Güneş gezegen değil, bir yıldızdır.' },
+  { text: 'Ay kendi ışığını üretir', good: false, exp: 'Ay ışık kaynağı değildir; Güneş ışığını yansıtır.' },
+  { text: 'Dünya Güneş Sistemi’nin en büyük gezegenidir', good: false, exp: 'En büyük gezegen Jüpiter’dir.' },
+  { text: 'Güneş tutulması gece her yerden gözlenir', good: false, exp: 'Güneş tutulması gündüz, dar bir bölgede ve kısa süre gözlenir.' },
+  { text: 'Güneş Sistemi’nin merkezinde Dünya vardır', good: false, exp: 'Merkezde Güneş bulunur.' },
+  { text: 'Ay tutulması Ay’ın araya girmesiyle olur', good: false, exp: 'Ay araya girerse Güneş tutulması olur; Ay tutulmasında Dünya araya girer.' },
+  { text: 'Tüm gezegenlerin katı yüzeyi vardır', good: false, exp: 'Jüpiter, Satürn, Uranüs ve Neptün gaz devi gezegenlerdir.' }
+];
+
+BANKS['g1f'] = [
+  { q: 'Güneş Sistemi’nin merkezinde Güneş bulunur.', a: true, exp: 'Gezegenler Güneş’in çevresinde dolanır.', konu: 'Güneş Sistemi' },
+  { q: 'Ay, Güneş’ten aldığı ışığı yansıtır.', a: true, exp: 'Ay ışık kaynağı değildir, ışığı yansıtır.', konu: 'Güneş Sistemi' },
+  { q: 'Güneş tutulması, Ay’ın Dünya ile Güneş arasına girmesiyle oluşur.', a: true, exp: 'Bu durumda Ay’ın gölgesi Dünya’ya düşer.', konu: 'Güneş Tutulması' },
+  { q: 'Ay tutulması sırasında Dünya’nın gölgesi Ay’ın üzerine düşer.', a: true, exp: 'Dünya, Güneş ile Ay arasına girer.', konu: 'Ay Tutulması' },
+  { q: 'Güneş tutulması gece, çok geniş bir bölgede uzun süre gözlenir.', a: false, exp: 'Güneş tutulması gündüz, dar bir bölgede ve kısa süre gözlenir.', konu: 'Güneş Tutulması' },
+  { q: 'Güneş Sistemi’nin en büyük gezegeni Merkür’dür.', a: false, exp: 'En büyük gezegen Jüpiter, en küçük gezegen Merkür’dür.', konu: 'Gezegenler' },
+  { q: 'Venüs, Güneş Sistemi’nin en sıcak gezegenidir.', a: true, exp: 'Sera etkisi Venüs’ü en sıcak gezegen yapar.', konu: 'Gezegenler' },
+  { q: 'Mars, Dünya’dan Güneş’e daha yakındır.', a: false, exp: 'Sıralama Merkür, Venüs, Dünya, Mars’tır; Mars Dünya’dan uzaktır.', konu: 'Gezegenler' },
+  { q: 'Dünya, Güneş’in çevresinde dolanır.', a: true, exp: 'Bu dolanım yaklaşık 365 gün sürer.', konu: 'Güneş Sistemi' },
+  { q: 'Ay tutulması sırasında Ay kızıl renkte görünebilir.', a: true, exp: 'Dünya’nın gölgesindeki Ay kızıl görünebilir.', konu: 'Ay Tutulması' },
+  { q: 'Güneş tutulması, Ay’ın yeni ay evresinde olduğu zaman gerçekleşir.', a: true, exp: 'Güneş tutulması yeni ay evresinde olur.', konu: 'Güneş Tutulması' },
+  { q: 'Güneş bir gezegendir.', a: false, exp: 'Güneş bir yıldızdır.', konu: 'Güneş Sistemi' }
+];
+
+/* ---------- 2. ÜNİTE: Kuvvetin Etkisinde Hareket ---------- */
+
+BANKS['g2b'] = [
+  {
+    prompt: 'Kuvvet etkisindeki olayları dengelenmiş / dengelenmemiş olarak sınıflandır:',
+    cats: [{ id: 'a', label: 'Dengelenmiş kuvvetler' }, { id: 'b', label: 'Dengelenmemiş kuvvetler' }],
+    exp: 'Bileşke kuvvet sıfır ise dengelenmiş, sıfırdan farklı ise dengelenmemiş kuvvetler vardır.',
+    hint: 'Bileşke kuvveti hesapla: 0 ise dengelenmiş.',
+    items: [
+      { label: 'Masada duran kitap', cat: 'a', exp: 'Ağırlık ile tepki kuvveti eşit ve zıttır; kitap durur.' },
+      { label: 'Sabit süratle düz giden araba', cat: 'a', exp: 'Sabit süratli harekette net kuvvet sıfırdır.' },
+      { label: 'Sağa 5 N, sola 5 N uygulanan cisim', cat: 'a', exp: 'Eşit zıt kuvvetlerin bileşkesi 0 N’dur.' },
+      { label: 'Sağa 8 N, sola 3 N uygulanan cisim', cat: 'b', exp: 'Bileşke 5 N sağa olur.' },
+      { label: 'Havaya atılan topun hızlanarak düşmesi', cat: 'b', exp: 'Yerçekimi kuvveti hava direncinden büyüktür.' },
+      { label: 'Yokuştan hızlanarak inen bisiklet', cat: 'b', exp: 'Bileşke kuvvet hareket yönünde ve sıfırdan farklıdır.' },
+      { label: 'Frene basınca yavaşlayan araba', cat: 'b', exp: 'Sürtünme kuvveti hareketi yavaşlatır.' },
+      { label: 'Duran cisme uygulanan eşit ve zıt iki kuvvet', cat: 'a', exp: 'Cisim durağan kalır; kuvvetler dengelenmiştir.' },
+      { label: 'Farklı büyüklükte zıt yönlü kuvvetler etkisindeki cisim', cat: 'b', exp: 'Bileşke sıfırdan farklıdır.' },
+      { label: 'Virajı dönen araba', cat: 'b', exp: 'Hareket yönü değiştiği için kuvvetler dengelenmemiştir.' }
+    ]
+  }
+];
+
+BANKS['g2c'] = [
+  { konu: 'Sürat', q: 'Bir araç 2 saniyede 10 m yol alıyor. Sürati kaç m/s’dir?', opts: ['5', '10', '20', '2'], best: 0, hint: 'Sürat = yol / zaman.', exp: 'Sürat = 10 m ÷ 2 s = 5 m/s.' },
+  { konu: 'Sürat', q: '50 m yolu 25 saniyede alan öğrencinin sürati kaç m/s’dir?', opts: ['2', '5', '25', '50'], best: 0, hint: 'Yolu zamana böl.', exp: 'Sürat = 50 ÷ 25 = 2 m/s.' },
+  { konu: 'Sürat', q: 'Bir araç 15 m/s süratle 4 saniyede kaç metre yol alır?', opts: ['60 m', '19 m', '11 m', '75 m'], best: 0, hint: 'Yol = sürat × zaman.', exp: 'Yol = 15 × 4 = 60 m.' },
+  { konu: 'Sürat', q: 'Aşağıdakilerden hangisi sürat birimi olabilir?', opts: ['m/s', 'N', 'kg', '°C'], best: 0, hint: 'Yolun birimini zamanın birimine böl.', exp: 'Sürat birimi m/s veya km/sa olur.' },
+  { konu: 'Yer Değiştirme', q: 'Bir cisim başladığı noktaya geri döndüğünde hangisi sıfırdır?', opts: ['Yer değiştirme', 'Alınan yol', 'Zaman', 'Sürat'], best: 0, hint: 'Başlangıç ve bitiş noktasını karşılaştır.', exp: 'Başlangıç ile bitiş aynı ise yer değiştirme sıfır, alınan yol sıfırdan farklıdır.' },
+  { konu: 'Hız', q: 'Aşağıdakilerden hangisi vektörel (yönü olan) bir büyüklüktür?', opts: ['Hız', 'Sürat', 'Alınan yol', 'Zaman'], best: 0, hint: 'Vektörel büyüklüklerin yönü vardır.', exp: 'Hız vektörel, sürat skalerdir.' },
+  { konu: 'Sabit Süratli Hareket', q: 'Sabit süratle hareket eden cisim için hangisi doğrudur?', opts: ['Eşit zaman aralıklarında eşit yol alır', 'Sürekli hızlanır', 'Sürekli yavaşlar', 'Bir süre sonra durur'], best: 0, hint: 'Sürat değişmiyorsa...', exp: 'Sabit süratli harekette eşit zamanlarda eşit yol alınır.' },
+  { konu: 'Yol-Zaman Grafiği', q: 'Düz yolda sabit süratle giden aracın yol-zaman grafiği nasıldır?', opts: ['Artan bir doğru', 'Yatay düz çizgi', 'Azalan bir eğri', 'Rasgele çizgiler'], best: 0, hint: 'Yol düzenli olarak artıyor.', exp: 'Yol-zaman grafiği artan bir doğru olur.' },
+  { konu: 'Sürat ve Hız', q: 'Sürat ile hız arasındaki temel fark hangisidir?', opts: ['Hızın yönü vardır, süratın yoktur', 'Süratın yönü vardır', 'İkisi tamamen aynıdır', 'Hız alınan yolla ölçülür'], best: 0, hint: 'Yer değiştirme ile yol arasındaki farkı düşün.', exp: 'Sürat skalerdir; hız yönü olan vektörel bir büyüklüktür.' },
+  { konu: 'Sürat', q: 'Bir yarışçı 100 m’lik düz parkuru 20 saniyede koşuyor. Sürati kaç m/s’dir?', opts: ['5', '10', '20', '2'], best: 0, hint: '100 ÷ 20 işlemini yap.', exp: 'Sürat = 100 ÷ 20 = 5 m/s.' }
+];
+
+BANKS['g2d'] = [
+  { hint: 'Bir saniyede alınan yola bak.', ylabel: 'yol (m)', data: [[0, 0], [1, 10], [2, 20], [3, 30]], q: 'Grafiğe göre cisim 1 saniyede kaç metre yol almaktadır?', opts: ['10 m', '20 m', '5 m', '30 m'], best: 0, exp: 'Grafik doğrusal olduğu için her saniyede 10 m yol alınır.' },
+  { hint: '2 saniyede alınan yolu bul.', ylabel: 'yol (m)', data: [[0, 0], [2, 8], [4, 16], [6, 24]], q: 'Bu hareketin sürati kaç m/s’dir?', opts: ['4', '2', '8', '6'], best: 0, exp: '2 saniyede 8 m yol alınmış → 8 ÷ 2 = 4 m/s.' },
+  { hint: 'Grafikten 4. saniyeyi oku.', ylabel: 'yol (m)', data: [[0, 0], [1, 4], [2, 8], [3, 12], [4, 16]], q: 'Cisim 4 saniyede toplam kaç metre yol almıştır?', opts: ['16 m', '12 m', '4 m', '20 m'], best: 0, exp: 'Grafikte 4. saniyede yol 16 m’dir.' },
+  { hint: 'Çizginin biçimine bak.', ylabel: 'yol (m)', data: [[0, 0], [1, 5], [2, 10], [3, 15]], q: 'Bu grafik hangi hareketi gösterir?', opts: ['Sabit süratli hareket', 'Duran cisim', 'Yavaşlayan hareket', 'Hızlanan hareket'], best: 0, exp: 'Artan doğru, sabit süratli hareketi gösterir.' },
+  { hint: 'Yol değeri değişiyor mu?', ylabel: 'yol (m)', data: [[0, 0], [1, 0], [2, 0], [3, 0]], q: 'Grafiğe göre cisim için ne söylenebilir?', opts: ['Cisim duruyor', 'Sabit süratle gidiyor', 'Hızlanıyor', 'Yavaşlıyor'], best: 0, exp: 'Yol değişmediği için cisim hareketsizdir.' },
+  { hint: 'İki saniyede alınan yolu bul.', ylabel: 'yol (m)', data: [[0, 0], [2, 12], [4, 24], [6, 36]], q: 'Cismin sürati kaç m/s’dir?', opts: ['6', '12', '4', '2'], best: 0, exp: '2 saniyede 12 m → 12 ÷ 2 = 6 m/s.' },
+  { hint: 'Ardışık saniyelerde alınan yol artıyor mu?', ylabel: 'yol (m)', data: [[0, 0], [1, 2], [2, 6], [3, 12]], q: 'Eşit zaman aralıklarında alınan yol giderek artıyor. Bu nasıl bir harekettir?', opts: ['Hızlanan hareket', 'Sabit süratli hareket', 'Duran cisim', 'Yavaşlayan hareket'], best: 0, exp: 'Ardışık eşit zamanlarda yol artıyorsa cisim hızlanıyordur.' }
+];
+
+BANKS['g2e'] = [
+  { words: ['Sürat', 'alınan', 'yolun', 'zamana', 'oranıdır'], exp: 'Sürat = alınan yol ÷ zaman.', hint: 'Formülü düşün: hangi büyüklük hangisine bölünür?' },
+  { words: ['Bileşke', 'kuvvet', 'sıfır', 'ise', 'kuvvetler', 'dengelenmiştir'], exp: 'Bileşke kuvvet 0 N ise kuvvetler dengelenmiştir.', hint: 'Bileşke kuvvet sıfır olduğunda ne olur?' },
+  { words: ['Aynı', 'yönlü', 'kuvvetler', 'toplanır'], exp: 'Aynı yönlü kuvvetlerin bileşkesi toplanarak bulunur.', hint: 'Aynı yöne iten kuvvetler birbirini destekler.' },
+  { words: ['Zıt', 'yönlü', 'kuvvetler', 'çıkarılır'], exp: 'Zıt yönlü kuvvetlerde büyükten küçük çıkarılır.', hint: 'Zıt yönlü kuvvetler birbirini azaltır.' },
+  { words: ['Kuvvet', 'dinamometre', 'ile', 'ölçülür'], exp: 'Kuvvetin büyüklüğü dinamometre ile ölçülür.', hint: 'Bu araç yaylı bir ölçü aletidir.' },
+  { words: ['Kuvvet', 'birimi', 'Newton'], exp: 'Kuvvetin birimi Newton (N)’dur.', hint: 'Birimin simgesi N’dir.' },
+  { words: ['Dengelenmemiş', 'kuvvetler', 'hareketi', 'değiştirir'], exp: 'Dengelenmemiş kuvvetler cismi hızlandırır, yavaşlatır veya yönünü değiştirir.', hint: 'Bileşke sıfırdan farklıysa hareket değişir.' },
+  { words: ['Yer', 'değiştirme', 'başlangıç', 've', 'bitiş', 'arasındaki', 'mesafedir'], exp: 'Yer değiştirme, başlangıç ile bitiş arasındaki en kısa mesafe ve yöndür.', hint: 'Yol ile yer değiştirme farkını düşün.' },
+  { words: ['Hız', 'vektörel', 'bir', 'büyüklüktür'], exp: 'Hızın yönü vardır; bu yüzden vektöreldir.', hint: 'Yönü olan büyüklüklere ne denir?' },
+  { words: ['Sabit', 'süratli', 'harekette', 'yol', 'zaman', 'grafiği', 'doğrusaldır'], exp: 'Sabit süratli harekette yol-zaman grafiği artan bir doğrudur.', hint: 'Eşit zamanlarda eşit yol alınıyorsa grafik nasıldır?' }
+];
+
+BANKS['g2f'] = [
+  { q: 'Bir cisme etki eden bileşke kuvvet sıfır ise cisim durur ya da sabit süratle hareketine devam eder.', a: true, exp: 'Bileşke kuvvet sıfır ise kuvvetler dengelenmiştir.', konu: 'Dengelenmiş Kuvvetler' },
+  { q: 'Aynı yönlü iki kuvvetin bileşkesi, kuvvetlerin farkına eşittir.', a: false, exp: 'Aynı yönlü kuvvetler toplanır; fark zıt yönlü kuvvetlerde alınır.', konu: 'Bileşke Kuvvet' },
+  { q: 'Kuvvetin büyüklüğü dinamometre ile ölçülür ve birimi Newton’dur.', a: true, exp: 'Doğru: birimi Newton (N).', konu: 'Kuvvet' },
+  { q: 'Sürat yönü olan bir büyüklüktür.', a: false, exp: 'Sürat skalerdir; yönü olan büyüklük hızdır.', konu: 'Sürat ve Hız' },
+  { q: 'Sürat = alınan yol ÷ zaman bağıntısıyla hesaplanır.', a: true, exp: 'Doğru: sürat yol bölü zamandır.', konu: 'Sürat' },
+  { q: 'Dengelenmemiş kuvvet etkisindeki cisim hızlanabilir, yavaşlayabilir veya yön değiştirebilir.', a: true, exp: 'Bileşke sıfırdan farklıysa hareket değişir.', konu: 'Dengelenmemiş Kuvvetler' },
+  { q: 'Zıt yönlü kuvvetlerde bileşke, büyük kuvvetten küçük kuvvet çıkarılarak bulunur.', a: true, exp: 'Bileşke, büyük kuvvetin yönündedir.', konu: 'Bileşke Kuvvet' },
+  { q: 'Sabit süratli harekette yol-zaman grafiği bir eğridir.', a: false, exp: 'Sabit süratli harekette grafik artan bir doğrudur.', konu: 'Yol-Zaman Grafiği' },
+  { q: 'Bir cisim başladığı noktaya dönerse alınan yolu sıfırdır.', a: false, exp: 'Alınan yol sıfır olamaz; yer değiştirme sıfır olur.', konu: 'Yer Değiştirme' },
+  { q: 'Eşit zaman aralıklarında eşit yol alan cismin sürati sabittir.', a: true, exp: 'Bu, sabit süratli hareketin tanımıdır.', konu: 'Sabit Süratli Hareket' }
+];
+
+/* ---------- 3. ÜNİTE: Canlılarda Sistemler ---------- */
+
+BANKS['g3a'] = [
+  { prompt: 'Kelebeğin yaşam döngüsünü (tam başkalaşım) sırala:', items: ['Yumurta', 'Larva (tırtıl)', 'Pupa (koza)', 'Ergin kelebek'], exp: 'Kelebek tam başkalaşım geçirir: yumurta → tırtıl → koza → kelebek.', hint: 'Tırtıl önce kozaya dönüşür.' },
+  { prompt: 'Kurbağanın gelişim aşamalarını sırala:', items: ['Yumurta', 'İribaş (larva)', 'Gelişmiş iribaş', 'Ergin kurbağa'], exp: 'Kurbağa başkalaşım geçirir; iribaş evresinde suda yaşar.', hint: 'İribaşın bacakları sonradan gelişir.' },
+  { prompt: 'Çiçekli bir bitkide tohumun ve meyvenin oluşumunu sırala:', items: ['Tozlaşma', 'Döllenme', 'Tohum oluşumu', 'Meyve oluşumu'], exp: 'Polen taşınır (tozlaşma), döllenme olur, tohum ve meyve oluşur.', hint: 'Önce polen taşınır.' },
+  { prompt: 'Tohumun bitkiye dönüşme sürecini sırala:', items: ['Tohum', 'Çimlenme', 'Fide', 'Yetişkin bitki'], exp: 'Tohum çimlenir, fide büyür ve yetişkin bitki olur.', hint: 'En küçük aşama tohumdur.' },
+  { prompt: 'İnsanda yeni bir bireyin oluşumunu sırala:', items: ['Yumurta ve spermin döllenmesi', 'Zigot oluşumu', 'Rahimde gelişme', 'Doğum'], exp: 'Döllenme ile zigot oluşur, bebek rahimde gelişir ve doğar.', hint: 'Döllenme en başta gerçekleşir.' }
+];
+
+BANKS['g3c'] = [
+  {
+    prompt: 'Örnekleri eşeyli / eşeysiz üreme olarak sınıflandır:',
+    cats: [{ id: 'a', label: 'Eşeyli üreme' }, { id: 'b', label: 'Eşeysiz üreme' }],
+    exp: 'Eşeyli üremede yumurta ve sperm birleşir (döllenme). Eşeysiz üremede tek ata yeterlidir.',
+    hint: 'Döllenme varsa eşeyli, yoksa eşeysiz üremedir.',
+    items: [
+      { label: 'İnsanda yumurta ve spermin döllenmesi', cat: 'a', exp: 'İki üreme hücresi birleşir.' },
+      { label: 'Deniz yıldızının kopan koldan yenisini oluşturması', cat: 'b', exp: 'Rejenerasyonla eşeysiz üreme.' },
+      { label: 'Bakterinin ikiye bölünmesi', cat: 'b', exp: 'Bölünerek eşeysiz üreme.' },
+      { label: 'Hidranın tomurcuklanması', cat: 'b', exp: 'Tomurcuklanma eşeysiz üreme biçimidir.' },
+      { label: 'Çiçekte tozlaşma ve döllenme olması', cat: 'a', exp: 'Döllenme olduğu için eşeyli üremedir.' },
+      { label: 'Kedinin yavru doğurması', cat: 'a', exp: 'Döllenme ve doğum eşeyli üremedir.' },
+      { label: 'Soğanın yumru (vejetatif) ile çoğalması', cat: 'b', exp: 'Vejetatif üreme eşeysizdir.' },
+      { label: 'Bir bitkiden alınan çeliğin köklenmesi', cat: 'b', exp: 'Çelikle üreme eşeysizdir.' },
+      { label: 'Maya mantarının tomurcuklanması', cat: 'b', exp: 'Tomurcuklanma eşeysiz üremedir.' },
+      { label: 'Kuş yumurtasından civciv çıkması', cat: 'a', exp: 'Döllenmiş yumurtadan yeni birey oluşur.' }
+    ]
+  }
+];
+
+BANKS['g3d'] = [
+  {
+    q: 'Şemada düşünme, öğrenme ve hafızanın merkezi olan organa dokun.',
+    answer: 'Beyin', h: 210,
+    svg: '<svg viewBox="0 0 320 210" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%"><circle cx="160" cy="50" r="34" fill="none" stroke="var(--line)" stroke-width="3"/><circle cx="160" cy="48" r="18" fill="#f472b6" opacity="0.55"/><line x1="160" y1="88" x2="160" y2="182" stroke="#60a5fa" stroke-width="9" stroke-linecap="round"/><path d="M160 112 L216 142 M160 132 L108 160 M160 100 L232 112 M160 152 L104 178" stroke="#facc15" stroke-width="3" fill="none" stroke-linecap="round"/><text x="6" y="204" font-size="9" fill="var(--text-sub)">Sinir sistemi şeması</text></svg>',
+    pins: [{ label: 'Beyin', x: 50, y: 23 }, { label: 'Omurilik', x: 50, y: 72 }, { label: 'Çevresel sinirler', x: 73, y: 67 }],
+    exp: 'Beyin; düşünme, öğrenme ve hafızanın merkezidir.',
+    hint: 'Baş bölgesindeki pembe yapı.'
+  },
+  {
+    q: 'Şemada reflekslerin yönetildiği, beyin ile organlar arasında ileti sağlayan yapıya dokun.',
+    answer: 'Omurilik', h: 210,
+    svg: '<svg viewBox="0 0 320 210" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%"><circle cx="160" cy="50" r="34" fill="none" stroke="var(--line)" stroke-width="3"/><circle cx="160" cy="48" r="18" fill="#f472b6" opacity="0.55"/><line x1="160" y1="88" x2="160" y2="182" stroke="#60a5fa" stroke-width="9" stroke-linecap="round"/><path d="M160 112 L216 142 M160 132 L108 160 M160 100 L232 112 M160 152 L104 178" stroke="#facc15" stroke-width="3" fill="none" stroke-linecap="round"/></svg>',
+    pins: [{ label: 'Beyin', x: 50, y: 23 }, { label: 'Omurilik', x: 50, y: 72 }, { label: 'Çevresel sinirler', x: 73, y: 67 }],
+    exp: 'Omurilik refleks merkezidir ve iletiyi sağlar.',
+    hint: 'Sırtta, omurga içindeki mavi kalın yapı.'
+  },
+  {
+    q: 'Şemada vücuda dağılan ve organlara ulaşan sinir ağını temsil eden yapıya dokun.',
+    answer: 'Çevresel sinirler', h: 210,
+    svg: '<svg viewBox="0 0 320 210" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%"><circle cx="160" cy="50" r="34" fill="none" stroke="var(--line)" stroke-width="3"/><circle cx="160" cy="48" r="18" fill="#f472b6" opacity="0.55"/><line x1="160" y1="88" x2="160" y2="182" stroke="#60a5fa" stroke-width="9" stroke-linecap="round"/><path d="M160 112 L216 142 M160 132 L108 160 M160 100 L232 112 M160 152 L104 178" stroke="#facc15" stroke-width="3" fill="none" stroke-linecap="round"/></svg>',
+    pins: [{ label: 'Beyin', x: 50, y: 23 }, { label: 'Omurilik', x: 50, y: 72 }, { label: 'Çevresel sinirler', x: 73, y: 67 }],
+    exp: 'Çevresel sinirler, merkezî sinir sistemini organlara bağlar.',
+    hint: 'Sarı, dallanan ince yapılar.'
+  },
+  {
+    q: 'Şemaya göre merkezî sinir sisteminin parçası olan organlardan birine dokun.',
+    answer: 'Beyin', h: 210,
+    svg: '<svg viewBox="0 0 320 210" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%"><circle cx="160" cy="50" r="34" fill="none" stroke="var(--line)" stroke-width="3"/><circle cx="160" cy="48" r="18" fill="#f472b6" opacity="0.55"/><line x1="160" y1="88" x2="160" y2="182" stroke="#60a5fa" stroke-width="9" stroke-linecap="round"/><path d="M160 112 L216 142 M160 132 L108 160 M160 100 L232 112 M160 152 L104 178" stroke="#facc15" stroke-width="3" fill="none" stroke-linecap="round"/></svg>',
+    pins: [{ label: 'Beyin', x: 50, y: 23 }, { label: 'Omurilik', x: 50, y: 72 }, { label: 'Çevresel sinirler', x: 73, y: 67 }],
+    exp: 'Merkezî sinir sistemi beyin ve omurilikten oluşur.',
+    hint: 'İkisinden biri de doğru olurdu; şemadaki baş bölgesini seç.'
+  }
+];
+
+BANKS['g3e'] = [
+  { konu: 'İç Salgı Bezleri', q: 'Büyüme hormonu salgılayan ve diğer iç salgı bezlerini yöneten bez hangisidir?', opts: ['Hipofiz', 'Tiroit', 'Pankreas', 'Böbrek üstü bezleri'], best: 0, hint: 'Beynin altında bulunur ve vücudun “yönetici” bezi sayılır.', exp: 'Hipofiz büyüme hormonu salgılar ve diğer bezleri yönetir.' },
+  { konu: 'İç Salgı Bezleri', q: 'Kan şekerini ayarlayan insülini salgılayan bez hangisidir?', opts: ['Pankreas', 'Tiroit', 'Hipofiz', 'Eşey bezleri'], best: 0, hint: 'Sindirim sistemiyle de komşudur.', exp: 'Pankreas insülin salgılayarak kan şekerini düzenler.' },
+  { konu: 'İç Salgı Bezleri', q: 'Korku ve heyecan anında adrenalin salgılayan bez hangisidir?', opts: ['Böbrek üstü bezleri', 'Tiroit', 'Pankreas', 'Hipofiz'], best: 0, hint: 'Böbreklerin üzerinde bulunur.', exp: 'Adrenalin kalp atışını ve solunumu hızlandırır.' },
+  { konu: 'İç Salgı Bezleri', q: 'Vücudun metabolizma (enerji kullanım) hızını ayarlayan bez hangisidir?', opts: ['Tiroit', 'Pankreas', 'Hipofiz', 'Böbrek üstü bezleri'], best: 0, hint: 'Boyunda, gırtlak yakınındadır.', exp: 'Tiroit bezi metabolizma hızını etkiler.' },
+  { konu: 'İç Salgı Bezleri', q: 'İç salgı bezlerinin ürettiği ve kan yoluyla taşınan maddelere ne denir?', opts: ['Hormon', 'Enzim', 'Vitamin', 'Antikor'], best: 0, hint: 'Kan yoluyla hedef organa gider.', exp: 'Bu maddelere hormon denir; kandaki taşınmayla etki ederler.' },
+  { konu: 'İç Salgı Bezleri', q: 'Ergenlik döneminde cinsiyet hormonlarını üreten bezler hangileridir?', opts: ['Eşey bezleri (testis ve yumurtalık)', 'Tiroit', 'Pankreas', 'Hipofiz'], best: 0, hint: 'Ergenlikte gelişen bezlerdir.', exp: 'Eşey bezleri cinsiyet hormonlarını salgılar.' },
+  { konu: 'Denetleyici Sistemler', q: 'Sinir sistemi ile iç salgı bezleri birlikte neyi sağlar?', opts: ['Vücudun düzenli ve dengeli çalışmasını', 'Sadece hareketi', 'Sadece sindirimi', 'Sadece büyümeyi'], best: 0, hint: 'İkisi “denetleyici ve düzenleyici” sistemlerdir.', exp: 'Bu sistemler vücut iç dengesini sağlar.' },
+  { konu: 'Sinir Sistemi', q: 'Sinir sisteminin yapı birimi nedir?', opts: ['Nöron', 'Hormon', 'Alyuvar', 'Enzim'], best: 0, hint: 'Sinir hücresinin diğer adıdır.', exp: 'Sinir hücresine nöron denir.' }
+];
+
+BANKS['g3f'] = [
+  { a: 'Beyin', b: 'Düşünme ve hafıza merkezi', exp: 'Beyin; düşünme, öğrenme ve hafızadan sorumludur.' },
+  { a: 'Omurilik', b: 'Refleks merkezi', exp: 'Omurilik refleksleri yönetir.' },
+  { a: 'Hipofiz', b: 'Büyüme hormonu', exp: 'Hipofiz büyüme hormonu salgılar.' },
+  { a: 'Pankreas', b: 'İnsülin ve kan şekeri', exp: 'Pankreas insülin salgılar.' },
+  { a: 'Tiroit', b: 'Metabolizma hızı', exp: 'Tiroit metabolizma hızını ayarlar.' },
+  { a: 'Eşeysiz üreme', b: 'Tek ata, döllenme yok', exp: 'Eşeysiz ürede tek ata yeterlidir.' },
+  { a: 'Eşeyli üreme', b: 'Yumurta + sperm, döllenme var', exp: 'Eşeyli üremede döllenme vardır.' },
+  { a: 'Tozlaşma', b: 'Polenin dişi organa taşınması', exp: 'Tozlaşma polenin taşınmasıdır.' },
+  { a: 'Çimlenme', b: 'Su, oksijen ve uygun sıcaklık ister', exp: 'Bu üç koşul çimlenme için gereklidir.' },
+  { a: 'Tomurcuklanma', b: 'Hidra ve mayada görülür', exp: 'Tomurcuklanma eşeysiz üremedir.' }
+];
+
+BANKS['g3g'] = [
+  { q: 'Tohumun çimlenmesi için su, oksijen ve uygun sıcaklık gereklidir.', a: true, exp: 'Bu üç koşul birlikte gerçekleşmelidir.', konu: 'Çimlenme' },
+  { q: 'Işık, bütün tohumların çimlenmesi için zorunludur.', a: false, exp: 'Işık genel olarak çimlenme için gerekli değildir.', konu: 'Çimlenme' },
+  { q: 'Eşeysiz üremede tek bir ata yeterlidir.', a: true, exp: 'Eşeysiz ürede döllenme olmaz.', konu: 'Eşeysiz Üreme' },
+  { q: 'Eşeyli üremede döllenme gerçekleşir.', a: true, exp: 'Yumurta ve sperm birleşir.', konu: 'Eşeyli Üreme' },
+  { q: 'Bakteriler ikiye bölünerek eşeyli üreme yapar.', a: false, exp: 'Bölünerek çoğalma eşeysiz üremedir.', konu: 'Eşeysiz Üreme' },
+  { q: 'Kelebek tam başkalaşım geçirir.', a: true, exp: 'Yumurta → tırtıl → koza → kelebek.', konu: 'Hayvanlarda Gelişme' },
+  { q: 'Beyin, merkezî sinir sisteminin bir parçasıdır.', a: true, exp: 'Merkezî sinir sistemi beyin ve omurilikten oluşur.', konu: 'Sinir Sistemi' },
+  { q: 'Hormonlar sinirler aracılığıyla taşınır.', a: false, exp: 'Hormonlar kan yoluyla taşınır.', konu: 'İç Salgı Bezleri' },
+  { q: 'Ergenlik dönemi tüm bireylerde aynı yaşta başlar.', a: false, exp: 'Ergenliğe giriş yaşı kişiden kişiye değişir.', konu: 'Ergenlik' },
+  { q: 'Omurilik reflekslerin merkezidir.', a: true, exp: 'Refleksler omurilik tarafından yönetilir.', konu: 'Sinir Sistemi' },
+  { q: 'Deniz yıldızı, kopan kolundan yeni bir canlı oluşturabilir.', a: true, exp: 'Rejenerasyonla eşeysiz üreme.', konu: 'Eşeysiz Üreme' },
+  { q: 'İnsanda döllenme rahimde gerçekleşir.', a: false, exp: 'Döllenme yumurta kanalında gerçekleşir.', konu: 'İnsanda Üreme' }
+];
+
+/* ---------- 4. ÜNİTE: Işığın Yansıtılması ve Renkler ---------- */
+
+BANKS['g4b'] = [
+  { konu: 'Düzlem Ayna', q: 'Kendimize baktığımızda görüntüyü cisimle aynı boyutta ve düz gösteren ayna hangisidir?', opts: ['Düzlem ayna', 'Çukur ayna', 'Tümsek ayna', 'Buzlu cam'], best: 0, hint: 'Banyo ve makyaj aynaları çoğunlukla böyledir.', exp: 'Düzlem ayna düz ve cisimle aynı boyutta görüntü oluşturur.' },
+  { konu: 'Çukur Ayna', q: 'Diş hekimlerinin dişleri büyük görmek için kullandığı ayna hangisidir?', opts: ['Çukur ayna', 'Tümsek ayna', 'Düzlem ayna', 'Periskop'], best: 0, hint: 'Işığı toplayan aynadır.', exp: 'Çukur ayna yakın cisimleri büyük gösterir.' },
+  { konu: 'Tümsek Ayna', q: 'Araçların yan aynalarında ve güvenlik aynalarında kullanılan, geniş görüş alanı sağlayan ayna hangisidir?', opts: ['Tümsek ayna', 'Çukur ayna', 'Düzlem ayna', 'Cam'], best: 0, hint: 'Görüntüyü küçültür ama alanı büyütür.', exp: 'Tümsek ayna geniş görüş alanı sağlar.' },
+  { konu: 'Çukur Ayna', q: 'Işığı toplayan (odaklayan) ayna hangisidir?', opts: ['Çukur ayna', 'Tümsek ayna', 'Düzlem ayna', 'Beyaz yüzey'], best: 0, hint: 'İç yüzü yansıtıcıdır.', exp: 'Çukur ayna ışığı toplar.' },
+  { konu: 'Tümsek Ayna', q: 'Işığı dağıtan ayna hangisidir?', opts: ['Tümsek ayna', 'Çukur ayna', 'Düzlem ayna', 'Siyah yüzey'], best: 0, hint: 'Dış yüzü yansıtıcıdır.', exp: 'Tümsek ayna ışığı dağıtır.' },
+  { konu: 'Işığın Yansıması', q: 'Işığın yansımasıyla ilgili hangisi doğrudur?', opts: ['Gelme açısı = yansıma açısı', 'Gelme açısı > yansıma açısı', 'Açılar eşit değildir', 'Yansıma yasası yoktur'], best: 0, hint: 'Yansıma Kanunu’nu hatırla.', exp: 'Yansıma Kanunu’na göre gelme açısı yansıma açısına eşittir.' },
+  { konu: 'Çukur Ayna', q: 'Teleskopta ve makyaj aynasında büyütme amaçlı kullanılabilen ayna hangisidir?', opts: ['Çukur ayna', 'Tümsek ayna', 'Düzlem ayna', 'Buzlu cam'], best: 0, hint: 'Işığı toplayarak büyütür.', exp: 'Çukur ayna büyütme amaçlı kullanılabilir.' },
+  { konu: 'Düzlem Ayna', q: 'Düzlem aynadaki görüntümüz için hangisi doğrudur?', opts: ['Aynanın arkasındaymış gibi görünür ve cisimle aynı boyuttadır', 'Gerçek ve ters bir görüntüdür', 'Her zaman küçüktür', 'Görüntü oluşmaz'], best: 0, hint: 'Cisim ile görüntüsü aynadan eşit uzaklıktadır.', exp: 'Düzlem ayna, aynanın arkasındaymış gibi düz ve eşit boyutta görüntü oluşturur.' },
+  { konu: 'Işığın Yansıması', q: 'Pürüzsüz bir yüzeyde ışığın düzenli biçimde yansımasına ne denir?', opts: ['Düzgün yansıma', 'Dağınık yansıma', 'Kırılma', 'Soğurulma'], best: 0, hint: 'Pürüzlü yüzeyde ise dağınık olur.', exp: 'Pürüzsüz yüzeyde düzgün (düzenli) yansıma gerçekleşir.' },
+  { konu: 'Işığın Yansıması', q: 'Yansıma Kanunu’na göre ışın aynaya 40° gelme açısıyla çarparsa yansıma açısı kaç derece olur?', opts: ['40°', '20°', '80°', '0°'], best: 0, hint: 'Gelme açısı ile yansıma açısı eşittir.', exp: 'Yansıma açısı da 40° olur.' }
+];
+
+BANKS['g4c'] = [
+  {
+    prompt: 'Kullanım amaçlarını uygun ayna türüyle eşleştir:',
+    targets: [{ id: 'duzlem', label: 'Düzlem ayna' }, { id: 'cukur', label: 'Çukur ayna' }, { id: 'tumsek', label: 'Tümsek ayna' }],
+    items: [
+      { label: 'Diş hekimi aynası', target: 'cukur' },
+      { label: 'Araç yan aynası', target: 'tumsek' },
+      { label: 'Banyo aynası (düz görüntü)', target: 'duzlem' },
+      { label: 'Market güvenlik aynası', target: 'tumsek' }
+    ],
+    exp: 'Çukur ayna büyütür, tümsek ayna geniş alan gösterir, düzlem ayna düz görüntü verir.',
+    hint: 'Büyütme → çukur, geniş görüş → tümsek, düz görüntü → düzlem.'
+  },
+  {
+    prompt: 'Işığın aynadaki davranışını ayna türüyle eşleştir:',
+    targets: [{ id: 'duzlem', label: 'Düzlem ayna' }, { id: 'cukur', label: 'Çukur ayna' }, { id: 'tumsek', label: 'Tümsek ayna' }],
+    items: [
+      { label: 'Işığı toplar', target: 'cukur' },
+      { label: 'Işığı dağıtır', target: 'tumsek' },
+      { label: 'Görüntüyü cisimle aynı boyutta ve düz gösterir', target: 'duzlem' }
+    ],
+    exp: 'Çukur ayna toplar, tümsek ayna dağıtır, düzlem ayna eşit boyutta düz görüntü verir.',
+    hint: 'Toplama iç yüzey, dağıtma dış yüzey ile ilgilidir.'
+  },
+  {
+    prompt: 'Ayna özelliklerini doğru ayna türüyle eşleştir:',
+    targets: [{ id: 'duzlem', label: 'Düzlem ayna' }, { id: 'cukur', label: 'Çukur ayna' }, { id: 'tumsek', label: 'Tümsek ayna' }],
+    items: [
+      { label: 'Görüntüyü her zaman küçük gösterir', target: 'tumsek' },
+      { label: 'Yakın cisimleri büyük gösterir', target: 'cukur' },
+      { label: 'Görüntü cisimle aynı boyuttadır', target: 'duzlem' }
+    ],
+    exp: 'Bu özellikler aynaların yüzey biçiminden kaynaklanır.',
+    hint: 'Küçük görüntü → tümsek; büyük görüntü → çukur.'
+  }
+];
+
+BANKS['g4d'] = [
+  {
+    q: 'Işığın büyük bölümünü geçiren ve arkasındaki cismi net gösteren madde etiketine dokun.',
+    answer: 'Şeffaf', h: 200,
+    svg: '<svg viewBox="0 0 320 210" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%"><rect x="18" y="52" width="80" height="86" fill="#bae6fd" opacity="0.55" stroke="var(--line)"/><rect x="120" y="52" width="80" height="86" fill="#cbd5e1" opacity="0.9" stroke="var(--line)"/><rect x="222" y="52" width="80" height="86" fill="#78350f" stroke="var(--line)"/><line x1="2" y1="70" x2="18" y2="70" stroke="#f59e0b" stroke-width="2"/><line x1="2" y1="95" x2="18" y2="95" stroke="#f59e0b" stroke-width="2"/><line x1="2" y1="120" x2="18" y2="120" stroke="#f59e0b" stroke-width="2"/><line x1="98" y1="70" x2="114" y2="70" stroke="#f59e0b" stroke-width="2"/><line x1="98" y1="95" x2="114" y2="95" stroke="#f59e0b" stroke-width="2"/><line x1="98" y1="120" x2="114" y2="120" stroke="#f59e0b" stroke-width="2"/><line x1="200" y1="70" x2="218" y2="70" stroke="#f59e0b" stroke-width="2"/><line x1="200" y1="95" x2="218" y2="95" stroke="#f59e0b" stroke-width="2"/><line x1="200" y1="120" x2="218" y2="120" stroke="#f59e0b" stroke-width="2"/><text x="10" y="196" font-size="9" fill="var(--text-sub)">Işığın maddeyle etkileşimi</text></svg>',
+    pins: [{ label: 'Şeffaf', x: 18, y: 30 }, { label: 'Yarı saydam', x: 50, y: 30 }, { label: 'Opak', x: 82, y: 30 }],
+    exp: 'Şeffaf maddeler ışığın büyük bölümünü geçirir; arkası net görünür.',
+    hint: 'Arkası net görünen madde hangisi?'
+  },
+  {
+    q: 'Işığın bir kısmını geçiren, arkasındaki cismi bulanık gösteren madde etiketine dokun.',
+    answer: 'Yarı saydam', h: 200,
+    svg: '<svg viewBox="0 0 320 210" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%"><rect x="18" y="52" width="80" height="86" fill="#bae6fd" opacity="0.55" stroke="var(--line)"/><rect x="120" y="52" width="80" height="86" fill="#cbd5e1" opacity="0.9" stroke="var(--line)"/><rect x="222" y="52" width="80" height="86" fill="#78350f" stroke="var(--line)"/><line x1="2" y1="80" x2="18" y2="80" stroke="#f59e0b" stroke-width="2"/><line x1="2" y1="108" x2="18" y2="108" stroke="#f59e0b" stroke-width="2"/><line x1="98" y1="80" x2="120" y2="80" stroke="#f59e0b" stroke-width="2"/><line x1="98" y1="108" x2="120" y2="108" stroke="#f59e0b" stroke-width="2"/><line x1="200" y1="80" x2="222" y2="80" stroke="#f59e0b" stroke-width="2"/><line x1="200" y1="108" x2="222" y2="108" stroke="#f59e0b" stroke-width="2"/><text x="10" y="196" font-size="9" fill="var(--text-sub)">Işığın maddeyle etkileşimi</text></svg>',
+    pins: [{ label: 'Şeffaf', x: 18, y: 30 }, { label: 'Yarı saydam', x: 50, y: 30 }, { label: 'Opak', x: 82, y: 30 }],
+    exp: 'Yarı saydam maddeler ışığın bir kısmını geçirir; arkası bulanık görünür.',
+    hint: 'Buzlu cam gibi düşün.'
+  },
+  {
+    q: 'Işığı geçirmeyip gölge oluşturan (opak) madde etiketine dokun.',
+    answer: 'Opak', h: 200,
+    svg: '<svg viewBox="0 0 320 210" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%"><rect x="18" y="52" width="80" height="86" fill="#bae6fd" opacity="0.55" stroke="var(--line)"/><rect x="120" y="52" width="80" height="86" fill="#cbd5e1" opacity="0.9" stroke="var(--line)"/><rect x="222" y="52" width="80" height="86" fill="#78350f" stroke="var(--line)"/><line x1="2" y1="95" x2="18" y2="95" stroke="#f59e0b" stroke-width="2"/><line x1="98" y1="95" x2="120" y2="95" stroke="#f59e0b" stroke-width="2"/><line x1="200" y1="95" x2="220" y2="95" stroke="#f59e0b" stroke-width="2"/><text x="10" y="196" font-size="9" fill="var(--text-sub)">Işığın maddeyle etkileşimi</text></svg>',
+    pins: [{ label: 'Şeffaf', x: 18, y: 30 }, { label: 'Yarı saydam', x: 50, y: 30 }, { label: 'Opak', x: 82, y: 30 }],
+    exp: 'Opak (saydam olmayan) maddeler ışığı geçirmez, gölge oluşturur.',
+    hint: 'Işığı hiç geçirmeyen koyu renkli madde.'
+  },
+  {
+    q: 'Şemaya göre ışığı daha çok soğurarak daha fazla ısınan yüzeye dokun.',
+    answer: 'Siyah yüzey', h: 200,
+    svg: '<svg viewBox="0 0 320 210" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%"><rect x="24" y="60" width="120" height="90" rx="10" fill="#f8fafc" stroke="var(--line)"/><rect x="176" y="60" width="120" height="90" rx="10" fill="#111827" stroke="var(--line)"/><circle cx="160" cy="30" r="14" fill="#f59e0b"/><line x1="60" y1="40" x2="74" y2="56" stroke="#f59e0b" stroke-width="2"/><line x1="260" y1="40" x2="246" y2="56" stroke="#f59e0b" stroke-width="2"/><text x="10" y="196" font-size="9" fill="var(--text-sub)">Işığın soğurulması</text></svg>',
+    pins: [{ label: 'Beyaz yüzey', x: 26, y: 50 }, { label: 'Siyah yüzey', x: 74, y: 50 }],
+    exp: 'Siyah yüzeyler ışığın büyük kısmını soğurur ve daha çok ısınır.',
+    hint: 'Koyu renkler ışığı daha çok yutar.'
+  }
+];
+
+BANKS['g4e'] = [
+  {
+    prompt: 'Yüzeyleri ışığı soğurma / yansıtma durumuna göre ayır:',
+    cats: [{ id: 'a', label: 'Işığı soğurur (çok ısınır)' }, { id: 'b', label: 'Işığı yansıtır (az ısınır)' }],
+    exp: 'Koyu ve siyah yüzeyler ışığı çok soğurur; açık ve beyaz yüzeyler çok yansıtır.',
+    hint: 'Rengin koyuluğu soğurmayı artırır.',
+    items: [
+      { label: 'Siyah yüzey', cat: 'a', exp: 'Siyah yüzeyler ışığı en çok soğurur.' },
+      { label: 'Koyu renkli kıyafet', cat: 'a', exp: 'Koyu renkler ışığı çok soğurur.' },
+      { label: 'Beyaz yüzey', cat: 'b', exp: 'Beyaz yüzeyler ışığı çoğunlukla yansıtır.' },
+      { label: 'Açık sarı duvar', cat: 'b', exp: 'Açık renkler ışığı yansıtır.' },
+      { label: 'Güneş paneli (koyu yüzey)', cat: 'a', exp: 'Paneller ışığı soğurarak enerji üretir.' },
+      { label: 'Parlak alüminyum folyo', cat: 'b', exp: 'Parlak yüzeyler ışığı yansıtır.' },
+      { label: 'Kışın tercih edilen koyu giysi', cat: 'a', exp: 'Koyu renkler daha çok ısınır.' },
+      { label: 'Yazın giyilen beyaz tişört', cat: 'b', exp: 'Açık renkler daha az ısınır.' }
+    ]
+  }
+];
+
+BANKS['g4f'] = [
+  { a: 'Düzlem ayna', b: 'Düz ve cisimle aynı boyutta görüntü', exp: 'Düzlem ayna düz görüntü oluşturur.' },
+  { a: 'Çukur ayna', b: 'Işığı toplar, yakın cismi büyütür', exp: 'Çukur ayna ışığı toplar.' },
+  { a: 'Tümsek ayna', b: 'Geniş görüş alanı, küçük görüntü', exp: 'Tümsek ayna geniş alan gösterir.' },
+  { a: 'Yansıma Kanunu', b: 'Gelme açısı = yansıma açısı', exp: 'Bu yasaya göre açılar eşittir.' },
+  { a: 'Düzgün yansıma', b: 'Pürüzsüz yüzeyde oluşur', exp: 'Pürüzsüz yüzeyde düzgün yansıma olur.' },
+  { a: 'Dağınık yansıma', b: 'Pürüzlü yüzeyde oluşur', exp: 'Pürüzlü yüzeyde ışık dağınık yansır.' },
+  { a: 'Siyah yüzey', b: 'Işığı en çok soğurur', exp: 'Siyah yüzeyler en çok ısınır.' },
+  { a: 'Beyaz yüzey', b: 'Işığı en çok yansıtır', exp: 'Beyaz yüzeyler ışığı yansıtır.' },
+  { a: 'Soğurulma', b: 'Işık enerjisinin maddece emilmesi', exp: 'Soğurulan ışık maddeyi ısıtır.' },
+  { a: 'Gölge', b: 'Işığın engellenmesiyle oluşur', exp: 'Opak madde ışığı engelleyince gölge oluşur.' }
+];
+
+BANKS['g4g'] = [
+  { q: 'Gelme açısı her zaman yansıma açısına eşittir.', a: true, exp: 'Bu, Yansıma Kanunu’dur.', konu: 'Işığın Yansıması' },
+  { q: 'Düzlem aynadaki görüntü ters ve küçüktür.', a: false, exp: 'Düzlem aynada görüntü düz ve cisimle aynı boyuttadır.', konu: 'Düzlem Ayna' },
+  { q: 'Tümsek ayna geniş bir görüş alanı sağlar.', a: true, exp: 'Bu yüzden araç yan aynalarında kullanılır.', konu: 'Tümsek Ayna' },
+  { q: 'Çukur ayna ışığı dağıtır.', a: false, exp: 'Çukur ayna ışığı toplar; dağıtan tümsek aynadır.', konu: 'Çukur Ayna' },
+  { q: 'Siyah yüzeyler ışığı beyaz yüzeylerden daha çok soğurur.', a: true, exp: 'Koyu yüzeyler daha çok ısınır.', konu: 'Işığın Soğurulması' },
+  { q: 'Beyaz bir cisim üzerine gelen ışığın tamamını soğurur.', a: false, exp: 'Beyaz cisim ışığın büyük kısmını yansıtır.', konu: 'Renkler' },
+  { q: 'Araç yan aynalarında tümsek ayna kullanılır.', a: true, exp: 'Geniş görüş alanı sağlar.', konu: 'Tümsek Ayna' },
+  { q: 'Açık renkli kıyafetler yazın daha az ısınır.', a: true, exp: 'Açık renkler ışığı yansıtır.', konu: 'Renkler' },
+  { q: 'Işık bir maddeye çarpınca yalnızca yansır, başka olay olmaz.', a: false, exp: 'Işık yansıyabilir, soğurulabilir ya da geçebilir.', konu: 'Işığın Soğurulması' },
+  { q: 'Düzlem ayna görüntüyü aynanın arkasında oluşuyormuş gibi gösterir.', a: true, exp: 'Görüntü aynanın arkasındaymış gibi görünür.', konu: 'Düzlem Ayna' },
+  { q: 'Çukur ayna diş hekimliğinde büyütme amacıyla kullanılır.', a: true, exp: 'Çukur ayna yakın cismi büyütür.', konu: 'Çukur Ayna' },
+  { q: 'Kışın açık renkli giysiler koyu renkli giysilerden daha çok ısıtır.', a: false, exp: 'Koyu renkler ışığı daha çok soğurup ısınır.', konu: 'Işığın Soğurulması' }
+];
+
+/* ==========================================================================
+   KONU ANLATIMLARI (her ünite için kısa, bilimsel özetler)
+   ========================================================================== */
+var LESSONS = {
+  1: [
+    { t: 'Güneş Sistemi', p: 'Güneş Sistemi’nin merkezinde Güneş (bir yıldız) bulunur. Güneş’in çevresinde 8 gezegen dolanır. Bir gezegenin Güneş çevresinde izlediği yola yörünge denir.',
+      keys: ['Uzaklık sırası: Merkür → Venüs → Dünya → Mars → Jüpiter → Satürn → Uranüs → Neptün', 'Asteroit kuşağı Mars ile Jüpiter arasındadır', 'Ay, Dünya’nın tek doğal uydusudur; ışık kaynağı değildir'] },
+    { t: 'Gezegenlerin Özellikleri', p: 'Merkür en küçük ve Güneş’e en yakın gezegendir. Venüs, kalın atmosferi ve sera etkisi nedeniyle en sıcaktır. Mars, yüzeyindeki demir oksit yüzünden kızıl görünür. Jüpiter en büyük gezegendir. Satürn’ün belirgin halkaları vardır. Uranüs yan yatmış gibi döner. Neptün Güneş’ten en uzak gezegendir.' },
+    { t: 'Güneş Tutulması', p: 'Ay, Güneş ile Dünya arasına girdiğinde Ay’ın gölgesi Dünya’ya düşer. Buna Güneş tutulması denir. Yeni ay evresinde ve gündüz gerçekleşir; dar bir bölgede, kısa süre gözlenir.',
+      keys: ['Ay ortadadır', 'Gündüz olur ve kısa sürer'] },
+    { t: 'Ay Tutulması', p: 'Dünya, Güneş ile Ay arasına girdiğinde Dünya’nın gölgesi Ay’a düşer. Buna Ay tutulması denir. Dolunay evresinde ve gece gerçekleşir; geniş bir bölgede, uzun süre gözlenir. Ay kızıl renkte görünebilir.',
+      keys: ['Dünya ortadadır', 'Gece olur ve uzun sürer'] },
+    { t: 'Tutulmaların Karşılaştırılması', p: 'Güneş tutulmasında Ay ortadadır ve gölge Dünya’ya düşer; gündüz ve kısa süre gözlenir. Ay tutulmasında Dünya ortadadır ve gölge Ay’a düşer; gece ve uzun süre gözlenir.' }
+  ],
+  2: [
+    { t: 'Kuvvet ve Bileşke Kuvvet', p: 'Kuvvet; duran bir cismi hareket ettirebilen, hareketli cismi durdurabilen, yönünü değiştirebilen veya şeklini bozabilen etkidir. Büyüklüğü dinamometre ile ölçülür, birimi Newton (N)’dur. Bir cisim üzerindeki kuvvetlerin toplam etkisine bileşke (net) kuvvet denir.' },
+    { t: 'Aynı ve Zıt Yönlü Kuvvetler', p: 'Aynı yönlü kuvvetler toplanır. Zıt yönlü kuvvetlerde büyükten küçük çıkarılır ve bileşke büyük kuvvetin yönünde olur.',
+      keys: ['Aynı yönlü: F1 + F2', 'Zıt yönlü: büyük − küçük'] },
+    { t: 'Dengelenmiş ve Dengelenmemiş Kuvvetler', p: 'Bileşke kuvvet sıfır ise kuvvetler dengelenmiştir; cisim durur ya da sabit süratle hareketine devam eder. Bileşke kuvvet sıfırdan farklıysa kuvvetler dengelenmemiştir; cisim hızlanır, yavaşlar veya yön değiştirir.' },
+    { t: 'Sürat ve Hız', p: 'Sürat, alınan yolun zamana oranıdır: Sürat = yol ÷ zaman. Birimi m/s veya km/sa’dır. Hız ise yer değiştirmenin zamana oranıdır ve yönü olduğu için vektöreldir.',
+      keys: ['Sürat = yol / zaman', 'Sürat skaler, hız vektörel'] },
+    { t: 'Alınan Yol ve Yer Değiştirme', p: 'Alınan yol, gidilen toplam mesafedir. Yer değiştirme, başlangıçtan bitişe doğru en kısa mesafe ve yöndür. Bir cisim başladığı noktaya dönerse yer değiştirmesi sıfır olur; ancak alınan yolu sıfırdan farklıdır.' },
+    { t: 'Yol-Zaman Grafiği', p: 'Sabit süratli harekette eşit zaman aralıklarında eşit yol alınır ve grafik artan bir doğru olur. Yol yatay kalıyorsa cisim duruyordur. Ardışık eşit zaman aralıklarında alınan yol artıyorsa hareket hızlanıyordur.' }
+  ],
+  3: [
+    { t: 'Eşeyli ve Eşeysiz Üreme', p: 'Eşeyli üremede yumurta ve sperm gibi iki üreme hücresi birleşir (döllenme) ve yeni birey oluşur. Eşeysiz üremede tek ata yeterlidir; bölünme, tomurcuklanma, rejenerasyon ve vejetatif üreme bunun örnekleridir.',
+      keys: ['Eşeyli üremede döllenme vardır', 'Eşeysiz üremede tek ata yeterlidir'] },
+    { t: 'Bitkilerde Üreme, Büyüme ve Gelişme', p: 'Çiçekli bitkilerde çiçek, üreme organıdır. Erkek organda polen, dişi organda yumurta hücresi bulunur. Polenin taşınmasına tozlaşma denir. Döllenmeden sonra tohum ve meyve oluşur.' },
+    { t: 'Tohumun Çimlenmesi', p: 'Tohumun çimlenmesi için su, oksijen (hava) ve uygun (ılık) sıcaklık gereklidir. Işık genel olarak çimlenme için gerekli değildir.',
+      keys: ['Su + oksijen + uygun sıcaklık', 'Işık gerekli değildir'] },
+    { t: 'Hayvanlarda Üreme, Büyüme ve Gelişme', p: 'Kelebek; yumurta → tırtıl (larva) → koza (pupa) → kelebek sırasıyla tam başkalaşım geçirir. Kurbağa da başkalaşım geçirir. Memeliler yavrusunu doğurur; kuş ve sürüngenler yumurtayla çoğalır.' },
+    { t: 'İnsanda Üreme Organları', p: 'Dişi üreme organları yumurtalık, yumurta kanalı, rahim ve vajinadır. Erkek üreme organları testis, sperm kanalı ve penisten oluşur. Döllenme yumurta kanalında gerçekleşir; bebek rahimde gelişir.' },
+    { t: 'Sinir Sistemi', p: 'Sinir sistemi merkezî (beyin ve omurilik) ve çevresel sinir sisteminden oluşur. Beyin; düşünme, öğrenme ve hafıza merkezidir. Omurilik reflekslerin merkezidir ve beyin ile organlar arasında ileti sağlar.' },
+    { t: 'İç Salgı Bezleri', p: 'İç salgı bezleri hormon salgılar; hormonlar kan yoluyla taşınır. Hipofiz büyüme hormonu salgılar ve diğer bezleri yönetir. Tiroit metabolizma hızını, pankreas kan şekerini (insülin), böbrek üstü bezleri adrenalin salgısını düzenler. Eşey bezleri cinsiyet hormonlarını üretir.' },
+    { t: 'Çocukluktan Ergenliğe Geçiş', p: 'Ergenlik, çocukluktan yetişkinliğe geçiş dönemidir ve başlama yaşı kişiden kişiye değişir. Boy uzaması, ses değişimi, ter ve salgı artışı gibi bedensel; ruh hâli değişimleri ve merak gibi duygusal değişimler görülür. Bu değişimler normaldir.' },
+    { t: 'Denetleyici ve Düzenleyici Sistemlerin Sağlığı', p: 'Sinir sistemi ve iç salgı bezlerinin sağlığı için dengeli beslenmeli, düzenli uyumalı ve spor yapmalıyız. Sigara, alkol ve bağımlılık yapan maddelerden uzak durmalıyız.' }
+  ],
+  4: [
+    { t: 'Işığın Yansıması', p: 'Işık bir yüzeye çarpıp geldiği ortama geri dönebilir; buna yansıma denir. Yansıma Kanunu’na göre gelme açısı, yansıma açısına eşittir. Pürüzsüz yüzeyde düzgün, pürüzlü yüzeyde dağınık yansıma olur.',
+      keys: ['Gelme açısı = yansıma açısı', 'Pürüzsüz yüzeyde düzgün yansıma'] },
+    { t: 'Düzlem Ayna', p: 'Düzlem aynada görüntü düz (dik), cisimle aynı büyüklükte ve aynanın arkasındaymış gibi görünür. Cisim ile görüntüsü aynadan eşit uzaklıktadır.' },
+    { t: 'Çukur Ayna', p: 'İç yüzü yansıtıcıdır. Işığı toplar ve yakın cisimleri büyük gösterir. Diş hekimi aynası, teleskop ve el feneri reflektöründe kullanılır.' },
+    { t: 'Tümsek Ayna', p: 'Dış yüzü yansıtıcıdır. Işığı dağıtır; görüntüyü küçültür ama geniş bir görüş alanı sağlar. Araç yan aynaları ve güvenlik aynalarında kullanılır.' },
+    { t: 'Işığın Soğurulması', p: 'Işık bir maddeye çarptığında yansıyabilir, geçebilir veya soğurulabilir. Soğurulan ışık enerjisi maddeyi ısıtır. Koyu ve siyah yüzeyler ışığı en çok soğurur, bu yüzden en çok ısınır.' },
+    { t: 'Renkler ve Işığın Maddelerle Etkileşimi', p: 'Bir cismin görünen rengi, yansıttığı ışığın rengidir. Beyaz cisim ışığın büyük kısmını yansıtır; siyah cisim çoğunu soğurur. Beyaz ışık prizmadan geçirildiğinde kırmızıdan mora kadar renklere ayrılır.',
+      keys: ['Cismin rengi = yansıttığı ışığın rengi', 'Beyaz yansıtır, siyah soğurur'] }
+  ]
+};
+
+/* ==========================================================================
+   SESLİ KONU ANLATIMI (Web Speech API)
+   - Tamamen çevrimdışı çalışır: cihazın yerleşik Türkçe sesi kullanılır.
+   - Harici ses dosyası, CDN, internet veya API anahtarı gerekmez.
+   - Oynat / Duraklat / Durdur / Geri sar / İleri sar / Yavaşlat / Hızlandır
+   - Desteklenmiyorsa oynatıcı gizlenir; metin okunmaya devam eder.
+   ========================================================================== */
+var Narration = (function () {
+  var supported = !!(window.speechSynthesis && typeof window.SpeechSynthesisUtterance === 'function');
+  var segments = [];       // { text, card }
+  var idx = -1;
+  var rate = 1;
+  var mode = 'idle';       // idle | playing | paused
+  var utter = null;
+
+  function el(id) { return document.getElementById(id); }
+
+  function splitSentences(t) {
+    if (!t) return [];
+    var parts = String(t).match(/[^.!?\u2026]+[.!?\u2026]*/g);
+    if (!parts) return [String(t).trim()];
+    return parts.map(function (x) { return x.trim(); }).filter(function (x) { return x.length > 0; });
+  }
+
+  function build(items) {
+    var out = [];
+    (items || []).forEach(function (it, ci) {
+      if (it.t) out.push({ text: it.t + '.', card: ci });
+      splitSentences(it.p).forEach(function (sent) { out.push({ text: sent, card: ci }); });
+      (it.keys || []).forEach(function (k) { out.push({ text: k, card: ci }); });
+    });
+    return out;
+  }
+
+  function paint() {
+    var n = segments.length;
+    if (el('narrProg')) el('narrProg').textContent = n ? ((idx >= 0 ? idx + 1 : 0) + ' / ' + n) : '0 / 0';
+    if (el('narrRate')) el('narrRate').textContent = rate.toFixed(2).replace(/0$/, '') + '×';
+    var pb = el('narrPlay');
+    if (pb) pb.textContent = (mode === 'playing' ? '⏸ Duraklat' : (mode === 'paused' ? '▶️ Devam' : '▶️ Oynat'));
+    var cards = document.querySelectorAll('.lesson-item');
+    for (var i = 0; i < cards.length; i++) {
+      var ci = parseInt(cards[i].getAttribute('data-lesson'), 10);
+      var focus = (idx >= 0 && segments[idx] && segments[idx].card === ci);
+      if (focus) {
+        cards[i].classList.add('focus');
+        if (mode === 'playing' && cards[i].scrollIntoView) {
+          try { cards[i].scrollIntoView({ block: 'nearest', behavior: 'smooth' }); } catch (e) {}
+        }
+      } else {
+        cards[i].classList.remove('focus');
+      }
+    }
+  }
+
+  function msg(t) { if (el('narrMsg')) el('narrMsg').textContent = t || ''; }
+
+  function pickVoice() {
+    try {
+      var vs = window.speechSynthesis.getVoices() || [];
+      for (var i = 0; i < vs.length; i++) {
+        if (vs[i] && vs[i].lang && vs[i].lang.toLowerCase().indexOf('tr') === 0) return vs[i];
+      }
+    } catch (e) {}
+    return null;
+  }
+
+  function cancel() {
+    try { if (window.speechSynthesis) window.speechSynthesis.cancel(); } catch (e) {}
+    utter = null;
+  }
+
+  function speakCurrent() {
+    if (!supported) return;
+    if (idx < 0 || idx >= segments.length) { finish(); return; }
+    cancel();
+    utter = new window.SpeechSynthesisUtterance(segments[idx].text);
+    utter.lang = 'tr-TR';
+    utter.rate = rate;
+    var v = pickVoice();
+    if (v) utter.voice = v;
+    utter.onend = function () {
+      if (mode !== 'playing') return;
+      if (idx < segments.length - 1) { idx++; speakCurrent(); paint(); }
+      else { finish(); }
+    };
+    utter.onerror = function () { /* ses hatasında takılma */ };
+    mode = 'playing';
+    try { window.speechSynthesis.speak(utter); } catch (e) { mode = 'idle'; }
+    paint();
+  }
+
+  function finish() {
+    mode = 'idle';
+    idx = segments.length ? segments.length - 1 : -1;
+    paint();
+    msg('Anlatım tamamlandı. ✔️');
+  }
+
+  return {
+    supported: supported,
+
+    setItems: function (items, unitName) {
+      cancel();
+      segments = build(items);
+      idx = segments.length ? 0 : -1;
+      mode = 'idle';
+      var box = el('narrator');
+      if (!box) return;
+      if (!supported || !segments.length) { box.classList.add('hidden'); return; }
+      box.classList.remove('hidden');
+      msg('🔊 Ses, cihazın yerleşik Türkçe sesiyle üretilir; internet gerekmez.' + (unitName ? ' — ' + unitName : ''));
+      paint();
+    },
+
+    toggle: function () {
+      if (!supported || !segments.length) return;
+      if (mode === 'playing') {
+        try { window.speechSynthesis.pause(); } catch (e) {}
+        mode = 'paused'; paint();
+      } else if (mode === 'paused') {
+        try { window.speechSynthesis.resume(); } catch (e) {}
+        mode = 'playing'; paint();
+      } else {
+        if (idx < 0) idx = 0;
+        msg('');
+        speakCurrent();
+      }
+    },
+
+    stop: function () {
+      if (!segments.length) return;
+      cancel();
+      mode = 'idle';
+      idx = 0;
+      msg('Durduruldu. Baştan dinlemek için ▶️ Oynat.');
+      paint();
+    },
+
+    next: function () {
+      if (!segments.length) return;
+      if (idx < segments.length - 1) idx++;
+      if (mode === 'playing' || mode === 'paused') speakCurrent(); else paint();
+    },
+
+    prev: function () {
+      if (!segments.length) return;
+      if (idx > 0) idx--;
+      if (mode === 'playing' || mode === 'paused') speakCurrent(); else paint();
+    },
+
+    faster: function () {
+      rate = Math.min(1.5, Math.round((rate + 0.25) * 100) / 100);
+      if (mode === 'playing' || mode === 'paused') speakCurrent(); else paint();
+    },
+
+    slower: function () {
+      rate = Math.max(0.5, Math.round((rate - 0.25) * 100) / 100);
+      if (mode === 'playing' || mode === 'paused') speakCurrent(); else paint();
+    },
+
+    playFrom: function (cardIndex) {
+      if (!supported || !segments.length) return;
+      for (var i = 0; i < segments.length; i++) {
+        if (segments[i].card === cardIndex) { idx = i; break; }
+      }
+      msg('');
+      speakCurrent();
+    },
+
+    stopVoice: cancel,
+
+    debugSegments: function () { return segments.slice(); }
+  };
+})();
+
+/* İnline onclick için basit sarmalayıcılar (projedeki diğer butonlarla aynı stil) */
+function narrToggle() { Narration.toggle(); }
+function narrStop() { Narration.stop(); }
+function narrPrev() { Narration.prev(); }
+function narrNext() { Narration.next(); }
+function narrSlower() { Narration.slower(); }
+function narrFaster() { Narration.faster(); }
+function narrPlayFrom(cardIndex) { Narration.playFrom(cardIndex); }
+
+/* ==========================================================================
+   BAŞLANGIÇ
+   ========================================================================== */
+loadTheme();
+renderUnits();
+renderBadges();
+navigateTo('welcome');
+</script>
+
+
+</body></html>
